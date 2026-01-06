@@ -12,22 +12,22 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            'Geschäftsführer' => [
+            'geschaeftsfuehrer' => [
                 'name' => 'test_geschaeftsfuehrer',
                 'username' => 'test-gf',
                 'email' => 'test-gf@immobilien-erp.local',
             ],
-            'Koordinator' => [
+            'koordinator' => [
                 'name' => 'test_koordinator',
                 'username' => 'test-koord',
                 'email' => 'test-koord@immobilien-erp.local',
             ],
-            'Besichtigungsmanager' => [
+            'besichtigungsmanager' => [
                 'name' => 'test_besichtigungsmanager',
                 'username' => 'test-bm',
                 'email' => 'test-bm@immobilien-erp.local',
             ],
-            'Hausmeister' => [
+            'hausmeister' => [
                 'name' => 'test_hausmeister',
                 'username' => 'test-hm',
                 'email' => 'test-hm@immobilien-erp.local',

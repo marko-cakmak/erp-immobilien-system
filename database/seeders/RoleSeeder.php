@@ -11,22 +11,22 @@ class RoleSeeder extends Seeder
     {
         DB::table('roles')->insert([
             [
-                'name' => 'Geschäftsführer',
+                'name' => 'geschaeftsfuehrer',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Koordinator',
+                'name' => 'koordinator',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Besichtigungsmanager',
+                'name' => 'besichtigungsmanager',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Hausmeister',
+                'name' => 'hausmeister',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

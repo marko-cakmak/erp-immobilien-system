@@ -20,7 +20,7 @@
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                     <i class="bi bi-person-circle fs-4 me-1"></i>
-                    <span class="d-none d-md-inline">{{ Auth::user()?->name ?? 'Admin' }}</span>
+                    <span class="d-none d-md-inline">{{ Auth::user()?->username ?? 'Admin' }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" style="min-width: 200px;">
                     <li>
