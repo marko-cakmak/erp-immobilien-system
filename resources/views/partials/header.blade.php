@@ -24,9 +24,12 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" style="min-width: 200px;">
                     <li>
-                        <a href="#" class="dropdown-item text-danger py-3">
-                            <i class="bi bi-box-arrow-right me-2"></i> Abmelden
-                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger py-3">
+                                <i class="bi bi-box-arrow-right me-2"></i> Abmelden
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </li>

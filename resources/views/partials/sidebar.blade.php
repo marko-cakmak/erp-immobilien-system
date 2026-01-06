@@ -2,7 +2,6 @@
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
         <a href="{{ route('dashboard') }}" class="brand-link">
-            <img src="{{ asset('assets/img/AdminLTELogo.png') }}" alt="Immobilien ERP Logo" class="brand-image opacity-75 shadow" />
             <span class="brand-text fw-light">Immobilien ERP</span>
         </a>
     </div>
