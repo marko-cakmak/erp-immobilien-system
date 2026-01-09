@@ -72,13 +72,13 @@
                     <!-- Verwaltung -->
                     <li class="nav-header">VERWALTUNG</li>
 
-                    <!-- Benutzer & Rollen -->
+                    <!-- Benutzer -->
                     @if(auth()->user()->hasPermission('manage_users'))
                         <li class="nav-item">
-                            <a href="#"
+                            <a href="/users"
                                class="nav-link">
                                 <i class="nav-icon bi bi-person-gear"></i>
-                                <p>Benutzer & Rollen</p>
+                                <p>Benutzer</p>
                             </a>
                         </li>
                     @endif
