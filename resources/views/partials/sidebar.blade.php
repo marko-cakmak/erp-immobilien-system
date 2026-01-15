@@ -46,7 +46,13 @@
                 @endif
 
                 <!-- Aufgaben -->
-                @if(auth()->check() && auth()->user()->hasPermission('view_own_aufgaben'))
+                @if(
+                    auth()->check() &&
+                    (
+                        auth()->user()->hasPermission('manage_aufgaben') ||
+                        auth()->user()->hasPermission('manage_own_aufgaben')
+                    )
+                )
                     <li class="nav-item">
                         <a href="#"
                            class="nav-link">
@@ -64,7 +70,7 @@
                         auth()->check() &&
                         (
                             auth()->user()->hasPermission('manage_users') ||
-                            auth()->user()->hasPermission('manage_settings')
+                            auth()->user()->hasPermission('manage_permissions')
                         );
                 @endphp
 
@@ -84,9 +90,9 @@
                     @endif
 
                     <!-- Berechtigungen -->
-                    @if(auth()->user()->hasPermission('permissions.manage'))
+                    @if(auth()->user()->hasPermission('manage_permissions'))
                         <li class="nav-item">
-                            <a href="#"
+                            <a href="/permissions"
                                class="nav-link">
                                 <i class="nav-icon bi bi-shield-lock"></i>
                                 <p>Berechtigungen</p>

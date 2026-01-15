@@ -11,7 +11,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             ['name' => 'manage_users', 'display_name' => 'Benutzer verwalten'],
-            ['name' => 'permissions.manage', 'display_name' => 'Berechtigungen verwalten'],
+            ['name' => 'manage_permissions', 'display_name' => 'Berechtigungen verwalten'],
 
             ['name' => 'view_wohnungen', 'display_name' => 'Wohnungen ansehen'],
             ['name' => 'manage_wohnungen', 'display_name' => 'Wohnungen verwalten'],
@@ -19,9 +19,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'view_interessenten', 'display_name' => 'Interessenten ansehen'],
             ['name' => 'manage_interessenten', 'display_name' => 'Interessenten verwalten'],
 
-            ['name' => 'view_all_aufgaben', 'display_name' => 'Alle Aufgaben ansehen'],
-            ['name' => 'view_own_aufgaben', 'display_name' => 'Eigene Aufgaben ansehen'],
-            ['name' => 'manage_aufgaben', 'display_name' => 'Aufgaben verwalten'],
+            ['name' => 'manage_aufgaben', 'display_name' => 'Alle Aufgaben verwalten'],
+            ['name' => 'manage_own_aufgaben', 'display_name' => 'Eigene Aufgaben verwalten'],
         ];
 
         foreach ($permissions as $permission) {
