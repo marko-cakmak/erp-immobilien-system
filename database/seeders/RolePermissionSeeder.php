@@ -24,8 +24,7 @@ class RolePermissionSeeder extends Seeder
                 'view_interessenten',
                 'manage_interessenten',
 
-                'view_all_aufgaben',
-                'view_own_aufgaben',
+                'manage_own_aufgaben',
                 'manage_aufgaben',
             ])->get()
         );
@@ -34,14 +33,15 @@ class RolePermissionSeeder extends Seeder
         $besichtigungsmanager->permissions()->sync(
             Permission::whereIn('name', [
                 'view_wohnungen',
-                'view_own_aufgaben',
+                'manage_own_aufgaben',
             ])->get()
         );
 
         $hausmeister = Role::where('name', 'hausmeister')->first();
         $hausmeister->permissions()->sync(
             Permission::whereIn('name', [
-                'view_own_aufgaben',
+                'view_wohnungen',
+                'manage_own_aufgaben',
             ])->get()
         );
     }
