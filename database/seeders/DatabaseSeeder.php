@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RolePermissionSeeder::class,
             UserSeeder::class,
+
+            ApartmentStatusSeeder::class,
+            ApartmentSeeder::class,
+            ApartmentImageSeeder::class,
         ]);
     }
 }
