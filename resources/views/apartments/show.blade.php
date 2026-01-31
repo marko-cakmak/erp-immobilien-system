@@ -31,9 +31,8 @@
                         <div class="card-body">
                             @if($apartment->coverImage)
                                 <img src="{{ asset('storage/' . $apartment->coverImage->path) }}"
-                                     class="img-fluid rounded mb-3"
+                                     class="img-fluid rounded mb-3 apartment-cover-image"
                                      alt="{{ $apartment->title }}"
-                                     style="max-height: 400px; width: 100%; object-fit: cover; cursor: pointer;"
                                      onclick="openImageModal(0)">
                             @else
                                 <div class="alert alert-info">
@@ -49,9 +48,8 @@
                                         @if(!$image->is_cover)
                                             <div class="col-4">
                                                 <img src="{{ asset('storage/' . $image->path) }}"
-                                                     class="img-thumbnail"
+                                                     class="img-thumbnail apartment-gallery-thumb"
                                                      alt="Apartment image"
-                                                     style="cursor: pointer; height: 80px; width: 100%; object-fit: cover;"
                                                      onclick="openImageModal({{ $imageIndex }})">
                                             </div>
                                             @php $imageIndex++; @endphp
@@ -91,7 +89,7 @@
                                 <tr>
                                     <td class="text-muted">Anzeigenstatus:</td>
                                     <td class="d-flex align-items-center gap-2">
-                                        <span class="rounded-circle" style="width:8px; height:8px; background-color: {{ $apartment->is_active ? '#28a745' : '#adb5bd' }};"></span>
+                                        <span class="rounded-circle status-dot {{ $apartment->is_active ? 'status-dot--active' : 'status-dot--inactive' }}"></span>
                                         <span class="text-muted">
                                             {{ $apartment->is_active ? 'Aktiv' : 'Inaktiv' }}
                                         </span>
@@ -181,14 +179,14 @@
                                 <a href="{{ route('apartments.edit', $apartment->id) }}" class="btn btn-warning">
                                     <i class="bi bi-pencil"></i> Wohnung bearbeiten
                                 </a>
+
                                 <form method="POST"
                                       action="{{ route('apartments.destroy', $apartment->id) }}"
                                       onsubmit="return confirm('Sind Sie sicher, dass Sie diese Wohnung löschen möchten?');">
                                     @csrf
                                     @method('DELETE')
 
-                                    <button type="submit"
-                                            class="btn btn-danger w-100">
+                                    <button type="submit" class="btn btn-danger w-100">
                                         <i class="bi bi-trash"></i> Wohnung löschen
                                     </button>
                                 </form>

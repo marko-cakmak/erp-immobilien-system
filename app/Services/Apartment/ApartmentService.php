@@ -4,6 +4,7 @@ namespace App\Services\Apartment;
 
 use App\Models\Apartment;
 use App\Models\ApartmentImage;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -34,6 +35,63 @@ class ApartmentService
         return Apartment::with(['status', 'images'])
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    public function search(Request $request)
+    {
+        $query = Apartment::with(['coverImage', 'status']);
+
+        $this->applySearchFilters($query, $request);
+
+        return $query->orderBy('created_at', 'desc')->get();
+    }
+
+    protected function applySearchFilters(Builder $query, Request $request): void
+    {
+        if ($request->filled('internal_number')) {
+            $query->where('internal_number', 'like', '%' . $request->internal_number . '%');
+        }
+
+        if ($request->filled('title')) {
+            $query->where('title', 'like', '%' . $request->title . '%');
+        }
+
+        if ($request->filled('address')) {
+            $query->where('street_address', 'like', '%' . $request->address . '%');
+        }
+
+        if ($request->filled('city')) {
+            $query->where('city', 'like', '%' . $request->city . '%');
+        }
+
+        if ($request->filled('rooms')) {
+            $query->where('rooms', $request->rooms);
+        }
+
+        if ($request->filled('size_from')) {
+            $query->where('size_sqm', '>=', $request->size_from);
+        }
+        if ($request->filled('size_to')) {
+            $query->where('size_sqm', '<=', $request->size_to);
+        }
+
+        if ($request->filled('rent_cold_from')) {
+            $query->where('rent_cold', '>=', $request->rent_cold_from);
+        }
+        if ($request->filled('rent_cold_to')) {
+            $query->where('rent_cold', '<=', $request->rent_cold_to);
+        }
+
+        if ($request->filled('rent_warm_from')) {
+            $query->where('rent_warm', '>=', $request->rent_warm_from);
+        }
+        if ($request->filled('rent_warm_to')) {
+            $query->where('rent_warm', '<=', $request->rent_warm_to);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('apartment_status_id', $request->status);
+        }
     }
 
     public function getForShow(Apartment $apartment): Apartment

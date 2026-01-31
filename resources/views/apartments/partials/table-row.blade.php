@@ -3,9 +3,8 @@
     <td class="text-start">
         @if($apartment->coverImage)
             <img src="{{ asset('storage/' . $apartment->coverImage->path) }}"
-                 class="img-thumbnail img-fluid"
-                 alt="{{ $apartment->title }}"
-                 style="max-width: 120px;">
+                 class="img-thumbnail img-fluid apartment-cover-thumb"
+                 alt="{{ $apartment->title }}">
         @else
             <span class="text-muted small">Kein Bild</span>
         @endif
@@ -55,28 +54,32 @@
 
     {{-- Actions --}}
     <td class="text-center">
-        <a href="{{ route('apartments.show', $apartment->id) }}"
-           class="btn btn-sm btn-info"
-           title="Anzeigen">
-            <i class="bi bi-eye"></i>
-        </a>
-        <a href="{{ route('apartments.edit', $apartment->id) }}"
-           class="btn btn-sm btn-warning"
-           title="Bearbeiten">
-            <i class="bi bi-pencil"></i>
-        </a>
-        <form method="POST"
-              action="{{ route('apartments.destroy', $apartment->id) }}"
-              style="display:inline"
-              onsubmit="return confirm('Sind Sie sicher, dass Sie diese Wohnung löschen möchten?');">
-            @csrf
-            @method('DELETE')
+        <div class="d-flex justify-content-center gap-1">
+            <a href="{{ route('apartments.show', $apartment->id) }}"
+               class="btn btn-sm btn-info"
+               title="Anzeigen">
+                <i class="bi bi-eye"></i>
+            </a>
 
-            <button type="submit"
-                    class="btn btn-sm btn-danger"
-                    title="Löschen">
-                <i class="bi bi-trash"></i>
-            </button>
-        </form>
+            <a href="{{ route('apartments.edit', $apartment->id) }}"
+               class="btn btn-sm btn-warning"
+               title="Bearbeiten">
+                <i class="bi bi-pencil"></i>
+            </a>
+
+            <form method="POST"
+                  action="{{ route('apartments.destroy', $apartment->id) }}"
+                  onsubmit="return confirm('Sind Sie sicher, dass Sie diese Wohnung löschen möchten?')"
+                  class="d-inline">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit"
+                        class="btn btn-sm btn-danger"
+                        title="Löschen">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+        </div>
     </td>
 </tr>

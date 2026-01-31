@@ -6,6 +6,7 @@ use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
 use App\Models\ApartmentStatus;
 use App\Services\Apartment\ApartmentService;
+use Illuminate\Http\Request;
 
 class ApartmentController extends Controller
 {
@@ -13,11 +14,12 @@ class ApartmentController extends Controller
         protected ApartmentService $apartmentService
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $apartments = $this->apartmentService->getAll();
+        $apartments = $this->apartmentService->search($request);
+        $statuses = ApartmentStatus::all();
 
-        return view('apartments.index', compact('apartments'));
+        return view('apartments.index', compact('apartments', 'statuses'));
     }
 
     public function show(Apartment $apartment)

@@ -4,10 +4,9 @@
             <div class="modal-body p-0 position-relative">
                 {{-- Close button --}}
                 <button type="button"
-                        class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                        class="btn-close btn-close-white position-absolute top-0 end-0 m-3 modal-close-btn"
                         data-bs-dismiss="modal"
-                        aria-label="Close"
-                        style="z-index: 1050;"></button>
+                        aria-label="Close"></button>
 
                 {{-- Image --}}
                 <img id="modalImage"
@@ -19,21 +18,18 @@
                 {{-- Navigation buttons overlay --}}
                 <button type="button"
                         id="prevBtn"
-                        class="btn btn-dark position-absolute top-50 start-0 translate-middle-y ms-3"
-                        style="opacity: 0.8; z-index: 1050;">
+                        class="btn btn-dark position-absolute top-50 start-0 translate-middle-y ms-3 modal-nav-btn">
                     <i class="bi bi-chevron-left"></i>
                 </button>
 
                 <button type="button"
                         id="nextBtn"
-                        class="btn btn-dark position-absolute top-50 end-0 translate-middle-y me-3"
-                        style="opacity: 0.8; z-index: 1050;">
+                        class="btn btn-dark position-absolute top-50 end-0 translate-middle-y me-3 modal-nav-btn">
                     <i class="bi bi-chevron-right"></i>
                 </button>
 
                 {{-- Image counter --}}
-                <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3 bg-dark text-white px-3 py-1 rounded"
-                     style="opacity: 0.8; z-index: 1050;">
+                <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3 bg-dark text-white px-3 py-1 rounded modal-image-counter">
                     <span id="imageCounter">1 / {{ $imageCount }}</span>
                 </div>
             </div>

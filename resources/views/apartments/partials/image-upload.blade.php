@@ -13,7 +13,7 @@
 
         {{-- TITELBILD --}}
         <div class="mb-3">
-            <div class="border rounded p-2 image-slot" style="height:400px;" data-index="0">
+            <div class="border rounded p-2 image-slot image-slot-cover" data-index="0">
 
                 @if($mode === 'edit' && isset($existingImages[0]))
                     <div class="image-preview">
@@ -52,7 +52,7 @@
         <div class="row g-3">
             @for($i=1; $i<4; $i++)
                 <div class="col-4">
-                    <div class="border rounded p-2 image-slot" style="height:140px;" data-index="{{ $i }}">
+                    <div class="border rounded p-2 image-slot image-slot-thumbnail" data-index="{{ $i }}">
 
                         @if($mode === 'edit' && isset($existingImages[$i]))
                             <div class="image-preview">
