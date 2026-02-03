@@ -26,7 +26,7 @@
                 <!-- Wohnungen -->
                 @if(auth()->check() && auth()->user()->hasPermission('view_wohnungen'))
                     <li class="nav-item">
-                        <a href="#"
+                        <a href="/apartments"
                            class="nav-link">
                             <i class="nav-icon bi bi-building"></i>
                             <p>Wohnungen</p>
