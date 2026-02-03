@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 
 class InterestedPersonService
 {
+    protected array $allowedFields = [
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'street_address',
+        'postal_code',
+        'city',
+        'notes',
+        'is_active',
+    ];
+
     public function search(Request $request)
     {
         $query = InterestedPerson::with(['apartments']);
@@ -45,5 +57,39 @@ class InterestedPersonService
         if ($request->filled('is_active')) {
             $query->where('is_active', $request->is_active);
         }
+    }
+
+    public function getForShow(InterestedPerson $interestedPerson): InterestedPerson
+    {
+        return $interestedPerson->load(['apartments.status']);
+    }
+
+    public function create(array $data): InterestedPerson
+    {
+        $data = $this->filterData($data);
+
+        return InterestedPerson::create($data);
+    }
+
+    public function update(InterestedPerson $interestedPerson, array $data): InterestedPerson
+    {
+        $data = $this->filterData($data);
+
+        $interestedPerson->update($data);
+
+        return $interestedPerson->refresh();
+    }
+
+    public function delete(InterestedPerson $interestedPerson): void
+    {
+        $interestedPerson->delete();
+    }
+
+    protected function filterData(array $data): array
+    {
+        return array_intersect_key(
+            $data,
+            array_flip($this->allowedFields)
+        );
     }
 }
