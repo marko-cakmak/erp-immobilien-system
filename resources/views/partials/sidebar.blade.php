@@ -37,7 +37,7 @@
                 <!-- Interessenten -->
                 @if(auth()->check() && auth()->user()->hasPermission('view_interessenten'))
                     <li class="nav-item">
-                        <a href="#"
+                        <a href="/interested-persons"
                            class="nav-link">
                             <i class="nav-icon bi bi-people-fill"></i>
                             <p>Interessenten</p>
