@@ -50,4 +50,21 @@ class Apartment extends Model
         return $this->hasOne(ApartmentImage::class)
             ->where('is_cover', true);
     }
+
+    /**
+     * Interested persons for this apartment
+     */
+    public function interestedPersons()
+    {
+        return $this->belongsToMany(InterestedPerson::class, 'apartment_interests')
+            ->withTimestamps();
+    }
+
+    /**
+     * Interest records
+     */
+    public function interests()
+    {
+        return $this->hasMany(ApartmentInterest::class);
+    }
 }

@@ -1,0 +1,53 @@
+.available-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.available-item:hover {
+    background-color: #f8f9fa;
+    border-left-color: #28a745;
+}
+
+.available-item.already-assigned {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #f8f9fa;
+}
+
+.available-item.already-assigned:hover {
+    border-left-color: transparent;
+}
+
+.remove-btn {
+    transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+    transform: scale(1.1);
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+.search-input {
+    padding-left: 38px;
+}
+
+.load-more-btn {
+    transition: all 0.2s ease;
+}
+
+.load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

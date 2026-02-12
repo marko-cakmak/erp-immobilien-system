@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
             ApartmentStatusSeeder::class,
             ApartmentSeeder::class,
             ApartmentImageSeeder::class,
+
+            InterestedPersonSeeder::class,
+            ApartmentInterestSeeder::class,
         ]);
     }
 }

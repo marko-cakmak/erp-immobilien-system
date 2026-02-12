@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Wohnungen')
+@section('title', 'Interessenten')
 @section('hide-page-header', true)
 
 @section('content')
 
-    @include('apartments.partials.common.header', [
-        'title' => 'Wohnungsverwaltung',
-        'buttonText' => 'Wohnung hinzufügen',
+    @include('interested-persons.partials.header', [
+        'title' => 'Interessentenverwaltung',
+        'buttonText' => 'Interessent hinzufügen',
         'buttonIcon' => 'plus-circle',
-        'buttonUrl' => '/apartments/create'
+        'buttonUrl' => route('interested-persons.create')
     ])
 
     <div class="app-content">
@@ -17,20 +17,20 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @include('apartments.partials.common.alerts')
+                    @include('interested-persons.partials.alerts')
 
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Wohnungsliste</h3>
+                            <h3 class="card-title">Interessentenliste</h3>
                         </div>
 
                         <div class="card-body">
-                            @include('apartments.partials.table', ['apartments' => $apartments])
+                            @include('interested-persons.partials.table', ['persons' => $persons])
                         </div>
 
                         <div class="card-footer clearfix">
                             <div class="text-muted">
-                                Gesamt: {{ $apartments->count() }} Wohnung(en)
+                                Gesamt: {{ $persons->count() }} Interessent(en)
                             </div>
                         </div>
                     </div>
@@ -41,6 +41,3 @@
     </div>
 
 @endsection
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
-@endpush

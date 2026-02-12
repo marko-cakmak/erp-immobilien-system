@@ -39,7 +39,8 @@ class ApartmentService
 
     public function search(Request $request)
     {
-        $query = Apartment::with(['coverImage', 'status']);
+        $query = Apartment::with(['coverImage', 'status'])
+            ->withCount('interestedPersons');
 
         $this->applySearchFilters($query, $request);
 
