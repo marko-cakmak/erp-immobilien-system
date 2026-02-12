@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreInterestedPersonRequest;
+use App\Http\Requests\UpdateInterestedPersonRequest;
 use App\Models\InterestedPerson;
 use App\Services\InterestedPerson\InterestedPersonService;
 use Illuminate\Http\Request;
@@ -31,52 +33,31 @@ class InterestedPersonController extends Controller
         return view('interested-persons.show', ['person' => $interestedPerson]);
     }
 
-    public function store(Request $request)
+    public function store(StoreInterestedPersonRequest $request)
     {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:interested_persons,email',
-            'phone' => 'required|string|max:255',
-            'street_address' => 'nullable|string|max:255',
-            'postal_code' => 'nullable|string|max:10',
-            'city' => 'nullable|string|max:255',
-            'notes' => 'nullable|string',
-        ]);
+        $data = $request->validated();
+        $data['is_active'] = $request->boolean('is_active');
 
-        $validated['is_active'] = $request->has('is_active');
+        $this->interestedPersonService->create($data);
 
-        $this->interestedPersonService->create($validated);
-
-        return redirect()
-            ->route('interested-persons.index')
+        return redirect()->route('interested-persons.index')
             ->with('success', 'Interessent erfolgreich hinzugefügt!');
     }
+
 
     public function edit(InterestedPerson $interestedPerson)
     {
         return view('interested-persons.edit', ['person' => $interestedPerson]);
     }
 
-    public function update(Request $request, InterestedPerson $interestedPerson)
+    public function update(UpdateInterestedPersonRequest $request, InterestedPerson $interestedPerson)
     {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:interested_persons,email,' . $interestedPerson->id,
-            'phone' => 'required|string|max:255',
-            'street_address' => 'nullable|string|max:255',
-            'postal_code' => 'nullable|string|max:10',
-            'city' => 'nullable|string|max:255',
-            'notes' => 'nullable|string',
-        ]);
+        $data = $request->validated();
+        $data['is_active'] = $request->boolean('is_active');
 
-        $validated['is_active'] = $request->has('is_active');
+        $this->interestedPersonService->update($interestedPerson, $data);
 
-        $this->interestedPersonService->update($interestedPerson, $validated);
-
-        return redirect()
-            ->route('interested-persons.show', $interestedPerson->id)
+        return redirect()->route('interested-persons.show', $interestedPerson)
             ->with('success', 'Interessent erfolgreich aktualisiert!');
     }
 
