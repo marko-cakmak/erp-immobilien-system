@@ -132,7 +132,7 @@
                 {{-- Interested Apartments --}}
                 <td class="text-center" data-label="Interessierte Wohnungen">
                     @if($person->apartments->count() > 0)
-                        <span class="badge bg-info">{{ $person->apartments->count() }}</span>
+                        <span class="badge bg-primary ">{{ $person->apartments->count() }}</span>
                     @else
                         <span class="text-muted">-</span>
                     @endif

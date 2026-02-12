@@ -15,6 +15,7 @@
             <th class="text-center">Größe (m²)</th>
             <th class="text-center">Kaltmiete</th>
             <th class="text-center">Warmmiete</th>
+            <th class="text-center">Interessenten</th>
             <th class="text-center">Status</th>
             <th class="text-center">Aktionen</th>
         </tr>
@@ -129,6 +130,9 @@
                 </div>
             </th>
 
+            {{-- Interessenten --}}
+            <th></th>
+
             {{-- Status --}}
             <th>
                 <select form="searchForm" class="form-select form-select-sm"
@@ -211,6 +215,15 @@
                     {{ number_format($apartment->rent_warm, 2) }} €
                 </td>
 
+                {{-- Interessenten --}}
+                <td class="text-center" data-label="Interessenten">
+                    @if($apartment->interested_persons_count > 0)
+                        <span class="badge bg-primary">{{ $apartment->interested_persons_count }}</span>
+                    @else
+                        <span class="text-muted">0</span>
+                    @endif
+                </td>
+
                 {{-- Status --}}
                 <td class="text-center" data-label="Status">
                     <span class="badge bg-{{ $apartment->status->color ?? 'secondary' }}">
@@ -251,7 +264,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="11" class="text-center text-muted py-4">
+                <td colspan="12" class="text-center text-muted py-4">
                     <i class="bi bi-inbox"></i>
                     @if(request()->hasAny([
                         'internal_number','title','address','city','rooms',
