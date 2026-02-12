@@ -134,7 +134,7 @@
                     @if($person->apartments->count() > 0)
                         <span class="badge bg-primary ">{{ $person->apartments->count() }}</span>
                     @else
-                        <span class="text-muted">-</span>
+                        <span class="text-muted">0</span>
                     @endif
                 </td>
 
