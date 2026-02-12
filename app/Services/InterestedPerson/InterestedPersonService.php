@@ -59,6 +59,14 @@ class InterestedPersonService
         }
     }
 
+    public function getActive()
+    {
+        return InterestedPerson::where('is_active', true)
+            ->orderBy('last_name')
+            ->orderBy('first_name')
+            ->get();
+    }
+
     public function getForShow(InterestedPerson $interestedPerson): InterestedPerson
     {
         return $interestedPerson->load(['apartments.status']);

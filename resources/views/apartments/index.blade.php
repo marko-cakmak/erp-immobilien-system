@@ -5,7 +5,7 @@
 
 @section('content')
 
-    @include('apartments.partials.header', [
+    @include('apartments.partials.common.header', [
         'title' => 'Wohnungsverwaltung',
         'buttonText' => 'Wohnung hinzufügen',
         'buttonIcon' => 'plus-circle',
@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @include('apartments.partials.alerts')
+                    @include('apartments.partials.common.alerts')
 
                     <div class="card mb-4">
                         <div class="card-header">

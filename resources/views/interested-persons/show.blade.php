@@ -109,7 +109,7 @@
                     @if($person->apartments->count() > 0)
                         <div class="list-group">
                             @foreach($person->apartments as $apartment)
-                                <div class="list-group-item">
+                                <a href="{{ route('apartments.show', $apartment->id) }}" class="list-group-item list-group-item-action">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <h6 class="mb-1">{{ $apartment->title }}</h6>
@@ -121,7 +121,7 @@
                                             {{ $apartment->status->label }}
                                         </span>
                                     </div>
-                                </div>
+                                </a>
                             @endforeach
                         </div>
                     @else

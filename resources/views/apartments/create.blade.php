@@ -9,7 +9,7 @@
 
 @section('content')
 
-    @include('apartments.partials.header', [
+    @include('apartments.partials.common.header', [
         'title' => 'Wohnung Erstellen',
         'buttonText' => 'Abbrechen',
         'buttonIcon' => 'x-circle',
@@ -19,20 +19,8 @@
 
     <div class="app-content">
         <div class="container-fluid">
-
-            @include('apartments.partials.alerts')
-
-            @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle"></i> <strong>Es gibt Fehler im Formular:</strong>
-                    <ul class="mb-0 mt-2">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
+            @include('apartments.partials.common.alerts')
+            @include('apartments.partials.common.form-errors')
 
             <form method="POST" action="{{ route('apartments.store') }}" enctype="multipart/form-data">
                 @csrf
@@ -41,32 +29,14 @@
 
                     {{-- LEFT COLUMN --}}
                     <div class="col-md-5">
-
                         @include('apartments.partials.image-upload', ['mode' => 'create'])
-
-                        {{-- BESCHREIBUNG --}}
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h3 class="card-title">Beschreibung</h3>
-                            </div>
-                            <div class="card-body">
-                                <textarea class="form-control @error('notes') is-invalid @enderror"
-                                          name="notes"
-                                          rows="6">{{ old('notes') }}</textarea>
-                                @error('notes')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
+                        @include('apartments.partials.form.form-description')
                     </div>
 
                     {{-- RIGHT COLUMN --}}
                     <div class="col-md-7">
-
-                        @include('apartments.partials.form-basic-info', ['statuses' => $statuses])
-
-                        @include('apartments.partials.form-financial')
+                        @include('apartments.partials.form.form-basic-info', ['statuses' => $statuses])
+                        @include('apartments.partials.form.form-financial')
 
                         {{-- SUBMIT --}}
                         <div class="card mb-4">
@@ -76,10 +46,9 @@
                                 </button>
                             </div>
                         </div>
-
                     </div>
-                </div>
 
+                </div>
             </form>
 
         </div>

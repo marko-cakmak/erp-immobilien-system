@@ -32,9 +32,6 @@
 
             <form method="POST" action="{{ route('interested-persons.store') }}">
                 @csrf
-                <div class="row">
-                    <div class="col-md-8 offset-md-2">
-
                         @include('interested-persons.partials.form-fields')
 
                         {{-- SUBMIT --}}
@@ -45,9 +42,6 @@
                                 </button>
                             </div>
                         </div>
-
-                    </div>
-                </div>
             </form>
 
         </div>

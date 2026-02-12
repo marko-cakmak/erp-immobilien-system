@@ -6,12 +6,14 @@ use App\Http\Requests\ApartmentRequest;
 use App\Models\Apartment;
 use App\Models\ApartmentStatus;
 use App\Services\Apartment\ApartmentService;
+use App\Services\InterestedPerson\InterestedPersonService;
 use Illuminate\Http\Request;
 
 class ApartmentController extends Controller
 {
     public function __construct(
-        protected ApartmentService $apartmentService
+        protected ApartmentService $apartmentService,
+        protected InterestedPersonService $interestedPersonService
     ) {}
 
     public function index(Request $request)
@@ -25,8 +27,12 @@ class ApartmentController extends Controller
     public function show(Apartment $apartment)
     {
         $apartment = $this->apartmentService->getForShow($apartment);
+        $apartment->load('interestedPersons');
 
-        return view('apartments.show', compact('apartment'));
+        return view('apartments.show', [
+            'apartment' => $apartment,
+            'interessenten' => $apartment->interestedPersons,
+        ]);
     }
 
     public function create()
@@ -36,13 +42,14 @@ class ApartmentController extends Controller
         return view('apartments.create', compact('statuses'));
     }
 
-
     public function edit(Apartment $apartment)
     {
-        $apartment->load(['status', 'images', 'coverImage']);
+        $apartment->load(['status', 'images', 'coverImage', 'interestedPersons']);
         $statuses = ApartmentStatus::all();
+        $allInteressenten = $this->interestedPersonService->getActive();
+        $assignedIds = $apartment->interestedPersons->pluck('id')->toArray();
 
-        return view('apartments.edit', compact('apartment', 'statuses'));
+        return view('apartments.edit', compact('apartment', 'statuses', 'allInteressenten', 'assignedIds'));
     }
 
     public function store(ApartmentRequest $request)
@@ -66,6 +73,8 @@ class ApartmentController extends Controller
 
         $this->apartmentService->update($apartment, $validated, $request);
 
+        $apartment->interestedPersons()->sync($request->input('interessent_ids', []));
+
         return redirect()
             ->route('apartments.show', $apartment->id)
             ->with('success', 'Wohnung erfolgreich aktualisiert!');
@@ -79,5 +88,4 @@ class ApartmentController extends Controller
             ->route('apartments.index')
             ->with('success', 'Wohnung erfolgreich gelöscht!');
     }
-
 }
