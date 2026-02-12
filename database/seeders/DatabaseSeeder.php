@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
 
             InterestedPersonSeeder::class,
             ApartmentInterestSeeder::class,
+
+            TaskTypeSeeder::class,
+            TaskStatusSeeder::class,
         ]);
     }
 }
