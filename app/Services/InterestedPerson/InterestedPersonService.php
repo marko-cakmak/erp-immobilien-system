@@ -32,9 +32,15 @@ class InterestedPersonService
     protected function applySearchFilters(Builder $query, Request $request): void
     {
         if ($request->filled('name')) {
-            $query->where(function($q) use ($request) {
-                $q->where('first_name', 'like', '%' . $request->name . '%')
-                    ->orWhere('last_name', 'like', '%' . $request->name . '%');
+            $parts = preg_split('/\s+/', trim($request->name));
+
+            $query->where(function ($q) use ($parts) {
+                foreach ($parts as $part) {
+                    $q->where(function ($sub) use ($part) {
+                        $sub->where('first_name', 'like', "%{$part}%")
+                            ->orWhere('last_name', 'like', "%{$part}%");
+                    });
+                }
             });
         }
 
