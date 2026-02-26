@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Mass Assignment
+    |--------------------------------------------------------------------------
+    */
+
     protected $fillable = [
         'type_id',
         'status_id',
@@ -16,9 +22,15 @@ class Task extends Model
         'closed_at',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Casts
+    |--------------------------------------------------------------------------
+    */
+
     protected $casts = [
         'deadline_at' => 'datetime',
-        'closed_at' => 'datetime',
+        'closed_at'   => 'datetime',
     ];
 
     /*
@@ -26,6 +38,8 @@ class Task extends Model
     | Relationships
     |--------------------------------------------------------------------------
     */
+
+    // --- Core relations
 
     public function type()
     {
@@ -47,6 +61,8 @@ class Task extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    // --- Assignees
+
     public function assignees()
     {
         return $this->hasMany(TaskAssignee::class);
@@ -56,5 +72,28 @@ class Task extends Model
     {
         return $this->hasOne(TaskAssignee::class)
             ->where('is_active', true);
+    }
+
+    // --- Besichtigung
+
+    public function besichtigung()
+    {
+        return $this->hasOne(Besichtigung::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helper Methods (Optional Domain Logic)
+    |--------------------------------------------------------------------------
+    */
+
+    public function isClosed(): bool
+    {
+        return !is_null($this->closed_at);
+    }
+
+    public function isAssignedTo(int $userId): bool
+    {
+        return $this->activeAssignee?->user_id === $userId;
     }
 }

@@ -77,7 +77,7 @@
                         {{-- Ako je aktivni Bearbeiter --}}
                         @if($task->activeAssignee && $task->activeAssignee->user_id === auth()->id())
 
-                            <a href="#"
+                            <a href="{{ route('tasks.update', $task->id) }}"
                                class="btn btn-sm btn-warning"
                                title="Bearbeiten">
                                 <i class="bi bi-pencil"></i>
