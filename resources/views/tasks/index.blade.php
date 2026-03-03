@@ -3,13 +3,17 @@
 @section('title', 'Tasks')
 @section('hide-page-header', true)
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
+@endpush
+
 @section('content')
 
     @include('tasks.partials.header', [
-        'title' => 'Aufgabe Management',
+        'title'      => 'Aufgabe Management',
         'buttonText' => 'Aufgabe Erstellen',
         'buttonIcon' => 'plus-circle',
-        'buttonUrl' => route('tasks.create')
+        'buttonUrl'  => route('tasks.create')
     ])
 
     <div class="app-content">
@@ -41,6 +45,3 @@
     </div>
 
 @endsection
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
-@endpush

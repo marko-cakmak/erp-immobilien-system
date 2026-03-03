@@ -33,7 +33,7 @@
                     </span>
                 </td>
 
-                {{-- Ukloni stare td za Image i Title, dodaj ovo --}}
+                {{-- Wohnung --}}
                 <td>
                     @if($task->apartment)
                         <a href="{{ route('apartments.show', $task->apartment->id) }}"
@@ -63,41 +63,40 @@
                 </td>
 
                 {{-- Created --}}
-                <td>
+                <td class="text-center">
                     {{ $task->created_at->format('d.m.Y') }}
                 </td>
 
+                {{-- Aktionen --}}
                 <td class="text-center">
                     <div class="d-flex justify-content-center gap-1">
 
-                        {{-- Ako je aktivni Bearbeiter --}}
                         @if($task->activeAssignee && $task->activeAssignee->user_id === auth()->id())
-
                             <a href="{{ route('tasks.update', $task->id) }}"
                                class="btn btn-sm btn-warning"
                                title="Bearbeiten">
                                 <i class="bi bi-pencil"></i>
                             </a>
-
                         @else
-
                             <a href="{{ route('tasks.show', $task->id) }}"
                                class="btn btn-sm btn-info"
                                title="Anzeigen">
                                 <i class="bi bi-eye"></i>
                             </a>
-
                         @endif
 
-                        {{-- Löschen (manage_aufgaben) --}}
                         @if(auth()->user()->hasPermission('manage_aufgaben'))
-
-                            <button type="button"
-                                    class="btn btn-sm btn-danger"
-                                    title="Löschen">
-                                <i class="bi bi-trash"></i>
-                            </button>
-
+                            <form action="{{ route('tasks.destroy', $task->id) }}"
+                                  method="POST"
+                                  onsubmit="return confirm('Aufgabe #{{ $task->id }} wirklich löschen?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        title="Löschen">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         @endif
 
                     </div>

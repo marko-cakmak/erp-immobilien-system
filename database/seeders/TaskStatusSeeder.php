@@ -13,7 +13,7 @@ class TaskStatusSeeder extends Seeder
             [
                 'key' => 'neu',
                 'name' => 'Neu',
-                'color' => '#dc3545', // red
+                'color' => '#dc3545',
                 'sort_order' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -22,7 +22,7 @@ class TaskStatusSeeder extends Seeder
             [
                 'key' => 'in_progress',
                 'name' => 'In Bearbeitung',
-                'color' => '#fd7e14', // orange
+                'color' => '#fd7e14',
                 'sort_order' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -31,7 +31,7 @@ class TaskStatusSeeder extends Seeder
             [
                 'key' => 'abgeschlossen',
                 'name' => 'Abgeschlossen',
-                'color' => '#0d6efd', // blue
+                'color' => '#0d6efd',
                 'sort_order' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -40,7 +40,7 @@ class TaskStatusSeeder extends Seeder
             [
                 'key' => 'canceled',
                 'name' => 'Abgebrochen',
-                'color' => '#6c757d', // gray
+                'color' => '#6c757d',
                 'sort_order' => 4,
                 'created_at' => now(),
                 'updated_at' => now(),

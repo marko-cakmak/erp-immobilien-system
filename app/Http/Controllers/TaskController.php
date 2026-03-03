@@ -32,7 +32,7 @@ class TaskController extends Controller
 
         return view('tasks.create', $data);
     }
-    
+
     public function store(StoreTaskRequest $request)
     {
         $task = $this->taskService->create($request->validated());
@@ -66,6 +66,19 @@ class TaskController extends Controller
         return redirect()
             ->route('tasks.show', $task->id)
             ->with('success', 'Aufgabe wurde aktualisiert.');
+    }
+
+    public function destroy(Task $task)
+    {
+        if (!auth()->user()->hasPermission('manage_aufgaben')) {
+            abort(403);
+        }
+
+        $task->delete();
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Aufgabe wurde erfolgreich gelöscht.');
     }
 
     public function changeStatus(ChangeTaskStatusRequest $request, Task $task)
