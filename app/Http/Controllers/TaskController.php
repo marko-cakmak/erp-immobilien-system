@@ -15,7 +15,9 @@ class TaskController extends Controller
 {
     public function __construct(
         protected TaskService $taskService
-    ) {}
+    )
+    {
+    }
 
     public function index(Request $request)
     {
@@ -30,13 +32,13 @@ class TaskController extends Controller
 
         return view('tasks.create', $data);
     }
-
+    
     public function store(StoreTaskRequest $request)
     {
-        $this->taskService->create($request->validated());
+        $task = $this->taskService->create($request->validated());
 
         return redirect()
-            ->route('tasks.index')
+            ->route('tasks.index', $task->id)
             ->with('success', 'Aufgabe wurde erfolgreich erstellt.');
     }
 
@@ -44,14 +46,16 @@ class TaskController extends Controller
     {
         $task = $this->taskService->findForShow($task);
         $users = $this->taskService->getAssignableUsers();
-        $statuses = TaskStatus::orderBy('name')->get();
+        $statuses = TaskStatus::orderBy('sort_order')->get();
         $interessenten = $task->apartment?->interestedPersons ?? collect();
+        $allowedTransitions = $task->status->allowedTransitions;
 
         return view('tasks.show', compact(
             'task',
             'users',
             'statuses',
-            'interessenten'
+            'interessenten',
+            'allowedTransitions'
         ));
     }
 
@@ -85,6 +89,7 @@ class TaskController extends Controller
 
         return redirect()
             ->route('tasks.show', $task->id)
+            ->withFragment('bearbeitung')
             ->with('success', 'Besichtigung wurde gespeichert.');
     }
 }

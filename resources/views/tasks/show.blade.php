@@ -67,11 +67,17 @@
                     </div>
 
                     <div class="card shadow-sm task-card-wrapper">
-                        <div class="card-body">
+                        <div class="card-body p-0">
 
                             {{-- TAB CONTENT --}}
                             <div class="tab-content">
-                                <div class="tab-pane fade show active" id="info" role="tabpanel">
+
+                                <div class="tab-pane fade show active p-3" id="info" role="tabpanel"
+                                     style="position: relative;">
+                                    @if(auth()->check() && !auth()->user()->hasPermission('manage_aufgaben'))
+                                        <div
+                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(150, 150, 150, 0.15); z-index: 10; cursor: not-allowed; pointer-events: all;"></div>
+                                    @endif
                                     @include('tasks.partials.tabs.information', [
                                         'task' => $task,
                                         'users' => $users,
@@ -80,7 +86,12 @@
                                     ])
                                 </div>
 
-                                <div class="tab-pane fade" id="bearbeitung" role="tabpanel">
+                                <div class="tab-pane fade p-3" id="bearbeitung" role="tabpanel"
+                                     style="position: relative;">
+                                    @if($task->type->key === 'besichtigung' && !$isActiveAssignee)
+                                        <div
+                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(150, 150, 150, 0.15); z-index: 10; cursor: not-allowed; pointer-events: all;"></div>
+                                    @endif
                                     @include('tasks.partials.tabs.bearbeitung', [
                                         'task' => $task,
                                         'isActiveAssignee' => $isActiveAssignee,
@@ -88,6 +99,7 @@
                                         'statuses' => $statuses
                                     ])
                                 </div>
+
                             </div>
 
                         </div>
@@ -100,3 +112,24 @@
     </div>
 
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // Aktiviraj tab iz URL fragmenta
+        const hash = window.location.hash;
+        if (hash) {
+            const tab = document.querySelector(`[data-bs-target="${hash}"]`);
+            if (tab) {
+                bootstrap.Tab.getOrCreateInstance(tab).show();
+            }
+        }
+
+        // Ažuriraj URL fragment pri promeni taba
+        document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+            tab.addEventListener('shown.bs.tab', function () {
+                history.replaceState(null, null, this.dataset.bsTarget);
+            });
+        });
+
+    });
+</script>

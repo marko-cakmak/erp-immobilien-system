@@ -7,6 +7,8 @@ use App\Models\Besichtigung;
 use App\Models\Task;
 use App\Models\TaskAssignee;
 use App\Models\TaskStatus;
+use App\Models\TaskStatusTransition;
+use App\Models\TaskStatusTransitionAssigneeRule;
 use App\Models\TaskType;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,7 +38,7 @@ class TaskService
     {
         return $task->load([
             'type',
-            'status',
+            'status.allowedTransitions',
             'apartment.coverImage',
             'apartment.interestedPersons',
             'activeAssignee.user',
@@ -55,8 +57,8 @@ class TaskService
 
         return [
             'apartments' => $apartments,
-            'types'      => TaskType::orderBy('name')->get(),
-            'users'      => User::orderBy('name')->get(),
+            'types' => TaskType::orderBy('name')->get(),
+            'users' => User::orderBy('name')->get(),
         ];
     }
 
@@ -75,20 +77,20 @@ class TaskService
     {
         return DB::transaction(function () use ($data) {
 
-            $data['status_id']  = TaskStatus::where('key', 'neu')->firstOrFail()->id;
+            $data['status_id'] = TaskStatus::where('key', 'neu')->firstOrFail()->id;
             $data['created_by'] = auth()->id();
 
             $task = Task::create($data);
 
             TaskAssignee::create([
-                'task_id'   => $task->id,
-                'user_id'   => auth()->id(),
+                'task_id' => $task->id,
+                'user_id' => auth()->id(),
                 'is_active' => false,
             ]);
 
             TaskAssignee::create([
-                'task_id'   => $task->id,
-                'user_id'   => $data['assigned_to'],
+                'task_id' => $task->id,
+                'user_id' => $data['assigned_to'],
                 'is_active' => true,
             ]);
 
@@ -102,7 +104,7 @@ class TaskService
 
             $task->update([
                 'status_id' => $data['status_id'],
-                'message'   => $data['note'] ?? $task->message,
+                'message' => $data['note'] ?? $task->message,
             ]);
 
             if ($task->activeAssignee?->user_id != $data['user_id']) {
@@ -138,27 +140,46 @@ class TaskService
             abort(403);
         }
 
-        $currentKey = $task->status->key;
+        $newStatus = TaskStatus::where('key', $newStatusKey)->firstOrFail();
 
-        $allowedTransitions = [
-            'neu'            => ['in_bearbeitung', 'abgebrochen'],
-            'in_bearbeitung' => ['abgeschlossen', 'abgebrochen'],
-        ];
+        $transition = TaskStatusTransition::where('from_status_id', $task->status_id)
+            ->where('to_status_id', $newStatus->id)
+            ->first();
 
-        if (!in_array($newStatusKey, $allowedTransitions[$currentKey] ?? [])) {
+        if (!$transition) {
             abort(422, 'Statuswechsel nicht erlaubt.');
         }
 
-        $newStatus = TaskStatus::where('key', $newStatusKey)->firstOrFail();
+        return DB::transaction(function () use ($task, $newStatus, $transition) {
 
-        $task->update([
-            'status_id' => $newStatus->id,
-            'closed_at' => in_array($newStatusKey, ['abgeschlossen', 'abgebrochen'])
-                ? now()
-                : null,
-        ]);
+            $task->update([
+                'status_id' => $newStatus->id,
+                'closed_at' => in_array($newStatus->key, ['abgeschlossen', 'abgebrochen'])
+                    ? now()
+                    : null,
+            ]);
 
-        return $task;
+            $rule = TaskStatusTransitionAssigneeRule::where('transition_id', $transition->id)
+                ->where('task_type_id', $task->type_id)
+                ->first();
+
+            if ($rule) {
+                $newActiveAssignee = $task->assignees()
+                    ->whereHas('user.role', function ($q) use ($rule) {
+                        $q->where('roles.id', $rule->activate_role_id);
+                    })
+                    ->first();
+
+                if ($newActiveAssignee) {
+                    if ($task->activeAssignee->id !== $newActiveAssignee->id) {
+                        $task->activeAssignee->update(['is_active' => false]);
+                        $newActiveAssignee->update(['is_active' => true]);
+                    }
+                }
+            }
+
+            return $task->fresh();
+        });
     }
 
     public function storeBesichtigung(Task $task, array $data): void
@@ -168,16 +189,17 @@ class TaskService
             $besichtigung = Besichtigung::updateOrCreate(
                 ['task_id' => $task->id],
                 [
-                    'besichtigung_at'       => $data['besichtigung_at'] ?? null,
+                    'besichtigung_at' => $data['besichtigung_at'] ?? null,
                     'result_interessent_id' => $data['result_interessent_id'] ?? null,
-                    'notes'                 => $data['notes'] ?? null,
+                    'notes' => $data['notes'] ?? null,
                 ]
             );
 
             $besichtigung->teilnehmer()->sync($data['interessent_ids'] ?? []);
 
             if (!empty($data['status_id'])) {
-                $task->update(['status_id' => $data['status_id']]);
+                $newStatus = TaskStatus::findOrFail($data['status_id']);
+                $this->changeStatus($task, $newStatus->key);
             }
         });
     }

@@ -6,8 +6,7 @@
             <th class="text-start">Aufgabe ID</th>
             <th class="text-start">Aufgabe Type</th>
             <th class="text-start">Aufgabe Status</th>
-            <th class="text-start">Apartment Bild</th>
-            <th class="text-start">Apartment Titel</th>
+            <th class="text-start">Wohnung</th>
             <th class="text-start">Aufgabe Deadline</th>
             <th class="text-center">Created</th>
             <th class="text-center">Aktionen</th>
@@ -34,24 +33,21 @@
                     </span>
                 </td>
 
-                {{-- Image --}}
-                <td>
-                    @if($task->apartment && $task->apartment->coverImage)
-                        <img src="{{ asset('storage/' . $task->apartment->coverImage->path) }}"
-                             class="img-thumbnail img-fluid apartment-cover-thumb"
-                             alt="{{ $task->apartment->title }}">
-                    @else
-                        <span class="text-muted small">Kein Bild</span>
-                    @endif
-                </td>
-
-                {{-- Title --}}
+                {{-- Ukloni stare td za Image i Title, dodaj ovo --}}
                 <td>
                     @if($task->apartment)
-                        <span class="fw-semibold">
+                        <a href="{{ route('apartments.show', $task->apartment->id) }}"
+                           class="fw-semibold text-decoration-none">
                             {{ $task->apartment->title }}
-                        </span>
+                        </a>
                         <br>
+                        @if($task->apartment->coverImage)
+                            <img src="{{ asset('storage/' . $task->apartment->coverImage->path) }}"
+                                 class="img-thumbnail img-fluid apartment-cover-thumb mt-1"
+                                 alt="{{ $task->apartment->title }}">
+                        @else
+                            <span class="text-muted small">Kein Bild</span>
+                        @endif
                     @else
                         <span class="text-muted">Apartment missing</span>
                     @endif
