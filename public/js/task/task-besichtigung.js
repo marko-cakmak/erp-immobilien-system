@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const selectedIds = new Set();
+    window.selectedIds = new Set();
     const selectedList = document.getElementById('selectedInteressenten');
     const emptyMsg = document.getElementById('emptySelected');
     const hiddenInputs = document.getElementById('hiddenInputs');
@@ -108,5 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('select[name="result_interessent_id"]').value = '';
         this.style.display = 'none';
     });
+
+
 
 });

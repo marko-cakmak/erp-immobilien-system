@@ -10,6 +10,7 @@ use App\Models\TaskStatus;
 use App\Models\TaskStatusTransition;
 use App\Models\TaskStatusTransitionAssigneeRule;
 use App\Models\TaskType;
+use App\Models\TaskTypeApartmentStatusRule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -176,6 +177,16 @@ class TaskService
                         $newActiveAssignee->update(['is_active' => true]);
                     }
                 }
+            }
+
+            $apartmentRule = TaskTypeApartmentStatusRule::where('task_type_id', $task->type_id)
+                ->where('task_status_id', $newStatus->id)
+                ->first();
+
+            if ($apartmentRule && $task->apartment) {
+                $task->apartment->update([
+                    'apartment_status_id' => $apartmentRule->apartment_status_id,
+                ]);
             }
 
             return $task->fresh();

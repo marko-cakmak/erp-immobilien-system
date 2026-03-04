@@ -2,10 +2,6 @@
 
 <div class="p-3 task-card-body">
 
-    {{--    @if($task->type->key === 'besichtigung' && !$isActiveAssignee)--}}
-    {{--        <div class="task-overlay"></div>--}}
-    {{--    @endif--}}
-
     @if($task->type->key === 'besichtigung')
 
         @if(!$isActiveAssignee)
@@ -24,16 +20,20 @@
             $selectedIds = $task->besichtigung?->teilnehmer->pluck('id')->toArray() ?? [];
         @endphp
 
-        <form method="POST" action="{{ route('tasks.besichtigung.store', $task->id) }}">
+        <form id="besichtigungForm" method="POST" action="{{ route('tasks.besichtigung.store', $task->id) }}">
             @csrf
 
             {{-- TERMIN --}}
             <div class="mb-3">
                 <h6 class="fw-bold mb-2">Besichtigungstermin</h6>
                 <input type="datetime-local"
+                       id="besichtigungAt"
                        name="besichtigung_at"
                        class="form-control form-control-sm"
                        value="{{ optional($task->besichtigung?->besichtigung_at)->format('Y-m-d\TH:i') }}">
+                <div id="besichtigungAt-error" class="text-danger small mt-1 fw-semibold" style="display:none;">
+                    Bitte einen Besichtigungstermin wählen.
+                </div>
             </div>
 
             <hr class="my-3">
@@ -127,6 +127,10 @@
                         </div>
                     </div>
 
+                    <div id="teilnehmer-error" class="text-danger small mt-1 fw-semibold" style="display:none;">
+                        Mindestens ein Teilnehmer ist erforderlich.
+                    </div>
+
                     <div id="hiddenInputs">
                         @foreach($selectedIds as $id)
                             <input type="hidden" name="interessent_ids[]" value="{{ $id }}">
@@ -193,7 +197,7 @@
                     </div>
 
                     <label class="fw-semibold mb-1">Status ändern</label>
-                    <select name="status_id" class="form-select form-select-sm">
+                    <select id="statusSelect" name="status_id" class="form-select form-select-sm">
                         <option value="">— Status wählen —</option>
                         @foreach($task->status->allowedTransitions as $status)
                             <option value="{{ $status->id }}">
@@ -201,12 +205,15 @@
                             </option>
                         @endforeach
                     </select>
+                    <div id="statusSelect-error" class="text-danger small mt-1 fw-semibold" style="display:none;">
+                        Bitte einen Status wählen.
+                    </div>
 
                 </div>
             </div>
 
             <div class="d-flex justify-content-end pt-2">
-                <button type="submit" class="btn btn-primary btn-sm px-4">
+                <button type="submit" id="besichtigungSubmit" class="btn btn-primary btn-sm px-4">
                     Speichern
                 </button>
             </div>
@@ -220,5 +227,5 @@
     @endif
 
 </div>
-
 <script src="{{ asset('js/task/task-besichtigung.js') }}"></script>
+<script src="{{ asset('js/task/task-edit.js') }}"></script>

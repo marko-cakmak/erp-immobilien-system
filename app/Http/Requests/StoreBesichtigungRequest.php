@@ -14,12 +14,12 @@ class StoreBesichtigungRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'besichtigung_at'       => ['nullable', 'date'],
-            'interessent_ids'       => ['nullable', 'array'],
+            'besichtigung_at'       => ['required', 'date'],
+            'interessent_ids'       => ['required', 'array', 'min:1'],
             'interessent_ids.*'     => ['integer', 'exists:interested_persons,id'],
             'result_interessent_id' => ['nullable', 'integer', 'exists:interested_persons,id'],
             'notes'                 => ['nullable', 'string'],
-            'status_id'             => ['nullable', 'integer', 'exists:task_statuses,id'],
+            'status_id'             => ['required', 'integer', 'exists:task_statuses,id'],
         ];
     }
 }

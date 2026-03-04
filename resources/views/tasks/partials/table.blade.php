@@ -6,6 +6,7 @@
             <th class="text-start">Aufgabe ID</th>
             <th class="text-start">Aufgabe Type</th>
             <th class="text-start">Aufgabe Status</th>
+            <th class="text-start">Bearbeiter</th>
             <th class="text-start">Wohnung</th>
             <th class="text-start">Fällig am</th>
             <th class="text-center">Created</th>
@@ -31,6 +32,15 @@
                           style="background-color: {{ $task->status->color }}; color: white;">
                         {{ $task->status->name }}
                     </span>
+                </td>
+
+                {{-- Bearbeiter --}}
+                <td>
+                    @if($task->activeAssignee)
+                        {{ $task->activeAssignee->user->name }}
+                    @else
+                        <span class="text-muted">—</span>
+                    @endif
                 </td>
 
                 {{-- Wohnung --}}
@@ -105,7 +115,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="7" class="text-center text-muted py-4">
+                <td colspan="8" class="text-center text-muted py-4">
                     <i class="bi bi-inbox"></i>
                     No tasks found
                 </td>
