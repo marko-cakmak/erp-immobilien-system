@@ -6,24 +6,27 @@
         <thead>
         {{-- Header Row --}}
         <tr>
-            <th class="text-start">Bild</th>
+            <th class="text-start">Wohnung</th>
             <th class="text-start">Interne Nr.</th>
-            <th class="text-start">Titel</th>
             <th class="text-start">Adresse</th>
-            <th class="text-center">Stadt</th>
             <th class="text-center">Zimmer</th>
-            <th class="text-center">Größe (m²)</th>
-            <th class="text-center">Kaltmiete</th>
-            <th class="text-center">Warmmiete</th>
             <th class="text-center">Interessenten</th>
+            <th class="text-center">Aufgaben</th>
             <th class="text-center">Status</th>
             <th class="text-center">Aktionen</th>
         </tr>
 
         {{-- Search Row --}}
         <tr class="table-light">
-            {{-- Bild --}}
-            <th></th>
+            {{-- Wohnung --}}
+            <th>
+                <input form="searchForm" type="text"
+                       class="form-control form-control-sm"
+                       name="title"
+                       value="{{ request('title') }}"
+                       placeholder="Suchen..."
+                       onchange="document.getElementById('searchForm').submit()">
+            </th>
 
             {{-- Interne Nr. --}}
             <th>
@@ -35,32 +38,12 @@
                        onchange="document.getElementById('searchForm').submit()">
             </th>
 
-            {{-- Titel --}}
-            <th>
-                <input form="searchForm" type="text"
-                       class="form-control form-control-sm"
-                       name="title"
-                       value="{{ request('title') }}"
-                       placeholder="Suchen..."
-                       onchange="document.getElementById('searchForm').submit()">
-            </th>
-
             {{-- Adresse --}}
             <th>
                 <input form="searchForm" type="text"
                        class="form-control form-control-sm"
                        name="address"
                        value="{{ request('address') }}"
-                       placeholder="Suchen..."
-                       onchange="document.getElementById('searchForm').submit()">
-            </th>
-
-            {{-- Stadt --}}
-            <th>
-                <input form="searchForm" type="text"
-                       class="form-control form-control-sm"
-                       name="city"
-                       value="{{ request('city') }}"
                        placeholder="Suchen..."
                        onchange="document.getElementById('searchForm').submit()">
             </th>
@@ -76,61 +59,10 @@
                        onchange="document.getElementById('searchForm').submit()">
             </th>
 
-            {{-- Größe --}}
-            <th>
-                <div class="d-flex gap-1">
-                    <input form="searchForm" type="number"
-                           class="form-control form-control-sm table-filter-range"
-                           name="size_from"
-                           value="{{ request('size_from') }}"
-                           placeholder="Von"
-                           onchange="document.getElementById('searchForm').submit()">
-                    <input form="searchForm" type="number"
-                           class="form-control form-control-sm table-filter-range"
-                           name="size_to"
-                           value="{{ request('size_to') }}"
-                           placeholder="Bis"
-                           onchange="document.getElementById('searchForm').submit()">
-                </div>
-            </th>
-
-            {{-- Kaltmiete --}}
-            <th>
-                <div class="d-flex gap-1">
-                    <input form="searchForm" type="number"
-                           class="form-control form-control-sm table-filter-range"
-                           name="rent_cold_from"
-                           value="{{ request('rent_cold_from') }}"
-                           placeholder="Von"
-                           onchange="document.getElementById('searchForm').submit()">
-                    <input form="searchForm" type="number"
-                           class="form-control form-control-sm table-filter-range"
-                           name="rent_cold_to"
-                           value="{{ request('rent_cold_to') }}"
-                           placeholder="Bis"
-                           onchange="document.getElementById('searchForm').submit()">
-                </div>
-            </th>
-
-            {{-- Warmmiete --}}
-            <th>
-                <div class="d-flex gap-1">
-                    <input form="searchForm" type="number"
-                           class="form-control form-control-sm table-filter-range"
-                           name="rent_warm_from"
-                           value="{{ request('rent_warm_from') }}"
-                           placeholder="Von"
-                           onchange="document.getElementById('searchForm').submit()">
-                    <input form="searchForm" type="number"
-                           class="form-control form-control-sm table-filter-range"
-                           name="rent_warm_to"
-                           value="{{ request('rent_warm_to') }}"
-                           placeholder="Bis"
-                           onchange="document.getElementById('searchForm').submit()">
-                </div>
-            </th>
-
             {{-- Interessenten --}}
+            <th></th>
+
+            {{-- Aufgaben --}}
             <th></th>
 
             {{-- Status --}}
@@ -149,13 +81,7 @@
 
             {{-- Aktionen (Reset button) --}}
             <th class="text-center">
-                @if(request()->hasAny([
-                    'internal_number','title','address','city','rooms',
-                    'size_from','size_to',
-                    'rent_cold_from','rent_cold_to',
-                    'rent_warm_from','rent_warm_to',
-                    'status'
-                ]))
+                @if(request()->hasAny(['internal_number', 'title', 'address', 'rooms', 'status']))
                     <a href="{{ route('apartments.index') }}"
                        class="btn btn-sm btn-secondary"
                        title="Filter zurücksetzen">
@@ -169,11 +95,14 @@
         <tbody>
         @forelse($apartments as $apartment)
             <tr class="align-middle">
-                {{-- Image --}}
-                <td class="text-start" data-label="Bild">
+
+                {{-- Wohnung (Titel + Bild) --}}
+                <td class="text-start" data-label="Wohnung">
+                    <span class="fw-semibold">{{ $apartment->title }}</span>
+                    <br>
                     @if($apartment->coverImage)
                         <img src="{{ asset('storage/' . $apartment->coverImage->path) }}"
-                             class="img-thumbnail img-fluid apartment-cover-thumb"
+                             class="img-thumbnail img-fluid apartment-cover-thumb mt-1"
                              alt="{{ $apartment->title }}">
                     @else
                         <span class="text-muted small">Kein Bild</span>
@@ -185,40 +114,28 @@
                     <span class="badge bg-light text-dark border">{{ $apartment->internal_number }}</span>
                 </td>
 
-                {{-- Title --}}
-                <td class="text-start" data-label="Titel">
-                    <span class="fw-semibold">{{ $apartment->title }}</span>
-                </td>
-
-                {{-- Address --}}
+                {{-- Adresse (Straße + PLZ + Stadt) --}}
                 <td class="text-start" data-label="Adresse">
                     {{ $apartment->street_address }}<br>
-                    <small class="text-muted">{{ $apartment->postal_code }}</small>
+                    <small class="text-muted">{{ $apartment->postal_code }} {{ $apartment->city }}</small>
                 </td>
-
-                {{-- City --}}
-                <td class="text-center" data-label="Stadt">{{ $apartment->city }}</td>
 
                 {{-- Rooms --}}
                 <td class="text-center" data-label="Zimmer">{{ $apartment->rooms }}</td>
-
-                {{-- Size --}}
-                <td class="text-center" data-label="Größe">{{ number_format($apartment->size_sqm, 2) }} m²</td>
-
-                {{-- Cold Rent --}}
-                <td class="text-center" data-label="Kaltmiete">
-                    {{ number_format($apartment->rent_cold, 2) }} €
-                </td>
-
-                {{-- Warm Rent --}}
-                <td class="text-center" data-label="Warmmiete">
-                    {{ number_format($apartment->rent_warm, 2) }} €
-                </td>
 
                 {{-- Interessenten --}}
                 <td class="text-center" data-label="Interessenten">
                     @if($apartment->interested_persons_count > 0)
                         <span class="badge bg-primary">{{ $apartment->interested_persons_count }}</span>
+                    @else
+                        <span class="text-muted">0</span>
+                    @endif
+                </td>
+
+                {{-- Aufgaben --}}
+                <td class="text-center" data-label="Aufgaben">
+                    @if($apartment->tasks_count > 0)
+                        <span class="badge bg-primary">{{ $apartment->tasks_count }}</span>
                     @else
                         <span class="text-muted">0</span>
                     @endif
@@ -264,15 +181,9 @@
             </tr>
         @empty
             <tr>
-                <td colspan="12" class="text-center text-muted py-4">
+                <td colspan="8" class="text-center text-muted py-4">
                     <i class="bi bi-inbox"></i>
-                    @if(request()->hasAny([
-                        'internal_number','title','address','city','rooms',
-                        'size_from','size_to',
-                        'rent_cold_from','rent_cold_to',
-                        'rent_warm_from','rent_warm_to',
-                        'status'
-                    ]))
+                    @if(request()->hasAny(['internal_number', 'title', 'address', 'rooms', 'status']))
                         Keine Wohnungen mit diesen Filtern gefunden
                     @else
                         Keine Wohnungen gefunden

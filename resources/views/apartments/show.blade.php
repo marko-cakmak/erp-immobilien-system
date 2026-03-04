@@ -3,13 +3,17 @@
 @section('title', 'Wohnung Details')
 @section('hide-page-header', true)
 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/task/task-tabs.css') }}">
+@endpush
+
 @section('content')
 
     @include('apartments.partials.common.header', [
-        'title' => 'Wohnung Details',
-        'buttonText' => 'Bearbeiten',
-        'buttonIcon' => 'pencil',
-        'buttonUrl' => route('apartments.edit', $apartment->id),
+        'title'       => 'Wohnung Details',
+        'buttonText'  => 'Bearbeiten',
+        'buttonIcon'  => 'pencil',
+        'buttonUrl'   => route('apartments.edit', $apartment->id),
         'buttonClass' => 'btn-warning'
     ])
 
@@ -18,26 +22,8 @@
             @include('apartments.partials.common.alerts')
 
             <div class="row">
-
-                {{-- Left Column --}}
-                <div class="col-md-5">
-                    @include('apartments.partials.show.show-images', ['apartment' => $apartment])
-                    @include('apartments.partials.show.show-description', ['apartment' => $apartment])
-                </div>
-
-                {{-- Right Column --}}
-                <div class="col-md-7">
-                    @include('apartments.partials.show.show-basic-info', ['apartment' => $apartment])
-                    @include('apartments.partials.show.show-financial', ['apartment' => $apartment])
-
-                    @include('apartments.partials.interessenten-list', [
-                        'mode' => 'show',
-                        'interessenten' => $interessenten
-                    ])
-
-                    @include('apartments.partials.show.show-actions', ['apartment' => $apartment])
-                </div>
-
+                @include('apartments.partials.show.left-panel')
+                @include('apartments.partials.show.right-panel')
             </div>
         </div>
     </div>
@@ -60,4 +46,5 @@
         ];
     </script>
     <script src="{{ asset('js/apartments/image-gallery.js') }}"></script>
+    <script src="{{ asset('js/apartments/apartment-show.js') }}"></script>
 @endpush

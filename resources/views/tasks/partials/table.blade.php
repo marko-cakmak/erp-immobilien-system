@@ -7,7 +7,7 @@
             <th class="text-start">Aufgabe Type</th>
             <th class="text-start">Aufgabe Status</th>
             <th class="text-start">Wohnung</th>
-            <th class="text-start">Aufgabe Deadline</th>
+            <th class="text-start">Fällig am</th>
             <th class="text-center">Created</th>
             <th class="text-center">Aktionen</th>
         </tr>
