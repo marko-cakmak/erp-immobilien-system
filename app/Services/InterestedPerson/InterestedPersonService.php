@@ -29,6 +29,19 @@ class InterestedPersonService
         return $query->orderBy('created_at', 'desc')->get();
     }
 
+    public function searchForAjax(Request $request): array
+    {
+        $query = InterestedPerson::query();
+
+        $this->applySearchFilters($query, $request);
+
+        return $query->orderBy('last_name')
+            ->orderBy('first_name')
+            ->limit(10)
+            ->get(['id', 'first_name', 'last_name', 'email', 'phone'])
+            ->toArray();
+    }
+
     protected function applySearchFilters(Builder $query, Request $request): void
     {
         if ($request->filled('name')) {

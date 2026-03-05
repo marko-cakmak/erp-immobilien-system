@@ -82,4 +82,6 @@
         data-all-interessenten='@json($allInteressenten)'
         data-assigned-ids='@json($assignedIds)'
     ></script>
+    <script src="{{ asset('js/apartments/interessenten-search.js') }}"></script>
 @endpush
+

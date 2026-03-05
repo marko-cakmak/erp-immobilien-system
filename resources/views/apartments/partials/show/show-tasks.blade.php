@@ -46,11 +46,19 @@
                         @endif
                     </td>
                     <td class="text-center">
-                        <a href="{{ route('tasks.show', $task->id) }}"
-                           class="btn btn-sm btn-info"
-                           title="Anzeigen">
-                            <i class="bi bi-eye"></i>
-                        </a>
+                        @if($task->activeAssignee && $task->activeAssignee->user_id === auth()->id())
+                            <a href="{{ route('tasks.update', $task->id) }}"
+                               class="btn btn-sm btn-warning"
+                               title="Bearbeiten">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        @else
+                            <a href="{{ route('tasks.show', $task->id) }}"
+                               class="btn btn-sm btn-info"
+                               title="Anzeigen">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

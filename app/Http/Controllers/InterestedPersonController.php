@@ -69,4 +69,11 @@ class InterestedPersonController extends Controller
             ->route('interested-persons.index')
             ->with('success', 'Interessent erfolgreich gelöscht!');
     }
+
+    public function ajaxSearch(Request $request)
+    {
+        $results = $this->interestedPersonService->searchForAjax($request);
+
+        return response()->json($results);
+    }
 }
