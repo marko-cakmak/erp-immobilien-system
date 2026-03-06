@@ -83,5 +83,6 @@
         data-assigned-ids='@json($assignedIds)'
     ></script>
     <script src="{{ asset('js/apartments/interessenten-search.js') }}"></script>
+    <script src="{{ asset('js/apartments/apartments-edit.js') }}"></script>
 @endpush
 
