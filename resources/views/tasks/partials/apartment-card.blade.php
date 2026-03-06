@@ -5,7 +5,12 @@
         @if($task->apartment)
 
             {{-- TITLE --}}
-            <h6 class="fw-bold mb-2">{{ $task->apartment->title }}</h6>
+            <h6 class="fw-bold mb-2">
+                {{ $task->apartment->title }}
+                <span class="badge bg-{{ $task->apartment->status->color ?? 'secondary' }} ms-1">
+                    {{ $task->apartment->status->label ?? '—' }}
+                </span>
+            </h6>
 
             {{-- ADDRESS --}}
             <div class="text-muted small mb-2">

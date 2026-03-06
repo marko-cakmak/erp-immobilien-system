@@ -11,7 +11,7 @@ class TaskTypeApartmentStatusRuleSeeder extends Seeder
     {
         $besichtigungTypeId = DB::table('task_types')->where('key', 'besichtigung')->value('id');
 
-        $inProgressStatusId  = DB::table('task_statuses')->where('key', 'in_progress')->value('id');
+        $inProgressStatusId  = DB::table('task_statuses')->where('key', 'geplant')->value('id');
         $abgeschlossenStatusId = DB::table('task_statuses')->where('key', 'abgeschlossen')->value('id');
 
         $viewingApartmentStatusId  = DB::table('apartment_statuses')->where('code', 'viewing')->value('id');

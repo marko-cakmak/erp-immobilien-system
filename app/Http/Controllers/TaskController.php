@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Requests\StoreBesichtigungRequest;
 use App\Http\Requests\ChangeTaskStatusRequest;
+use App\Models\Apartment;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Services\Task\TaskService;
@@ -26,9 +27,13 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $data = $this->taskService->getFormData();
+        $data['selectedApartmentId'] = $request->input('apartment_id');
+        $data['selectedApartment'] = $request->filled('apartment_id')
+            ? Apartment::find($request->input('apartment_id'))
+            : null;
 
         return view('tasks.create', $data);
     }

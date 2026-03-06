@@ -244,4 +244,24 @@ class ApartmentService
             array_flip($this->allowedFields)
         );
     }
+
+    public function searchForAjax(Request $request): array
+    {
+        $query = Apartment::query();
+
+        if ($request->filled('q')) {
+            $term = $request->q;
+            $query->where(function ($q) use ($term) {
+                $q->where('title', 'like', "%{$term}%")
+                    ->orWhere('street_address', 'like', "%{$term}%")
+                    ->orWhere('city', 'like', "%{$term}%")
+                    ->orWhere('internal_number', 'like', "%{$term}%");
+            });
+        }
+
+        return $query->orderBy('title')
+            ->limit(10)
+            ->get(['id', 'title', 'street_address', 'city', 'postal_code'])
+            ->toArray();
+    }
 }

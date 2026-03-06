@@ -37,5 +37,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/tasks/task-show.js') }}"></script>
+    <script src="{{ asset('js/task/task-show.js') }}"></script>
 @endpush

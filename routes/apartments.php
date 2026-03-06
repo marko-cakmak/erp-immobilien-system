@@ -14,6 +14,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/apartments', [ApartmentController::class, 'store'])
         ->name('apartments.store');
 
+    Route::get('/apartments/search', [ApartmentController::class, 'ajaxSearch'])
+        ->name('apartments.search');
+
     Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])
         ->name('apartments.show');
 

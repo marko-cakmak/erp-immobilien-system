@@ -89,4 +89,11 @@ class ApartmentController extends Controller
             ->route('apartments.index')
             ->with('success', 'Wohnung erfolgreich gelöscht!');
     }
+
+    public function ajaxSearch(Request $request)
+    {
+        $results = $this->apartmentService->searchForAjax($request);
+
+        return response()->json($results);
+    }
 }
