@@ -193,25 +193,49 @@ class TaskService
         });
     }
 
-    public function storeBesichtigung(Task $task, array $data): void
+    public function storeBesichtigung(Task $task, array $data): array
     {
-        DB::transaction(function () use ($task, $data) {
+        return DB::transaction(function () use ($task, $data) {
 
-            $besichtigung = Besichtigung::updateOrCreate(
-                ['task_id' => $task->id],
-                [
-                    'besichtigung_at' => $data['besichtigung_at'] ?? null,
-                    'result_interessent_id' => $data['result_interessent_id'] ?? null,
-                    'notes' => $data['notes'] ?? null,
-                ]
-            );
+            $this->saveBesichtigung($task, $data);
 
-            $besichtigung->teilnehmer()->sync($data['interessent_ids'] ?? []);
+            $result = [
+                'newTaskStatus'      => null,
+                'newApartmentStatus' => null,
+            ];
 
             if (!empty($data['status_id'])) {
-                $newStatus = TaskStatus::findOrFail($data['status_id']);
+                $newStatus            = TaskStatus::findOrFail($data['status_id']);
+                $oldApartmentStatusId = $task->apartment?->apartment_status_id;
+
                 $this->changeStatus($task, $newStatus->key);
+
+                $result['newTaskStatus'] = $task->fresh()->status->name;
+
+                if ($task->apartment) {
+                    $newApartmentStatusId = $task->apartment->fresh()->apartment_status_id;
+
+                    if ($oldApartmentStatusId !== $newApartmentStatusId) {
+                        $result['newApartmentStatus'] = $task->apartment->fresh()->status->label;
+                    }
+                }
             }
+
+            return $result;
         });
+    }
+
+    private function saveBesichtigung(Task $task, array $data): void
+    {
+        $besichtigung = Besichtigung::updateOrCreate(
+            ['task_id' => $task->id],
+            [
+                'besichtigung_at'       => $data['besichtigung_at'] ?? null,
+                'result_interessent_id' => $data['result_interessent_id'] ?? null,
+                'notes'                 => $data['notes'] ?? null,
+            ]
+        );
+
+        $besichtigung->teilnehmer()->sync($data['interessent_ids'] ?? []);
     }
 }

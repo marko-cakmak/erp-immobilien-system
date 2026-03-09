@@ -100,7 +100,7 @@ class TaskController extends Controller
 
     public function storeBesichtigung(StoreBesichtigungRequest $request, Task $task)
     {
-        $this->taskService->storeBesichtigung(
+        $result = $this->taskService->storeBesichtigung(
             $task,
             $request->validated()
         );
@@ -108,6 +108,10 @@ class TaskController extends Controller
         return redirect()
             ->route('tasks.show', $task->id)
             ->withFragment('bearbeitung')
-            ->with('success', 'Besichtigung wurde gespeichert.');
+            ->with('success', 'Aufgabe wurde erfolgreich gespeichert'
+                . ($result['newTaskStatus'] ? ' und Status auf "' . $result['newTaskStatus'] . '" gesetzt.' : '.'))
+            ->with('info', $result['newApartmentStatus']
+                ? 'Der Wohnungsstatus wurde aufgrund der Aufgabenstatusänderung automatisch auf "' . $result['newApartmentStatus'] . '" aktualisiert.'
+                : null);
     }
 }
