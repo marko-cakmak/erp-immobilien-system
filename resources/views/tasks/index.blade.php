@@ -5,6 +5,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/task/task-table.css') }}">
 @endpush
 
 @section('content')

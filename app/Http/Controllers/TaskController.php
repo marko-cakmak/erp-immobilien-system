@@ -24,7 +24,9 @@ class TaskController extends Controller
     {
         $tasks = $this->taskService->search($request);
 
-        return view('tasks.index', compact('tasks'));
+        $statuses = TaskStatus::all();
+
+        return view('tasks.index', compact('tasks', 'statuses'));
     }
 
     public function create(Request $request)

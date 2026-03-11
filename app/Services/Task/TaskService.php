@@ -25,14 +25,51 @@ class TaskService
 
     public function search(Request $request)
     {
-        return Task::with([
+        $query = Task::with([
             'type',
             'status',
             'apartment',
             'activeAssignee.user'
-        ])
+        ]);
+
+        if ($request->filled('id')) {
+            $query->where('id', $request->id);
+        }
+
+        if ($request->filled('type')) {
+            $query->whereHas('type', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->type . '%');
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status_id', $request->status);
+        }
+
+        if ($request->filled('assignee')) {
+            $query->whereHas('activeAssignee.user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->assignee . '%');
+            });
+        }
+
+        if ($request->filled('apartment')) {
+            $query->whereHas('apartment', function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->apartment . '%');
+            });
+        }
+
+        if ($request->filled('deadline')) {
+            $query->whereDate('deadline_at', $request->deadline);
+        }
+
+        if ($request->filled('created')) {
+            $query->whereDate('created_at', $request->created);
+        }
+
+        return $query
             ->latest()
-            ->paginate(15);
+            ->paginate(15)
+            ->withQueryString();
     }
 
     public function findForShow(Task $task): Task
