@@ -1,0 +1,103 @@
+.task-section {
+    margin-bottom: 1rem;
+}
+
+.task-section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: .5rem;
+}
+
+.task-section-header h6 {
+    font-weight: 600;
+    margin: 0;
+}
+
+.task-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: .5rem;
+}
+
+.task-box {
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    padding: .75rem;
+    background: #fff;
+}
+
+.task-box-light {
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    padding: .75rem;
+    background: #f8f9fa;
+}
+
+.task-readonly-field {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: .35rem .5rem;
+    font-size: .875rem;
+}
+
+.task-description {
+    min-height: 60px;
+}
+
+.task-divider {
+    margin: 1rem 0;
+}
+
+.task-status-box {
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    padding: .75rem;
+    background: #fffbf0;
+}
+
+.task-autogrow {
+    resize: none;
+    overflow: hidden;
+    min-height: 120px;
+    transition: height 0.1s ease;
+}
+
+.repair-photo-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 90px));
+    gap: 10px;
+}
+
+.repair-photo-preview-item {
+    position: relative;
+    width: 90px;
+}
+
+.repair-photo-preview-thumb {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.repair-photo-remove {
+    margin-top: 4px;
+    width: 100%;
+    font-size: 12px;
+    border: none;
+    background: #dc3545;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 0;
+    cursor: pointer;
+}
+
+.repair-photo-remove:hover {
+    background: #bb2d3b;
+}

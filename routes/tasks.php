@@ -29,4 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tasks/{task}/besichtigung', [TaskController::class, 'storeBesichtigung'])
         ->name('tasks.besichtigung.store');
 
+    Route::post('/tasks/{task}/repair', [TaskController::class, 'storeRepair'])
+        ->name('tasks.repair.store');
+
 });

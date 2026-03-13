@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TaskType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTaskRequest extends FormRequest
@@ -14,8 +15,13 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'apartment_id' => ['required', 'exists:apartments,id'],  // Promijenjeno: nullable -> required
+            'apartment_id' => ['required', 'exists:apartments,id'],
             'type_id'      => ['required', 'exists:task_types,id'],
+            'repair_type_id' => [
+                'nullable',
+                'exists:repair_types,id',
+                'required_if:type_id,' . TaskType::where('key','reparatur')->value('id')
+            ],
             'assigned_to'  => ['required', 'exists:users,id'],
             'deadline_at'  => ['nullable', 'date', 'after:now'],
             'message'      => ['nullable', 'string', 'max:2000'],

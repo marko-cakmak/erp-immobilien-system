@@ -14,6 +14,7 @@ class Task extends Model
 
     protected $fillable = [
         'type_id',
+//        'task_type_option_id',
         'status_id',
         'apartment_id',
         'created_by',
@@ -79,6 +80,17 @@ class Task extends Model
     public function besichtigung()
     {
         return $this->hasOne(Besichtigung::class);
+    }
+
+    // --- Options
+//    public function option()
+//    {
+//        return $this->belongsTo(TaskTypeOption::class, 'task_type_option_id');
+//    }
+
+    public function repair()
+    {
+        return $this->hasOne(Repair::class);
     }
 
     /*

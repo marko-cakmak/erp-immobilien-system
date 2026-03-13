@@ -9,6 +9,7 @@ use App\Http\Requests\ChangeTaskStatusRequest;
 use App\Models\Apartment;
 use App\Models\Task;
 use App\Models\TaskStatus;
+use App\Models\RepairType;
 use App\Services\Task\TaskService;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,11 @@ class TaskController extends Controller
     public function create(Request $request)
     {
         $data = $this->taskService->getFormData();
+
+        $data['repairTypes'] = RepairType::orderBy('sort_order')->get();
+
         $data['selectedApartmentId'] = $request->input('apartment_id');
+
         $data['selectedApartment'] = $request->filled('apartment_id')
             ? Apartment::find($request->input('apartment_id'))
             : null;
@@ -115,5 +120,18 @@ class TaskController extends Controller
             ->with('info', $result['newApartmentStatus']
                 ? 'Der Wohnungsstatus wurde aufgrund der Aufgabenstatusänderung automatisch auf "' . $result['newApartmentStatus'] . '" aktualisiert.'
                 : null);
+    }
+
+    public function storeRepair(Request $request, Task $task)
+    {
+        $this->taskService->storeRepair(
+            $task,
+            $request->all()
+        );
+
+        return redirect()
+            ->route('tasks.show', $task->id)
+            ->withFragment('bearbeitung')
+            ->with('success', 'Reparatur wurde gespeichert.');
     }
 }

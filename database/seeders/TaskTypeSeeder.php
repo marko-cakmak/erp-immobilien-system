@@ -9,14 +9,31 @@ class TaskTypeSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('task_types')->insert([
+        $types = [
             [
                 'key' => 'besichtigung',
                 'name' => 'Besichtigung',
                 'description' => 'Apartment viewing workflow',
-                'created_at' => now(),
-                'updated_at' => now(),
             ],
-        ]);
+            [
+                'key' => 'reparatur',
+                'name' => 'Reparatur',
+                'description' => 'Repair or maintenance task',
+            ],
+        ];
+
+        foreach ($types as $type) {
+
+            DB::table('task_types')->updateOrInsert(
+                ['key' => $type['key']],
+                [
+                    'name' => $type['name'],
+                    'description' => $type['description'],
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+
+        }
     }
 }

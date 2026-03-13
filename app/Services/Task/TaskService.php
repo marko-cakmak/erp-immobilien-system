@@ -14,6 +14,8 @@ use App\Models\TaskTypeApartmentStatusRule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Repair;
+use App\Models\RepairImage;
 
 class TaskService
 {
@@ -83,6 +85,8 @@ class TaskService
             'assignees.user',
             'besichtigung.teilnehmer',
             'besichtigung.ergebnis',
+            'repair.type',
+            'repair.images',
         ]);
     }
 
@@ -119,6 +123,16 @@ class TaskService
             $data['created_by'] = auth()->id();
 
             $task = Task::create($data);
+
+            $task->load('type');
+
+            if ($task->type->key === 'reparatur') {
+
+                $task->repair()->create([
+                    'repair_type_id' => $data['repair_type_id'] ?? null,
+                ]);
+
+            }
 
             TaskAssignee::create([
                 'task_id' => $task->id,
@@ -274,5 +288,40 @@ class TaskService
         );
 
         $besichtigung->teilnehmer()->sync($data['interessent_ids'] ?? []);
+    }
+
+    public function storeRepair(Task $task, array $data): void
+    {
+        DB::transaction(function () use ($task, $data) {
+
+            $payload = [
+                'notes' => $data['notes'] ?? null,
+            ];
+
+            if (isset($data['repair_type_id'])) {
+                $payload['repair_type_id'] = $data['repair_type_id'];
+            }
+
+            $repair = Repair::updateOrCreate(
+                ['task_id' => $task->id],
+                $payload
+            );
+
+            if (!empty($data['photos'])) {
+
+                foreach ($data['photos'] as $photo) {
+
+                    $path = $photo->store('repairs', 'public');
+
+                    $repair->images()->create([
+                        'path' => $path,
+                        'position' => $repair->images()->count(),
+                    ]);
+
+                }
+
+            }
+
+        });
     }
 }
