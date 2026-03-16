@@ -20,8 +20,8 @@ class TaskStatusSeeder extends Seeder
             ],
 
             [
-                'key' => 'geplant',
-                'name' => 'Geplant',
+                'key' => 'in_progress',
+                'name' => 'In Bearbeitung',
                 'color' => '#fd7e14',
                 'sort_order' => 2,
                 'created_at' => now(),

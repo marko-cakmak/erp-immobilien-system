@@ -16,9 +16,9 @@
             <tr>
                 <td class="text-muted">Wohnungsstatus:</td>
                 <td>
-                    <span class="badge bg-{{ $apartment->status->color ?? 'secondary' }}">
-                        {{ $apartment->status->label }}
-                    </span>
+        <span class="badge" style="background-color: {{ $apartment->status->color ?? '#6c757d' }};">
+            {{ $apartment->status->label }}
+        </span>
                 </td>
             </tr>
             <tr>

@@ -7,7 +7,7 @@
             {{-- TITLE --}}
             <h6 class="fw-bold mb-2">
                 {{ $task->apartment->title }}
-                <span class="badge bg-{{ $task->apartment->status->color ?? 'secondary' }} ms-1">
+                <span class="badge ms-1" style="background-color: {{ $task->apartment->status->color ?? '#6c757d' }};">
                     {{ $task->apartment->status->label ?? '—' }}
                 </span>
             </h6>

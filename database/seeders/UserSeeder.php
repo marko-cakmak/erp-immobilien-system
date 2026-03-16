@@ -13,24 +13,24 @@ class UserSeeder extends Seeder
     {
         $users = [
             'geschaeftsfuehrer' => [
-                'name' => 'test_geschaeftsfuehrer',
-                'username' => 'test-gf',
-                'email' => 'test-gf@immobilien-erp.local',
+                'name' => 'Test Geschaeftsfuehrer',
+                'username' => 'gf',
+                'email' => 'gf@immobilien-erp.local',
             ],
             'koordinator' => [
-                'name' => 'test_koordinator',
-                'username' => 'test-koord',
-                'email' => 'test-koord@immobilien-erp.local',
+                'name' => 'Test Koordinator',
+                'username' => 'koord',
+                'email' => 'koord@immobilien-erp.local',
             ],
             'besichtigungsmanager' => [
-                'name' => 'test_besichtigungsmanager',
-                'username' => 'test-bm',
-                'email' => 'test-bm@immobilien-erp.local',
+                'name' => 'Test Besichtigungsmanager',
+                'username' => 'bm',
+                'email' => 'bm@immobilien-erp.local',
             ],
             'hausmeister' => [
-                'name' => 'test_hausmeister',
-                'username' => 'test-hm',
-                'email' => 'test-hm@immobilien-erp.local',
+                'name' => 'Test Hausmeister',
+                'username' => 'hm',
+                'email' => 'hm@immobilien-erp.local',
             ],
         ];
 

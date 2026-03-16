@@ -127,7 +127,7 @@
                 <div class="col-md-12 mb-3">
 
                     <label for="messageInput" class="form-label fw-semibold">
-                        Nachricht
+                        Aufgabebeschreibung
                     </label>
 
                     <textarea

@@ -34,11 +34,6 @@
     </td>
 
     <td class="text-center">
-        {{ $task->created_at->format('d.m.Y') }}
-    </td>
-
-    <td class="text-center">
-
         <div class="d-flex justify-content-center gap-1">
 
             @if($task->activeAssignee && $task->activeAssignee->user_id === auth()->id())
@@ -73,7 +68,6 @@
             @endif
 
         </div>
-
     </td>
 
 </tr>

@@ -77,10 +77,8 @@
 
     <td class="text-center" data-label="Status">
 
-<span class="badge bg-{{ $apartment->status->color ?? 'secondary' }}">
-
-{{ $apartment->status->label }}
-
+<span class="badge" style="background-color: {{ $apartment->status->color }};">
+    {{ $apartment->status->label }}
 </span>
 
     </td>

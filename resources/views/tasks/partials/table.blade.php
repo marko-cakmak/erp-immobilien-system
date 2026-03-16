@@ -11,7 +11,6 @@
                 <th class="text-start">Bearbeiter</th>
                 <th class="text-start">Wohnung</th>
                 <th class="text-start">Fällig am</th>
-                <th class="text-center">Created</th>
                 <th class="text-center">Aktionen</th>
             </tr>
 
@@ -23,7 +22,7 @@
                 @include('tasks.partials.table-row')
             @empty
                 <tr>
-                    <td colspan="8" class="text-center text-muted py-4">
+                    <td colspan="7" class="text-center text-muted py-4">
                         <i class="bi bi-inbox"></i>
                         No tasks found
                     </td>

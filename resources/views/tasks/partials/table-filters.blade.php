@@ -67,15 +67,6 @@
                onchange="document.getElementById('searchForm').submit()">
     </th>
 
-    <th>
-        <input form="searchForm"
-               type="date"
-               class="form-control form-control-sm"
-               name="created"
-               value="{{ request('created') }}"
-               onchange="document.getElementById('searchForm').submit()">
-    </th>
-
     <th class="text-center">
 
         @if(request()->hasAny(['id','type','status','assignee','apartment','deadline','created']))

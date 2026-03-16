@@ -12,6 +12,7 @@
                 </small>
             </div>
         </div>
+        <div class="task-overlay"></div>  {{-- OVO NEDOSTAJE --}}
     @endif
 
         <form method="POST"
@@ -23,9 +24,6 @@
         <div class="task-section">
 
             <div class="task-section-header">
-                <div class="task-icon bg-danger-subtle">
-                    <i class="bi bi-tools text-danger"></i>
-                </div>
                 <h6>Reparaturinformation</h6>
             </div>
 
@@ -39,7 +37,7 @@
                 </div>
 
                 <div>
-                    <label class="fw-semibold">Hinweis</label>
+                    <label class="fw-semibold">Aufgabebeschreibung</label>
                     <div class="task-readonly-field task-description">
                         {{ $task->message ?? 'Keine Beschreibung vorhanden.' }}
                     </div>

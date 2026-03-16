@@ -15,6 +15,14 @@
                 <div class="col-4 text-muted fw-semibold">Typ</div>
                 <div class="col-8">{{ $task->type->name }}</div>
             </div>
+
+            @if($task->repair?->type)
+                <div class="row mb-3">
+                    <div class="col-4 text-muted fw-semibold">Reparaturtyp</div>
+                    <div class="col-8">{{ $task->repair->type->name }}</div>
+                </div>
+            @endif
+
             <div class="row">
                 <div class="col-4 text-muted fw-semibold">Fällig am</div>
                 <div class="col-8">{{ $task->deadline_at ? $task->deadline_at->format('d.m.Y H:i') : '-' }}</div>
@@ -63,7 +71,7 @@
         {{-- HINWEIS --}}
         <div class="border rounded p-3 mb-3" style="background-color: #f5f5f5;">
             <div class="d-flex align-items-center mb-3">
-                <h6 class="fw-bold mb-0">Hinweis</h6>
+                <h6 class="fw-bold mb-0">Aufgabebeschreibung</h6>
             </div>
             <textarea name="note" class="form-control form-control-sm" rows="3">{{ $task->message }}</textarea>
         </div>
