@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRepairRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Requests\StoreBesichtigungRequest;
@@ -122,19 +123,18 @@ class TaskController extends Controller
                 : null);
     }
 
-    public function storeRepair(Request $request, Task $task)
+    public function storeRepair(StoreRepairRequest $request, Task $task)
     {
         $this->taskService->storeRepair(
             $task,
-            array_merge($request->all(), [
-                'photos'        => $request->file('photos', []),
-                'delete_photos' => $request->input('delete_photos', []),
+            array_merge($request->validated(), [
+                'photos' => $request->file('photos', []),
             ])
         );
 
         return redirect()
             ->route('tasks.show', $task->id)
             ->withFragment('bearbeitung')
-            ->with('success', 'Reparatur wurde gespeichert.');
+            ->with('success', 'Aufgabe wurde gespeichert.');
     }
 }

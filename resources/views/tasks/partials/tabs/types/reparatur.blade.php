@@ -15,7 +15,8 @@
         <div class="task-overlay"></div>  {{-- OVO NEDOSTAJE --}}
     @endif
 
-        <form method="POST"
+        <form id="repairForm"
+              method="POST"
               action="{{ route('tasks.repair.store', $task->id) }}"
               enctype="multipart/form-data">
         @csrf
@@ -146,17 +147,28 @@
 
                 <label class="fw-semibold">Status ändern</label>
 
-                <select name="status_id" class="form-select form-select-sm">
-
+                <select id="statusSelect" name="status_id" class="form-select form-select-sm">
                     <option value="">— Status wählen —</option>
 
                     @foreach($task->status->allowedTransitions as $status)
-                        <option value="{{ $status->id }}">
+                        <option value="{{ $status->id }}"
+                            {{ old('status_id') == $status->id ? 'selected' : '' }}>
                             {{ $status->name }}
                         </option>
                     @endforeach
-
                 </select>
+
+                {{-- BACKEND ERROR --}}
+                @error('status_id')
+                <small class="text-danger d-block">{{ $message }}</small>
+                @enderror
+
+                {{-- FRONTEND ERROR --}}
+                <div id="statusSelect-error"
+                     class="text-danger small mt-1 fw-semibold"
+                     style="display:none;">
+                    Bitte einen Status wählen.
+                </div>
 
             </div>
 
