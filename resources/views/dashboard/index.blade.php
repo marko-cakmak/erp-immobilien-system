@@ -14,12 +14,13 @@
     </div>
 
     <div class="row">
-        @include('dashboard.components.upcoming-viewings')
-        @include('dashboard.components.recent-tasks')
+        @include('dashboard.components.my-tasks')
     </div>
 @endsection
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="{{ asset('js/dashboard/besichtigungen-chart.js') }}"></script>
+    <script src="{{ asset('js/dashboard/wohnungsstatus-chart.js') }}"></script>
+    <script src="{{ asset('js/dashboard/aufgabenstatus-chart.js') }}"></script>
 @endpush

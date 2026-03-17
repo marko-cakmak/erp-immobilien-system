@@ -1,8 +1,7 @@
-<!--begin::Besichtigungen Chart-->
-<div class="col-md-8">
+<div class="col-md-6">
     <div class="card mb-4">
         <div class="card-header">
-            <h5 class="card-title">Besichtigungen Übersicht</h5>
+            <h5 class="card-title">Wohnungsstatus Übersicht</h5>
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                     <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -11,10 +10,18 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="chart">
-                <canvas id="besichtigungenChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+
+            <div class="d-flex justify-content-center mb-3">
+                <canvas id="wohnungsstatusChart"
+                        style="width: 180px; height: 180px;"
+                        data-labels="{{ json_encode($wohnungsstatus->pluck('label')) }}"
+                        data-counts="{{ json_encode($wohnungsstatus->pluck('count')) }}"
+                        data-colors="{{ json_encode($wohnungsstatus->pluck('color')) }}"
+                ></canvas>
             </div>
+
+            <div id="wohnungsstatusLegend" class="d-flex flex-column gap-2"></div>
+
         </div>
     </div>
 </div>
-<!--end::Besichtigungen Chart-->

@@ -78,7 +78,7 @@
     <!--end::App Main-->
 
     <!--begin::Footer-->
-    @include('partials.footer')
+{{--    @include('partials.footer')--}}
     <!--end::Footer-->
 
 </div>
