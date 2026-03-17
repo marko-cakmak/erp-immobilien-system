@@ -96,17 +96,28 @@
                 </small>
 
                 <div id="repairPhotosPreview" class="repair-photo-preview-grid mt-3">
-
                     @foreach($task->repair?->images ?? [] as $image)
-                        <div class="repair-photo-item">
+                        <div class="repair-photo-item" id="photo-{{ $image->id }}">
                             <img
                                 src="{{ asset('storage/' . $image->path) }}"
                                 class="img-fluid rounded"
                                 alt="Repair photo"
+                                style="cursor: pointer;"
+                                data-bs-toggle="modal"
+                                data-bs-target="#photoModal"
+                                data-src="{{ asset('storage/' . $image->path) }}"
                             >
+                            <div class="text-center mt-1">
+                                <button type="button"
+                                        class="btn btn-sm btn-danger repair-photo-delete w-100"
+                                        data-id="{{ $image->id }}"
+                                        style="padding: 1px 0; font-size: 0.7rem; line-height: 1.2;">
+                                    Bild entfernen
+                                </button>
+                            </div>
+                            <input type="hidden" name="delete_photos[]" class="delete-photo-input" value="{{ $image->id }}" disabled>
                         </div>
                     @endforeach
-
                 </div>
 
             </div>
@@ -158,6 +169,17 @@
         </div>
 
     </form>
+
+        {{-- LIGHTBOX MODAL --}}
+        <div class="modal fade" id="photoModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content bg-transparent border-0">
+                    <div class="modal-body p-0 text-center">
+                        <img id="photoModalImg" src="" class="img-fluid rounded" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
 
 </div>
 

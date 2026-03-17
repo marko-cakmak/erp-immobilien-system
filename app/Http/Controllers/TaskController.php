@@ -126,7 +126,10 @@ class TaskController extends Controller
     {
         $this->taskService->storeRepair(
             $task,
-            $request->all()
+            array_merge($request->all(), [
+                'photos'        => $request->file('photos', []),
+                'delete_photos' => $request->input('delete_photos', []),
+            ])
         );
 
         return redirect()

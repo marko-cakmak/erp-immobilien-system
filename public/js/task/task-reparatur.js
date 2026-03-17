@@ -5,18 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const resize = () => {
             if (!el.value) return;
-
             el.style.height = 'auto';
             el.style.height = el.scrollHeight + 'px';
         };
 
         el.addEventListener('input', resize);
-
         resize();
     });
 
 
-    // IMAGE PREVIEW + REMOVE
+    // DELETE EXISTING PHOTOS
+    document.querySelectorAll('.repair-photo-delete').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.dataset.id;
+            const item = document.getElementById('photo-' + id);
+
+            item.style.display = 'none';
+
+            item.querySelector('.delete-photo-input').disabled = false;
+        });
+    });
+
+
+    // IMAGE PREVIEW + REMOVE (new uploads)
     const input = document.getElementById('repairPhotosInput');
     const preview = document.getElementById('repairPhotosPreview');
 
@@ -25,16 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let filesArray = [];
 
     input.addEventListener('change', function () {
-
-        filesArray = Array.from(this.files);
+        const newFiles = Array.from(this.files);
+        filesArray = filesArray.concat(newFiles);
         renderPreview();
-
     });
-
 
     function renderPreview() {
 
-        preview.innerHTML = '';
+        // Ukloni samo preview nove slike (one bez id atributa)
+        preview.querySelectorAll('.repair-photo-preview-item').forEach(el => el.remove());
 
         const dataTransfer = new DataTransfer();
 
@@ -47,37 +57,40 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.onload = function (e) {
 
                 const item = document.createElement('div');
-                item.className = 'repair-photo-preview-item';
+                item.className = 'repair-photo-item repair-photo-preview-item';
 
                 const img = document.createElement('img');
-                img.className = 'repair-photo-preview-thumb';
+                img.className = 'img-fluid rounded';
                 img.src = e.target.result;
+                img.style.cursor = 'pointer';
 
                 const removeBtn = document.createElement('button');
                 removeBtn.type = 'button';
-                removeBtn.className = 'repair-photo-remove';
-                removeBtn.textContent = 'Remove';
+                removeBtn.className = 'btn btn-sm btn-danger w-100 mt-1';
+                removeBtn.style.cssText = 'padding: 1px 0; font-size: 0.7rem; line-height: 1.2;';
+                removeBtn.textContent = 'Bild entfernen';
 
                 removeBtn.addEventListener('click', () => {
-
                     filesArray.splice(index, 1);
                     renderPreview();
-
                 });
 
                 item.appendChild(img);
                 item.appendChild(removeBtn);
-
                 preview.appendChild(item);
-
             };
 
             reader.readAsDataURL(file);
-
             dataTransfer.items.add(file);
         });
 
         input.files = dataTransfer.files;
     }
+
+    // LIGHTBOX
+    document.getElementById('photoModal')?.addEventListener('show.bs.modal', function (e) {
+        const trigger = e.relatedTarget;
+        document.getElementById('photoModalImg').src = trigger.dataset.src;
+    });
 
 });

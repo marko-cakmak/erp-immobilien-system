@@ -13,9 +13,11 @@ use App\Models\TaskType;
 use App\Models\TaskTypeApartmentStatusRule;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use App\Models\Repair;
 use App\Models\RepairImage;
+use Illuminate\Support\Facades\Storage;
 
 class TaskService
 {
@@ -307,19 +309,35 @@ class TaskService
                 $payload
             );
 
-            if (!empty($data['photos'])) {
+            if (!empty($data['delete_photos'])) {
+                $imagesToDelete = RepairImage::whereIn('id', $data['delete_photos'])
+                    ->where('repair_id', $repair->id)
+                    ->get();
 
+                foreach ($imagesToDelete as $image) {
+                    Storage::disk('public')->delete($image->path);
+                    $image->delete();
+                }
+            }
+
+            if (!empty($data['photos'])) {
                 foreach ($data['photos'] as $photo) {
+                    if (!$photo instanceof UploadedFile) {
+                        continue;
+                    }
 
                     $path = $photo->store('repairs', 'public');
 
                     $repair->images()->create([
-                        'path' => $path,
+                        'path'     => $path,
                         'position' => $repair->images()->count(),
                     ]);
-
                 }
+            }
 
+            if (!empty($data['status_id'])) {
+                $newStatus = TaskStatus::findOrFail($data['status_id']);
+                $this->changeStatus($task, $newStatus->key);
             }
 
         });
