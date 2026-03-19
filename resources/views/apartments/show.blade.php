@@ -3,13 +3,9 @@
 @section('title', 'Wohnung Details')
 @section('hide-page-header', true)
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/task/task-tabs.css') }}">
-@endpush
-
 @section('content')
 
-    @include('apartments.partials.common.header', [
+    @include('partials.shared.header', [
         'title'       => 'Wohnung Details',
         'buttonText'  => 'Bearbeiten',
         'buttonIcon'  => 'pencil',
@@ -19,7 +15,7 @@
 
     <div class="app-content">
         <div class="container-fluid">
-            @include('apartments.partials.common.alerts')
+            @include('partials.shared.alerts')
 
             <div class="row">
                 @include('apartments.partials.show.left-panel')
@@ -47,4 +43,8 @@
     </script>
     <script src="{{ asset('js/apartments/image-gallery.js') }}"></script>
     <script src="{{ asset('js/apartments/apartment-show.js') }}"></script>
+@endpush
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/task/task-tabs.css') }}">
 @endpush

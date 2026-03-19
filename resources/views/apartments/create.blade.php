@@ -9,36 +9,32 @@
 
 @section('content')
 
-    @include('apartments.partials.common.header', [
-        'title' => 'Wohnung Erstellen',
-        'buttonText' => 'Abbrechen',
-        'buttonIcon' => 'x-circle',
-        'buttonUrl' => route('apartments.index'),
+    @include('partials.shared.header', [
+        'title'       => 'Wohnung Erstellen',
+        'buttonText'  => 'Abbrechen',
+        'buttonIcon'  => 'x-circle',
+        'buttonUrl'   => route('apartments.index'),
         'buttonClass' => 'btn-secondary'
     ])
 
     <div class="app-content">
         <div class="container-fluid">
-            @include('apartments.partials.common.alerts')
-            @include('apartments.partials.common.form-errors')
+            @include('partials.shared.alerts')
+            @include('partials.shared.form-errors')
 
             <form method="POST" action="{{ route('apartments.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
-
-                    {{-- LEFT COLUMN --}}
                     <div class="col-md-5">
                         @include('apartments.partials.image-upload', ['mode' => 'create'])
                         @include('apartments.partials.form.form-description')
                     </div>
 
-                    {{-- RIGHT COLUMN --}}
                     <div class="col-md-7">
                         @include('apartments.partials.form.form-basic-info', ['statuses' => $statuses])
                         @include('apartments.partials.form.form-financial')
 
-                        {{-- SUBMIT --}}
                         <div class="card mb-4">
                             <div class="card-body">
                                 <button type="submit" class="btn btn-primary btn-lg w-100">
@@ -47,7 +43,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </form>
 

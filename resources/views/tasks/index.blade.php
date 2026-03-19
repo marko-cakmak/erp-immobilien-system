@@ -1,16 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Tasks')
+@section('title', 'Aufgaben')
 @section('hide-page-header', true)
-
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/task/task-table.css') }}">
-@endpush
 
 @section('content')
 
-    @include('tasks.partials.header', [
+    @include('partials.shared.header', [
         'title'      => 'Aufgabe Management',
         'buttonText' => 'Aufgabe Erstellen',
         'buttonIcon' => 'plus-circle',
@@ -22,7 +17,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @include('tasks.partials.alerts')
+                    @include('partials.shared.alerts')
 
                     <div class="card mb-4">
                         <div class="card-header">
@@ -35,7 +30,7 @@
 
                         <div class="card-footer clearfix">
                             <div class="text-muted">
-                                Total: {{ $tasks->total() }} task(s)
+                                Gesamt: {{ $tasks->total() }} Aufgabe(n)
                             </div>
                         </div>
                     </div>
@@ -46,3 +41,8 @@
     </div>
 
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/task/task-table.css') }}">
+@endpush

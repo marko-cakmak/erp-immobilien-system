@@ -5,11 +5,11 @@
 
 @section('content')
 
-    @include('tasks.partials.header', [
-        'title' => 'Neue Aufgabe',
+    @include('partials.shared.header', [
+        'title'      => 'Neue Aufgabe',
         'buttonText' => 'Zurück',
         'buttonIcon' => 'arrow-left',
-        'buttonUrl' => route('tasks.index')
+        'buttonUrl'  => route('tasks.index')
     ])
 
     <div class="app-content">

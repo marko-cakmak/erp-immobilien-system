@@ -5,11 +5,11 @@
 
 @section('content')
 
-    @include('interested-persons.partials.header', [
-        'title' => 'Interessentenverwaltung',
+    @include('partials.shared.header', [
+        'title'      => 'Interessentenverwaltung',
         'buttonText' => 'Interessent hinzufügen',
         'buttonIcon' => 'plus-circle',
-        'buttonUrl' => route('interested-persons.create')
+        'buttonUrl'  => route('interested-persons.create')
     ])
 
     <div class="app-content">
@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @include('interested-persons.partials.alerts')
+                    @include('partials.shared.alerts')
 
                     <div class="card mb-4">
                         <div class="card-header">

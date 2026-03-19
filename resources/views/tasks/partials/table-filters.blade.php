@@ -6,6 +6,7 @@
                class="form-control form-control-sm"
                name="id"
                value="{{ request('id') }}"
+               placeholder="Suchen..."
                onchange="document.getElementById('searchForm').submit()">
     </th>
 
@@ -15,6 +16,7 @@
                class="form-control form-control-sm"
                name="type"
                value="{{ request('type') }}"
+               placeholder="Suchen..."
                onchange="document.getElementById('searchForm').submit()">
     </th>
 
@@ -27,14 +29,10 @@
             <option value="">Alle</option>
 
             @foreach($statuses as $status)
-
                 <option value="{{ $status->id }}"
                     {{ request('status') == $status->id ? 'selected' : '' }}>
-
                     {{ $status->name }}
-
                 </option>
-
             @endforeach
 
         </select>
@@ -46,6 +44,7 @@
                class="form-control form-control-sm"
                name="assignee"
                value="{{ request('assignee') }}"
+               placeholder="Suchen..."
                onchange="document.getElementById('searchForm').submit()">
     </th>
 
@@ -55,6 +54,7 @@
                class="form-control form-control-sm"
                name="apartment"
                value="{{ request('apartment') }}"
+               placeholder="Suchen..."
                onchange="document.getElementById('searchForm').submit()">
     </th>
 
@@ -68,18 +68,11 @@
     </th>
 
     <th class="text-center">
-
         @if(request()->hasAny(['id','type','status','assignee','apartment','deadline','created']))
-
-            <a href="{{ route('tasks.index') }}"
-               class="btn btn-sm btn-secondary">
-
+            <a href="{{ route('tasks.index') }}" class="btn btn-sm btn-secondary">
                 <i class="bi bi-x-circle"></i>
-
             </a>
-
         @endif
-
     </th>
 
 </tr>

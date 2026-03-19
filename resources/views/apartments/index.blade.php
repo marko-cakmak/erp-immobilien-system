@@ -5,11 +5,11 @@
 
 @section('content')
 
-    @include('apartments.partials.common.header', [
-        'title' => 'Wohnungsverwaltung',
+    @include('partials.shared.header', [
+        'title'      => 'Wohnungsverwaltung',
         'buttonText' => 'Wohnung hinzufügen',
         'buttonIcon' => 'plus-circle',
-        'buttonUrl' => '/apartments/create'
+        'buttonUrl'  => route('apartments.create')
     ])
 
     <div class="app-content">
@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @include('apartments.partials.common.alerts')
+                    @include('partials.shared.alerts')
 
                     <div class="card mb-4">
                         <div class="card-header">
@@ -41,6 +41,7 @@
     </div>
 
 @endsection
+
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
 @endpush

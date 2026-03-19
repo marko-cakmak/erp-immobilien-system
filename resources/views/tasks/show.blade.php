@@ -3,17 +3,13 @@
 @section('title', 'Aufgabe Anzeigen')
 @section('hide-page-header', true)
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/task/task-tabs.css') }}">
-@endpush
-
 @php
     $isActiveAssignee = $task->activeAssignee?->user_id === auth()->id();
 @endphp
 
 @section('content')
 
-    @include('tasks.partials.header', [
+    @include('partials.shared.header', [
         'title'       => '',
         'buttonText'  => 'Zurück',
         'buttonIcon'  => 'arrow-left',
@@ -24,7 +20,7 @@
     <div class="app-content">
         <div class="container-fluid">
 
-            @include('tasks.partials.alerts')
+            @include('partials.shared.alerts')
 
             <div class="row">
                 @include('tasks.partials.show.left-panel')
@@ -38,4 +34,8 @@
 
 @push('scripts')
     <script src="{{ asset('js/task/task-show.js') }}"></script>
+@endpush
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/task/task-tabs.css') }}">
 @endpush
