@@ -37,7 +37,7 @@ class TaskService
         ]);
 
         if (!$user->hasPermission('manage_aufgaben')) {
-            $query->whereHas('activeAssignee', fn ($q) => $q->where('user_id', $user->id));
+            $query->whereHas('assignees', fn ($q) => $q->where('user_id', $user->id));
         }
 
         if ($request->filled('id')) {
