@@ -14,7 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $verfuegbareWohnungen = Apartment::whereHas('status', fn ($q) => $q->where('code', 'free'))->count();
+        $wohnungenGesamt       = Apartment::count();
         $interessenten        = InterestedPerson::count();
         $aufgabenGesamt       = Task::count();
         $besichtigungenHeute  = Besichtigung::whereDate('besichtigung_at', today())->count();
@@ -41,7 +41,7 @@ class DashboardController extends Controller
             ->get();
 
         return view('dashboard.index', compact(
-            'verfuegbareWohnungen',
+            'wohnungenGesamt',
             'interessenten',
             'aufgabenGesamt',
             'besichtigungenHeute',

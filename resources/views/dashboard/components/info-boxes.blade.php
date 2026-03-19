@@ -7,8 +7,8 @@
                 <i class="bi bi-building"></i>
             </span>
             <div class="info-box-content">
-                <span class="info-box-text">Verfügbare Wohnungen</span>
-                <span class="info-box-number">{{ $verfuegbareWohnungen }}</span>
+                <span class="info-box-text">Wohnungen gesamt</span>
+                <span class="info-box-number">{{ $wohnungenGesamt }}</span>
             </div>
         </div>
     </div>
