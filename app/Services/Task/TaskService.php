@@ -27,7 +27,7 @@ class TaskService
     |--------------------------------------------------------------------------
     */
 
-    public function search(Request $request)
+    public function search(Request $request, User $user)
     {
         $query = Task::with([
             'type',
@@ -35,6 +35,10 @@ class TaskService
             'apartment',
             'activeAssignee.user'
         ]);
+
+        if (!$user->hasPermission('manage_aufgaben')) {
+            $query->whereHas('activeAssignee', fn ($q) => $q->where('user_id', $user->id));
+        }
 
         if ($request->filled('id')) {
             $query->where('id', $request->id);

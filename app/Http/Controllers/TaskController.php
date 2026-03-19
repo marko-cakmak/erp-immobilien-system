@@ -13,6 +13,7 @@ use App\Models\TaskStatus;
 use App\Models\RepairType;
 use App\Services\Task\TaskService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -24,7 +25,7 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        $tasks = $this->taskService->search($request);
+        $tasks = $this->taskService->search($request, Auth::user());
 
         $statuses = TaskStatus::all();
 

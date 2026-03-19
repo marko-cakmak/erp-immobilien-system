@@ -33,7 +33,6 @@
                     <li class="list-group-item py-5 text-center">
                         <i class="bi bi-check2-circle text-success" style="font-size: 2rem;"></i>
                         <div class="mt-2 fw-semibold">Keine neuen Aufgaben</div>
-                        <small class="text-muted">Ihnen wurden noch keine Aufgaben zugewiesen.</small>
                     </li>
                 @endforelse
             </ul>

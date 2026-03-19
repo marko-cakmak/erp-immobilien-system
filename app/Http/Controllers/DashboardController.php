@@ -35,6 +35,7 @@ class DashboardController extends Controller
 
         $meineAufgaben = Task::with(['type', 'status', 'apartment'])
             ->whereHas('activeAssignee', fn ($q) => $q->where('user_id', Auth::id()))
+            ->whereHas('status', fn ($q) => $q->where('name', 'Neu'))
             ->whereNull('closed_at')
             ->latest()
             ->take(5)
