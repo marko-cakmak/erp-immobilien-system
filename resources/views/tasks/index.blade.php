@@ -28,9 +28,14 @@
                             @include('tasks.partials.table', ['tasks' => $tasks])
                         </div>
 
-                        <div class="card-footer clearfix">
-                            <div class="text-muted">
-                                Gesamt: {{ $tasks->total() }} Aufgabe(n)
+                        <div class="card-footer py-3 px-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="text-muted small">
+                                    Gesamt: <span class="fw-semibold text-dark">{{ $tasks->total() }}</span> Wohnung(en)
+                                </div>
+                                <div>
+                                    @include('partials.shared.pagination', ['paginator' => $tasks])
+                                </div>
                             </div>
                         </div>
                     </div>

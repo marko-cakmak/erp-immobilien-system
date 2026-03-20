@@ -28,9 +28,14 @@
                             @include('interested-persons.partials.table', ['persons' => $persons])
                         </div>
 
-                        <div class="card-footer clearfix">
-                            <div class="text-muted">
-                                Gesamt: {{ $persons->count() }} Interessent(en)
+                        <div class="card-footer py-3 px-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="text-muted small">
+                                    Gesamt: <span class="fw-semibold text-dark">{{ $persons->total() }}</span> Interessent(en)
+                                </div>
+                                <div>
+                                    @include('partials.shared.pagination', ['paginator' => $persons])
+                                </div>
                             </div>
                         </div>
                     </div>

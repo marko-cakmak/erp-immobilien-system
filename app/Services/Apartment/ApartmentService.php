@@ -44,7 +44,7 @@ class ApartmentService
 
         $this->applySearchFilters($query, $request);
 
-        return $query->orderBy('created_at', 'desc')->get();
+        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
     }
 
     protected function applySearchFilters(Builder $query, Request $request): void

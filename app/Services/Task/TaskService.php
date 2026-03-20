@@ -74,10 +74,7 @@ class TaskService
             $query->whereDate('created_at', $request->created);
         }
 
-        return $query
-            ->latest()
-            ->paginate(15)
-            ->withQueryString();
+        return $query->latest()->paginate(10)->withQueryString();
     }
 
     public function findForShow(Task $task): Task

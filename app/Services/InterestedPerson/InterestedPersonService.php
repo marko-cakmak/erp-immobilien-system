@@ -26,7 +26,7 @@ class InterestedPersonService
 
         $this->applySearchFilters($query, $request);
 
-        return $query->orderBy('created_at', 'desc')->get();
+        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
     }
 
     public function searchForAjax(Request $request): array
