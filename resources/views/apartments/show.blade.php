@@ -10,7 +10,8 @@
         'buttonText'  => 'Bearbeiten',
         'buttonIcon'  => 'pencil',
         'buttonUrl'   => route('apartments.edit', $apartment->id),
-        'buttonClass' => 'btn-warning'
+        'buttonClass' => 'btn-warning',
+        'managePermission' => 'manage_wohnungen',
     ])
 
     <div class="app-content">

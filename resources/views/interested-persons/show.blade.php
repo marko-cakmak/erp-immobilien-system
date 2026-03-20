@@ -10,7 +10,8 @@
         'buttonText'  => 'Bearbeiten',
         'buttonIcon'  => 'pencil',
         'buttonUrl'   => route('interested-persons.edit', $person->id),
-        'buttonClass' => 'btn-warning'
+        'buttonClass' => 'btn-warning',
+        'managePermission' => 'manage_interessenten',
     ])
 
     <div class="app-content">
