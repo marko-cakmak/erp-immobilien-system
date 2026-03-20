@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedTypeKey =
             typeSelect?.selectedOptions[0]?.dataset?.key;
 
-        // Reparatur zahtijeva repair type
         if (field.el === repairTypeSelect && selectedTypeKey === 'reparatur') {
             return !!repairTypeSelect.value;
         }
