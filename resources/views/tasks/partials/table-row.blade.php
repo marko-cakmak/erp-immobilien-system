@@ -16,7 +16,7 @@
 
     <td data-label="Wohnung">
         @if($task->apartment)
-            <a href="{{ route('apartments.show', $task->apartment->id) }}" class="apartment-link">
+            <a href="{{ route('apartments.show', $task->apartment->id) }}" class="link-primary">
                 {{ $task->apartment->title }}
             </a>
         @else

@@ -46,3 +46,11 @@
     </div>
 
 @endsection
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/shared/links.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/status.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/table-responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/table-images.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/modal.css') }}">
+@endpush
