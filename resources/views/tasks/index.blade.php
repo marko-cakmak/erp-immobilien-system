@@ -10,7 +10,7 @@
         'buttonText' => 'Aufgabe Erstellen',
         'buttonIcon' => 'plus-circle',
         'buttonUrl'  => route('tasks.create'),
-        'managePermission' => 'manage_task',
+        'managePermission' => 'manage_aufgaben',
     ])
 
     <div class="app-content">
