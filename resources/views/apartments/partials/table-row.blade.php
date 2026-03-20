@@ -1,17 +1,10 @@
-<tr class="align-middle">
+<tr class="align-middle apartment-row"
+    data-status-color="{{ $apartment->status->color }}">
 
     <td class="text-start" data-label="Wohnung">
         <a href="{{ route('apartments.show', $apartment->id) }}" class="link-primary fw-semibold">
             {{ $apartment->title }}
         </a>
-        <br>
-        @if($apartment->coverImage)
-            <img src="{{ asset('storage/' . $apartment->coverImage->path) }}"
-                 class="img-thumbnail img-fluid image-cover-thumb mt-1"
-                 alt="{{ $apartment->title }}">
-        @else
-            <span class="text-muted small">Kein Bild</span>
-        @endif
     </td>
 
     <td class="text-start" data-label="Interne Nr.">

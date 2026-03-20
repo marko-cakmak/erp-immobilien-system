@@ -1,8 +1,13 @@
 <!--begin::My Tasks-->
 <div class="col-md-12">
     <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="card-title">Ihre neuen Aufgaben</h5>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+                Ihre neuen Aufgaben
+                @if($meineAufgabenGesamt > 0)
+                    <span class="badge bg-danger ms-1">{{ $meineAufgabenGesamt }}</span>
+                @endif
+            </h5>
         </div>
         <div class="card-body p-0">
 
@@ -38,9 +43,16 @@
             </ul>
 
         </div>
-        <div class="card-footer clearfix">
-            <a href="{{ route('tasks.index') }}" class="btn btn-sm btn-primary float-end">Meine Aufgaben anzeigen</a>
-        </div>
+
+        @if($meineAufgabenGesamt > 3)
+            <div class="card-footer text-center py-2">
+                <a href="{{ route('tasks.index') }}" class="text-muted small">
+                    <i class="bi bi-arrow-down-circle me-1"></i>
+                    Weitere Aufgaben anzeigen
+                </a>
+            </div>
+        @endif
+
     </div>
 </div>
 <!--end::My Tasks-->

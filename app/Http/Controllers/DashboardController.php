@@ -14,7 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $wohnungenGesamt       = Apartment::count();
+        $wohnungenGesamt      = Apartment::count();
         $interessenten        = InterestedPerson::count();
         $aufgabenGesamt       = Task::count();
         $besichtigungenHeute  = Besichtigung::whereDate('besichtigung_at', today())->count();
@@ -33,12 +33,16 @@ class DashboardController extends Controller
                 'color' => $s->color,
             ]);
 
-        $meineAufgaben = Task::with(['type', 'status', 'apartment'])
-            ->whereHas('activeAssignee', fn ($q) => $q->where('user_id', Auth::id()))
+        $meineAufgabenQuery = Task::whereHas('activeAssignee', fn ($q) => $q->where('user_id', Auth::id()))
             ->whereHas('status', fn ($q) => $q->where('name', 'Neu'))
-            ->whereNull('closed_at')
+            ->whereNull('closed_at');
+
+        $meineAufgabenGesamt = $meineAufgabenQuery->count();
+
+        $meineAufgaben = $meineAufgabenQuery
+            ->with(['type', 'status', 'apartment'])
             ->latest()
-            ->take(5)
+            ->take(3)
             ->get();
 
         return view('dashboard.index', compact(
@@ -49,6 +53,7 @@ class DashboardController extends Controller
             'wohnungsstatus',
             'aufgabenstatus',
             'meineAufgaben',
+            'meineAufgabenGesamt',
         ));
     }
 }

@@ -9,7 +9,9 @@
         'title'      => 'Wohnungsverwaltung',
         'buttonText' => 'Wohnung hinzufügen',
         'buttonIcon' => 'plus-circle',
-        'buttonUrl'  => route('apartments.create')
+        'buttonUrl'  => route('apartments.create'),
+        'managePermission' => 'manage_wohnungen',
+
     ])
 
     <div class="app-content">
@@ -53,4 +55,8 @@
     <link rel="stylesheet" href="{{ asset('css/shared/table-responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/shared/table-images.css') }}">
     <link rel="stylesheet" href="{{ asset('css/shared/modal.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/apartments/apartment-table.js') }}"></script>
 @endpush
