@@ -9,42 +9,43 @@ class TaskStatusSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('task_statuses')->insert([
+        DB::table('task_statuses')->upsert(
             [
-                'key' => 'neu',
-                'name' => 'Neu',
-                'color' => '#dc3545',
-                'sort_order' => 1,
-                'created_at' => now(),
-                'updated_at' => now(),
+                [
+                    'key'        => 'neu',
+                    'name'       => 'Neu',
+                    'color'      => '#e03050',
+                    'sort_order' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'key'        => 'in_progress',
+                    'name'       => 'In Bearbeitung',
+                    'color'      => '#f47c20',
+                    'sort_order' => 2,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'key'        => 'abgeschlossen',
+                    'name'       => 'Abgeschlossen',
+                    'color'      => '#2f7fd4',
+                    'sort_order' => 3,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'key'        => 'canceled',
+                    'name'       => 'Abgebrochen',
+                    'color'      => '#7d8a94',
+                    'sort_order' => 4,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
             ],
-
-            [
-                'key' => 'in_progress',
-                'name' => 'In Bearbeitung',
-                'color' => '#fd7e14',
-                'sort_order' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-            [
-                'key' => 'abgeschlossen',
-                'name' => 'Abgeschlossen',
-                'color' => '#0d6efd',
-                'sort_order' => 3,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-            [
-                'key' => 'canceled',
-                'name' => 'Abgebrochen',
-                'color' => '#6c757d',
-                'sort_order' => 4,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+            ['key'],
+            ['color', 'name', 'sort_order', 'updated_at']
+        );
     }
 }
