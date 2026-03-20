@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const repairTypeSelect = document.getElementById('repairTypeSelect');
 
     const fields = [
-        { el: document.getElementById('apartmentSelect'), errorId: 'apartmentSelect-error', message: 'Bitte eine Wohnung auswählen.', required: true },
+        { el: document.getElementById('apartmentId'), errorId: 'apartmentSelect-error', message: 'Bitte eine Wohnung auswählen.', required: false, validate: el => !!el.value },
         { el: typeSelect, errorId: 'typeSelect-error', message: 'Bitte einen Aufgabentyp wählen.', required: true },
         { el: repairTypeSelect, errorId: 'repairType-error', message: 'Bitte einen Reparaturtyp wählen.', required: false },
         { el: document.getElementById('assignedTo'), errorId: 'assignedTo-error', message: 'Bitte einen Bearbeiter auswählen.', required: true },
@@ -42,27 +42,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function setInvalid(field) {
-
         if (!field.el) return;
-
         field.el.classList.add('is-invalid');
         field.el.classList.remove('is-valid');
-
         const div = document.getElementById(field.errorId);
-
         if (div && !div.dataset.serverError) {
             div.textContent = field.message;
+            div.style.display = 'block';
         }
-
     }
 
     function setValid(el) {
-
         if (!el) return;
-
         el.classList.remove('is-invalid');
         el.classList.add('is-valid');
 
+        const field = fields.find(f => f.el === el);
+        if (field) {
+            const div = document.getElementById(field.errorId);
+            if (div) {
+                div.textContent = '';
+                div.style.display = 'none';
+            }
+        }
     }
 
     function validateField(field) {
@@ -129,16 +131,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         form.addEventListener('submit', function (e) {
 
-            const valid = fields.every(field => {
-
+            let valid = true;
+            fields.forEach(field => {
                 if (validateField(field)) {
                     setValid(field.el);
-                    return true;
+                } else {
+                    setInvalid(field);
+                    valid = false;
                 }
-
-                setInvalid(field);
-                return false;
-
             });
 
             if (!valid) {

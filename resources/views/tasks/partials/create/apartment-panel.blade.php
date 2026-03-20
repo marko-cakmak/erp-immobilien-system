@@ -35,6 +35,7 @@
             </div>
             <input type="hidden" name="apartment_id" id="apartmentId"
                    value="{{ old('apartment_id', $selectedApartmentId ?? '') }}">
+`            <div id="apartmentSelect-error" class="invalid-feedback"></div>
             @error('apartment_id')
             <div class="text-danger small mt-1">{{ $message }}</div>
             @enderror

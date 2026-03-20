@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         searchInput.value = '';
         resultsContainer.innerHTML = '';
         selectedBox.style.display = 'none';
+        apartmentId.dispatchEvent(new Event('change'));
     }
 
     function showSpinner(show) {
@@ -88,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedBox.style.display = 'block';
         resultsContainer.innerHTML = '';
         searchInput.value = '';
+        apartmentId.dispatchEvent(new Event('change'));
     };
 
 });
