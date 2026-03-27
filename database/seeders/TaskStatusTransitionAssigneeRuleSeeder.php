@@ -9,27 +9,107 @@ class TaskStatusTransitionAssigneeRuleSeeder extends Seeder
 {
     public function run(): void
     {
-        $rules = [
-            // Besichtigung (task_type_id = 1)
-            ['transition_id' => 1, 'task_type_id' => 1, 'activate_role_id' => 3],
-            ['transition_id' => 2, 'task_type_id' => 1, 'activate_role_id' => 2],
-            ['transition_id' => 3, 'task_type_id' => 1, 'activate_role_id' => 2],
-            ['transition_id' => 4, 'task_type_id' => 1, 'activate_role_id' => 3],
-            ['transition_id' => 5, 'task_type_id' => 1, 'activate_role_id' => 2],
-            ['transition_id' => 6, 'task_type_id' => 1, 'activate_role_id' => 2],
-            ['transition_id' => 7, 'task_type_id' => 1, 'activate_role_id' => 2],
-            ['transition_id' => 8, 'task_type_id' => 1, 'activate_role_id' => 2],
+        $assignmentRoles = DB::table('task_assignment_roles')->pluck('id', 'key');
+        $transitions = DB::table('task_status_transitions')->get();
 
-            // Reparatur (task_type_id = 2)
-            ['transition_id' => 1, 'task_type_id' => 2, 'activate_role_id' => 4],
-            ['transition_id' => 2, 'task_type_id' => 2, 'activate_role_id' => 2],
-            ['transition_id' => 3, 'task_type_id' => 2, 'activate_role_id' => 2],
-            ['transition_id' => 4, 'task_type_id' => 2, 'activate_role_id' => 4],
-            ['transition_id' => 5, 'task_type_id' => 2, 'activate_role_id' => 2],
-            ['transition_id' => 6, 'task_type_id' => 2, 'activate_role_id' => 2],
-            ['transition_id' => 7, 'task_type_id' => 2, 'activate_role_id' => 2],
-            ['transition_id' => 8, 'task_type_id' => 2, 'activate_role_id' => 2],
+        $findTransitionId = function (int $fromStatusId, int $toStatusId) use ($transitions) {
+            $transition = $transitions
+                ->first(fn ($item) => $item->from_status_id === $fromStatusId && $item->to_status_id === $toStatusId);
+
+            if (!$transition) {
+                throw new \RuntimeException("Transition {$fromStatusId} -> {$toStatusId} nije pronađen.");
+            }
+
+            return $transition->id;
+        };
+
+        $rules = [
+            // BESICHTIGUNG (task_type_id = 1)
+            [
+                'transition_id' => $findTransitionId(1, 2),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['besichtigung_bearbeiter'],
+            ],
+            [
+                'transition_id' => $findTransitionId(1, 3),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(1, 4),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(2, 2),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['besichtigung_bearbeiter'],
+            ],
+            [
+                'transition_id' => $findTransitionId(2, 3),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(2, 4),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(3, 3),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(3, 4),
+                'task_type_id' => 1,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+
+            // REPARATUR (task_type_id = 2)
+            [
+                'transition_id' => $findTransitionId(1, 2),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['reparatur_bearbeiter'],
+            ],
+            [
+                'transition_id' => $findTransitionId(1, 3),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(1, 4),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(2, 2),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['reparatur_bearbeiter'],
+            ],
+            [
+                'transition_id' => $findTransitionId(2, 3),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(2, 4),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(3, 3),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
+            [
+                'transition_id' => $findTransitionId(3, 4),
+                'task_type_id' => 2,
+                'assignment_role_id' => $assignmentRoles['creator'],
+            ],
         ];
+
+        DB::table('task_status_transition_assignee_rules')->truncate();
 
         foreach ($rules as $rule) {
             DB::table('task_status_transition_assignee_rules')->insert([

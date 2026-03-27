@@ -6,11 +6,13 @@ use App\Models\Apartment;
 use App\Models\Besichtigung;
 use App\Models\Task;
 use App\Models\TaskAssignee;
+use App\Models\TaskAssignmentRole;
 use App\Models\TaskStatus;
 use App\Models\TaskStatusTransition;
 use App\Models\TaskStatusTransitionAssigneeRule;
 use App\Models\TaskType;
 use App\Models\TaskTypeApartmentStatusRule;
+use App\Models\TaskTypeAssignmentRoleConfig;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -130,26 +132,31 @@ class TaskService
             $task->load('type');
 
             if ($task->type->key === 'reparatur') {
-
                 $task->repair()->create([
                     'repair_type_id' => $data['repair_type_id'] ?? null,
                 ]);
-
             }
 
-            TaskAssignee::create([
-                'task_id' => $task->id,
-                'user_id' => auth()->id(),
-                'is_active' => false,
-            ]);
+            $assignmentRoles = TaskTypeAssignmentRoleConfig::where('task_type_id', $task->type_id)
+                ->with('assignmentRole')
+                ->get();
 
-            TaskAssignee::create([
-                'task_id' => $task->id,
-                'user_id' => $data['assigned_to'],
-                'is_active' => true,
-            ]);
+            if ($assignmentRoles->isEmpty()) {
+                abort(422, "No assignment roles configured for task type: {$task->type->name}");
+            }
 
-            return $task;
+            foreach ($assignmentRoles as $config) {
+                TaskAssignee::create([
+                    'task_id' => $task->id,
+                    'user_id' => $config->is_active_on_creation
+                        ? $data['assigned_to']
+                        : auth()->id(),
+                    'assignment_role_id' => $config->assignment_role_id,
+                    'is_active' => $config->is_active_on_creation,
+                ]);
+            }
+
+            return $task->fresh();
         });
     }
 
@@ -162,17 +169,34 @@ class TaskService
                 'message' => $data['note'] ?? $task->message,
             ]);
 
-            if ($task->activeAssignee?->user_id != $data['user_id']) {
+            if (!empty($data['user_id'])) {
 
-                $existingAssignee = $task->assignees()
-                    ->where('user_id', $data['user_id'])
-                    ->first();
+                $currentAssignee = $task->activeAssignee;
 
-                if ($existingAssignee) {
-                    $task->activeAssignee->update(['is_active' => false]);
-                    $existingAssignee->update(['is_active' => true]);
-                } else {
-                    $task->activeAssignee->update(['user_id' => $data['user_id']]);
+                if (!$currentAssignee || $currentAssignee->user_id != $data['user_id']) {
+
+                    if ($currentAssignee) {
+                        $currentAssignee->update(['is_active' => false]);
+                    }
+
+                    $assignedRoleKey = $data['assigned_role_key'] ?? null;
+
+                    if (!$assignedRoleKey) {
+                        abort(422, 'You must provide an assignment role.');
+                    }
+
+                    $assignedRoleId = TaskAssignmentRole::where('key', $assignedRoleKey)->value('id');
+
+                    if (!$assignedRoleId) {
+                        abort(422, 'Assignment role is not valid.');
+                    }
+
+                    TaskAssignee::create([
+                        'task_id' => $task->id,
+                        'user_id' => $data['user_id'],
+                        'assignment_role_id' => $assignedRoleId,
+                        'is_active' => true,
+                    ]);
                 }
             }
 
@@ -202,7 +226,7 @@ class TaskService
             ->first();
 
         if (!$transition) {
-            abort(422, 'Statuswechsel nicht erlaubt.');
+            abort(422, 'Status transition is not allowed.');
         }
 
         return DB::transaction(function () use ($task, $newStatus, $transition) {
@@ -218,14 +242,14 @@ class TaskService
                 ->where('task_type_id', $task->type_id)
                 ->first();
 
-            if ($rule) {
+            if ($rule && $rule->assignment_role_id) {
+
                 $newActiveAssignee = $task->assignees()
-                    ->whereHas('user.role', function ($q) use ($rule) {
-                        $q->where('roles.id', $rule->activate_role_id);
-                    })
+                    ->where('assignment_role_id', $rule->assignment_role_id)
                     ->first();
 
                 if ($newActiveAssignee) {
+
                     if ($task->activeAssignee->id !== $newActiveAssignee->id) {
                         $task->activeAssignee->update(['is_active' => false]);
                         $newActiveAssignee->update(['is_active' => true]);

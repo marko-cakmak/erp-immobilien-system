@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TaskAssignmentRole;
 
 class TaskStatusTransitionAssigneeRule extends Model
 {
     protected $fillable = [
         'transition_id',
         'task_type_id',
-        'activate_role_id',
+        'assignment_role_id',
     ];
 
     public function transition()
@@ -22,8 +23,8 @@ class TaskStatusTransitionAssigneeRule extends Model
         return $this->belongsTo(TaskType::class, 'task_type_id');
     }
 
-    public function activateRole()
+    public function assignmentRole()
     {
-        return $this->belongsTo(Role::class, 'activate_role_id');
+        return $this->belongsTo(TaskAssignmentRole::class, 'assignment_role_id');
     }
 }
