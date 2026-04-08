@@ -11,6 +11,7 @@ use App\Models\Apartment;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\RepairType;
+use App\Models\TaskType;
 use App\Services\Task\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,8 +60,11 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         $task = $this->taskService->findForShow($task);
+
         $users = $this->taskService->getAssignableUsers();
         $statuses = TaskStatus::orderBy('sort_order')->get();
+        $repairTypes = RepairType::all();
+
         $interessenten = $task->apartment?->interestedPersons ?? collect();
         $allowedTransitions = $task->status->allowedTransitions;
 
@@ -68,8 +72,8 @@ class TaskController extends Controller
             'task',
             'users',
             'statuses',
+            'repairTypes',
             'interessenten',
-            'allowedTransitions'
         ));
     }
 

@@ -14,6 +14,7 @@ use App\Models\TaskType;
 use App\Models\TaskTypeApartmentStatusRule;
 use App\Models\TaskTypeAssignmentRoleConfig;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -165,39 +166,44 @@ class TaskService
         return DB::transaction(function () use ($task, $data) {
 
             $task->update([
-                'status_id' => $data['status_id'],
-                'message' => $data['note'] ?? $task->message,
+                'status_id'   => $data['status_id'],
+                'message'     => $data['note'] ?? $task->message,
+                'deadline_at' => !empty($data['deadline_at'])
+                    ? Carbon::parse($data['deadline_at'])
+                    : null,
             ]);
 
             if (!empty($data['user_id'])) {
 
                 $currentAssignee = $task->activeAssignee;
 
-                if (!$currentAssignee || $currentAssignee->user_id != $data['user_id']) {
-
+                if ($currentAssignee && $currentAssignee->user_id == $data['user_id']) {
+                } else {
                     if ($currentAssignee) {
                         $currentAssignee->update(['is_active' => false]);
                     }
 
-                    $assignedRoleKey = $data['assigned_role_key'] ?? null;
-
-                    if (!$assignedRoleKey) {
-                        abort(422, 'You must provide an assignment role.');
-                    }
-
-                    $assignedRoleId = TaskAssignmentRole::where('key', $assignedRoleKey)->value('id');
+                    $assignedRoleId = $currentAssignee?->assignment_role_id;
 
                     if (!$assignedRoleId) {
-                        abort(422, 'Assignment role is not valid.');
+                        abort(422, 'Assignment role missing.');
                     }
 
                     TaskAssignee::create([
-                        'task_id' => $task->id,
-                        'user_id' => $data['user_id'],
+                        'task_id'            => $task->id,
+                        'user_id'            => $data['user_id'],
                         'assignment_role_id' => $assignedRoleId,
-                        'is_active' => true,
+                        'is_active'          => true,
                     ]);
                 }
+            }
+
+            if (isset($data['repair_type_id'])) {
+
+                $task->repair()->updateOrCreate(
+                    ['task_id' => $task->id],
+                    ['repair_type_id' => $data['repair_type_id']]
+                );
             }
 
             return $task->fresh();

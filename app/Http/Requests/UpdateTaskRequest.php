@@ -14,9 +14,11 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status_id' => ['required', 'exists:task_statuses,id'],
-            'user_id'   => ['required', 'exists:users,id'],
-            'note'      => ['nullable', 'string'],
+            'status_id'      => ['required', 'exists:task_statuses,id'],
+            'user_id'        => ['required', 'exists:users,id'],
+            'note'           => ['nullable', 'string'],
+            'repair_type_id' => ['nullable', 'exists:repair_types,id'],
+            'deadline_at'    => ['nullable', 'date'],
         ];
     }
 }
