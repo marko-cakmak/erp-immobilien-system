@@ -12,6 +12,7 @@ use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\RepairType;
 use App\Models\TaskType;
+use App\Models\TaskTypeAssignmentRoleConfig;
 use App\Services\Task\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,7 +67,13 @@ class TaskController extends Controller
         $repairTypes = RepairType::all();
 
         $interessenten = $task->apartment?->interestedPersons ?? collect();
-        $allowedTransitions = $task->status->allowedTransitions;
+
+        $processingRoleId = TaskTypeAssignmentRoleConfig::where('task_type_id', $task->type_id)
+            ->where('is_active_on_creation', true)
+            ->value('assignment_role_id');
+
+        $processingAssignee = $task->assignees
+            ->firstWhere('assignment_role_id', $processingRoleId);
 
         return view('tasks.show', compact(
             'task',
@@ -74,6 +81,7 @@ class TaskController extends Controller
             'statuses',
             'repairTypes',
             'interessenten',
+            'processingAssignee'
         ));
     }
 

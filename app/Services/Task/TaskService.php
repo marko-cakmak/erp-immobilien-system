@@ -175,25 +175,36 @@ class TaskService
 
             if (!empty($data['user_id'])) {
 
-                $currentAssignee = $task->activeAssignee;
+                $roleId = TaskTypeAssignmentRoleConfig::where('task_type_id', $task->type_id)
+                    ->where('is_active_on_creation', true)
+                    ->value('assignment_role_id');
 
-                if ($currentAssignee && $currentAssignee->user_id == $data['user_id']) {
-                } else {
-                    if ($currentAssignee) {
-                        $currentAssignee->update(['is_active' => false]);
+                if (!$roleId) {
+                    abort(422, 'Assignment role not configured for this task type.');
+                }
+
+                $assignee = $task->assignees()
+                    ->where('assignment_role_id', $roleId)
+                    ->first();
+
+                if (!$assignee) {
+                    abort(422, 'Assignee for this role not found.');
+                }
+
+                if ($assignee->user_id != $data['user_id']) {
+
+                    $task->assignees()->update(['is_active' => false]);
+
+                    $assignee = $task->assignees()
+                        ->where('assignment_role_id', $roleId)
+                        ->first();
+
+                    if (!$assignee) {
+                        abort(422, 'Assignee not found after reset.');
                     }
-
-                    $assignedRoleId = $currentAssignee?->assignment_role_id;
-
-                    if (!$assignedRoleId) {
-                        abort(422, 'Assignment role missing.');
-                    }
-
-                    TaskAssignee::create([
-                        'task_id'            => $task->id,
-                        'user_id'            => $data['user_id'],
-                        'assignment_role_id' => $assignedRoleId,
-                        'is_active'          => true,
+                    $assignee->update([
+                        'user_id' => $data['user_id'],
+                        'is_active' => true,
                     ]);
                 }
             }

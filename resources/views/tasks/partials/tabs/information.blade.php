@@ -73,7 +73,7 @@
                     <select name="user_id" class="form-select form-select-sm">
                         @foreach($users as $user)
                             <option value="{{ $user->id }}"
-                                {{ $task->activeAssignee?->user_id == $user->id ? 'selected' : '' }}>
+                                {{ $processingAssignee?->user_id == $user->id ? 'selected' : '' }}>
                                 {{ $user->name }}
                             </option>
                         @endforeach
