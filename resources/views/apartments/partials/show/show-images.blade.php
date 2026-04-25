@@ -19,12 +19,12 @@
             @php $imageIndex = 1; @endphp
             @foreach($apartment->images as $image)
             @if(!$image->is_cover)
-            <div class="col-4">
-                <img src="{{ asset('storage/' . $image->path) }}"
-                     class="img-thumbnail apartment-gallery-thumb"
-                     alt="Apartment image"
-                     onclick="openImageModal({{ $imageIndex }})">
-            </div>
+                    <div class="col-4">
+                        <img src="{{ asset('storage/' . $image->path) }}"
+                             class="img-thumbnail image-gallery-thumb"
+                             alt="Apartment image"
+                             onclick="openImageModal({{ $imageIndex }})">
+                    </div>
             @php $imageIndex++; @endphp
             @endif
             @endforeach

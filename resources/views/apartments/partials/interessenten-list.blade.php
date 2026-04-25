@@ -57,15 +57,30 @@
                     Interessenten hinzufügen:
                 </h6>
 
-                <div class="search-box mb-3">
-                    <i class="bi bi-search search-icon"></i>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">
+                        <i class="bi bi-search"></i>
+                    </span>
                     <input type="text"
-                           class="form-control search-input"
+                           class="form-control"
                            id="searchInput"
                            placeholder="Nach Namen suchen...">
+                    <button type="button"
+                            class="btn btn-primary"
+                            id="searchBtn"
+                            data-url="{{ route('interested-persons.search') }}">
+                        <i class="bi bi-search"></i> Suchen
+                    </button>
+                </div>
+
+                <div id="searchSpinner" class="text-center py-2" style="display: none;">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                        <span class="visually-hidden">Laden...</span>
+                    </div>
                 </div>
 
                 <div id="availableList"></div>
+
                 <div id="noResults" class="alert alert-warning" style="display: none;">
                     <i class="bi bi-search"></i>
                     Keine Ergebnisse gefunden.

@@ -1,85 +1,71 @@
-<tr class="align-middle">
-    {{-- Image --}}
-    <td class="text-start">
-        @if($apartment->coverImage)
-            <img src="{{ asset('storage/' . $apartment->coverImage->path) }}"
-                 class="img-thumbnail img-fluid apartment-cover-thumb"
-                 alt="{{ $apartment->title }}">
-        @else
-            <span class="text-muted small">Kein Bild</span>
-        @endif
+<tr class="align-middle apartment-row"
+    data-status-color="{{ $apartment->status->color }}">
+
+    <td class="text-start" data-label="Wohnung">
+        <a href="{{ route('apartments.show', $apartment->id) }}" class="link-primary fw-semibold">
+            {{ $apartment->title }}
+        </a>
     </td>
 
-    {{-- Internal Number --}}
-    <td class="text-start">
-        <span class="badge bg-light text-dark border">{{ $apartment->internal_number }}</span>
+    <td class="text-start" data-label="Interne Nr.">
+        <span class="badge bg-light text-dark border">
+            {{ $apartment->internal_number }}
+        </span>
     </td>
 
-    {{-- Title --}}
-    <td class="text-start">
-        <span class="fw-semibold">{{ $apartment->title }}</span>
+    <td class="text-start" data-label="Adresse">
+        {{ $apartment->street_address }}
+        <br>
+        <small class="text-muted">{{ $apartment->postal_code }} {{ $apartment->city }}</small>
     </td>
 
-    {{-- Address --}}
-    <td class="text-start">
-        {{ $apartment->street_address }}<br>
-        <small class="text-muted">{{ $apartment->postal_code }}</small>
+    <td class="text-center" data-label="Zimmer">
+        {{ $apartment->rooms }}
     </td>
 
-    {{-- City --}}
-    <td class="text-center">{{ $apartment->city }}</td>
-
-    {{-- Rooms --}}
-    <td class="text-center">{{ $apartment->rooms }}</td>
-
-    {{-- Size --}}
-    <td class="text-center">{{ number_format($apartment->size_sqm, 2) }}</td>
-
-    {{-- Cold Rent --}}
-    <td class="text-center">
-        {{ number_format($apartment->rent_cold, 2) }} €
+    <td class="text-center" data-label="Interessenten">
+        <span class="badge bg-primary-subtle text-dark">
+            {{ $apartment->interested_persons_count ?? 0 }}
+        </span>
     </td>
 
-    {{-- Warm Rent --}}
-    <td class="text-center">
-        {{ number_format($apartment->rent_warm, 2) }} €
+    <td class="text-center" data-label="Aufgaben">
+        <span class="badge bg-primary-subtle text-dark">
+            {{ $apartment->tasks_count ?? 0 }}
+        </span>
     </td>
 
-    {{-- Status --}}
-    <td class="text-center">
-        <span class="badge bg-{{ $apartment->status->color ?? 'secondary' }}">
+    <td class="text-center" data-label="Status">
+        <span class="badge" style="background-color: {{ $apartment->status->color }};">
             {{ $apartment->status->label }}
         </span>
     </td>
 
-    {{-- Actions --}}
-    <td class="text-center">
+    <td class="text-center" data-label="Aktionen">
         <div class="d-flex justify-content-center gap-1">
-            <a href="{{ route('apartments.show', $apartment->id) }}"
-               class="btn btn-sm btn-info"
-               title="Anzeigen">
+
+            <a href="{{ route('apartments.show', $apartment->id) }}" class="btn btn-sm btn-info">
                 <i class="bi bi-eye"></i>
             </a>
 
-            <a href="{{ route('apartments.edit', $apartment->id) }}"
-               class="btn btn-sm btn-warning"
-               title="Bearbeiten">
-                <i class="bi bi-pencil"></i>
-            </a>
+            @if(auth()->user()->hasPermission('manage_wohnungen'))
+                <a href="{{ route('apartments.edit', $apartment->id) }}" class="btn btn-sm btn-warning">
+                    <i class="bi bi-pencil"></i>
+                </a>
 
-            <form method="POST"
-                  action="{{ route('apartments.destroy', $apartment->id) }}"
-                  onsubmit="return confirm('Sind Sie sicher, dass Sie diese Wohnung löschen möchten?')"
-                  class="d-inline">
-                @csrf
-                @method('DELETE')
+                <form method="POST"
+                      action="{{ route('apartments.destroy', $apartment->id) }}"
+                      onsubmit="return confirm('Sind Sie sicher, dass Sie diese Wohnung löschen möchten?')"
+                      class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            @endif
 
-                <button type="submit"
-                        class="btn btn-sm btn-danger"
-                        title="Löschen">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </form>
         </div>
     </td>
+
 </tr>

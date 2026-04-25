@@ -5,11 +5,13 @@
 
 @section('content')
 
-    @include('apartments.partials.common.header', [
-        'title' => 'Wohnungsverwaltung',
+    @include('partials.shared.header', [
+        'title'      => 'Wohnungsverwaltung',
         'buttonText' => 'Wohnung hinzufügen',
         'buttonIcon' => 'plus-circle',
-        'buttonUrl' => '/apartments/create'
+        'buttonUrl'  => route('apartments.create'),
+        'managePermission' => 'manage_wohnungen',
+
     ])
 
     <div class="app-content">
@@ -17,7 +19,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @include('apartments.partials.common.alerts')
+                    @include('partials.shared.alerts')
 
                     <div class="card mb-4">
                         <div class="card-header">
@@ -28,9 +30,14 @@
                             @include('apartments.partials.table', ['apartments' => $apartments])
                         </div>
 
-                        <div class="card-footer clearfix">
-                            <div class="text-muted">
-                                Gesamt: {{ $apartments->count() }} Wohnung(en)
+                        <div class="card-footer py-3 px-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="text-muted small">
+                                    Gesamt: <span class="fw-semibold text-dark">{{ $apartments->total() }}</span> Wohnung(en)
+                                </div>
+                                <div>
+                                    @include('partials.shared.pagination', ['paginator' => $apartments])
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -41,6 +48,15 @@
     </div>
 
 @endsection
+
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/apartments/apartments-index-table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/links.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/status.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/table-responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/table-images.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shared/modal.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('js/apartments/apartment-table.js') }}"></script>
 @endpush

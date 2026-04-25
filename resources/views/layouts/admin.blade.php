@@ -32,6 +32,9 @@
           integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
     <!--end::ApexCharts-->
 
+    <!-- pagination for tables -->
+    <link rel="stylesheet" href="{{ asset('css/shared/pagination.css') }}">
+
     @stack('styles')
 </head>
 
@@ -78,7 +81,7 @@
     <!--end::App Main-->
 
     <!--begin::Footer-->
-    @include('partials.footer')
+{{--    @include('partials.footer')--}}
     <!--end::Footer-->
 
 </div>

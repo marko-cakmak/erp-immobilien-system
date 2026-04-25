@@ -1,0 +1,18 @@
+/* =========================
+   STATUS
+========================= */
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.status-dot--active {
+    background-color: #28a745;
+}
+
+.status-dot--inactive {
+    background-color: #adb5bd;
+}

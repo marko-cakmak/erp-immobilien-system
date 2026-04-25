@@ -1,42 +1,29 @@
-<!--begin::Status Cards-->
-<div class="col-md-4">
+<!--begin::Aufgabenstatus Chart-->
+<div class="col-md-6">
     <div class="card mb-4">
         <div class="card-header">
-            <h5 class="card-title">Status Übersicht</h5>
+            <h5 class="card-title">Aufgabenstatus Übersicht</h5>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                </button>
+            </div>
         </div>
         <div class="card-body">
-            <div class="progress-group">
-                <span class="progress-text">Wohnungen vermietet</span>
-                <span class="progress-number"><b>75</b>/100</span>
-                <div class="progress progress-sm">
-                    <div class="progress-bar bg-success" style="width: 75%"></div>
-                </div>
+
+            <div class="d-flex justify-content-center mb-3">
+                <canvas id="aufgabenstatusChart"
+                        style="width: 180px; height: 180px;"
+                        data-labels="{{ json_encode($aufgabenstatus->pluck('name')) }}"
+                        data-counts="{{ json_encode($aufgabenstatus->pluck('count')) }}"
+                        data-colors="{{ json_encode($aufgabenstatus->pluck('color')) }}"
+                ></canvas>
             </div>
 
-            <div class="progress-group">
-                <span class="progress-text">Besichtigungen geplant</span>
-                <span class="progress-number"><b>24</b>/30</span>
-                <div class="progress progress-sm">
-                    <div class="progress-bar bg-warning" style="width: 80%"></div>
-                </div>
-            </div>
+            <div id="aufgabenstatusLegend" class="d-flex flex-column gap-2"></div>
 
-            <div class="progress-group">
-                <span class="progress-text">Verträge auslaufend</span>
-                <span class="progress-number"><b>5</b>/45</span>
-                <div class="progress progress-sm">
-                    <div class="progress-bar bg-danger" style="width: 11%"></div>
-                </div>
-            </div>
-
-            <div class="progress-group">
-                <span class="progress-text">Offene Aufgaben</span>
-                <span class="progress-number"><b>12</b>/20</span>
-                <div class="progress progress-sm">
-                    <div class="progress-bar bg-info" style="width: 60%"></div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-<!--end::Status Cards-->
+<!--end::Aufgabenstatus Chart-->

@@ -19,7 +19,7 @@ class ApartmentController extends Controller
     public function index(Request $request)
     {
         $apartments = $this->apartmentService->search($request);
-        $statuses = ApartmentStatus::all();
+        $statuses   = ApartmentStatus::all();
 
         return view('apartments.index', compact('apartments', 'statuses'));
     }
@@ -30,8 +30,9 @@ class ApartmentController extends Controller
         $apartment->load('interestedPersons');
 
         return view('apartments.show', [
-            'apartment' => $apartment,
+            'apartment'    => $apartment,
             'interessenten' => $apartment->interestedPersons,
+            'tasks'        => $apartment->tasks,
         ]);
     }
 
@@ -45,16 +46,16 @@ class ApartmentController extends Controller
     public function edit(Apartment $apartment)
     {
         $apartment->load(['status', 'images', 'coverImage', 'interestedPersons']);
-        $statuses = ApartmentStatus::all();
+        $statuses         = ApartmentStatus::all();
         $allInteressenten = $this->interestedPersonService->getActive();
-        $assignedIds = $apartment->interestedPersons->pluck('id')->toArray();
+        $assignedIds      = $apartment->interestedPersons->pluck('id')->toArray();
 
         return view('apartments.edit', compact('apartment', 'statuses', 'allInteressenten', 'assignedIds'));
     }
 
     public function store(ApartmentRequest $request)
     {
-        $validated = $request->validated();
+        $validated             = $request->validated();
         $validated['is_active'] = $request->has('is_active');
 
         $apartment = $this->apartmentService->create($validated);
@@ -68,7 +69,7 @@ class ApartmentController extends Controller
 
     public function update(ApartmentRequest $request, Apartment $apartment)
     {
-        $validated = $request->validated();
+        $validated             = $request->validated();
         $validated['is_active'] = $request->has('is_active');
 
         $this->apartmentService->update($apartment, $validated, $request);
@@ -87,5 +88,12 @@ class ApartmentController extends Controller
         return redirect()
             ->route('apartments.index')
             ->with('success', 'Wohnung erfolgreich gelöscht!');
+    }
+
+    public function ajaxSearch(Request $request)
+    {
+        $results = $this->apartmentService->searchForAjax($request);
+
+        return response()->json($results);
     }
 }

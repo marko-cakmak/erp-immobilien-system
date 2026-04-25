@@ -4,6 +4,7 @@
     </div>
     <div class="card-body">
         <textarea class="form-control @error('notes') is-invalid @enderror"
+                  id="notesTextarea"
                   name="notes"
                   rows="6">{{ old('notes', $apartment->notes ?? '') }}
         </textarea>

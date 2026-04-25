@@ -4,7 +4,7 @@
     </div>
     <div class="card-body">
         @if($apartment->notes)
-            <p>{{ $apartment->notes }}</p>
+            <p>{!! nl2br(e($apartment->notes)) !!}</p>
         @else
             <p class="text-muted">Keine Beschreibung vorhanden</p>
         @endif

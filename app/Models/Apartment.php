@@ -25,46 +25,38 @@ class Apartment extends Model
         'is_active',
     ];
 
-    /**
-     * Apartment status
-     */
     public function status()
     {
         return $this->belongsTo(ApartmentStatus::class, 'apartment_status_id');
     }
 
-    /**
-     * Apartment images
-     */
     public function images()
     {
         return $this->hasMany(ApartmentImage::class)
             ->orderBy('position');
     }
 
-    /**
-     * Cover image
-     */
     public function coverImage()
     {
         return $this->hasOne(ApartmentImage::class)
             ->where('is_cover', true);
     }
 
-    /**
-     * Interested persons for this apartment
-     */
     public function interestedPersons()
     {
         return $this->belongsToMany(InterestedPerson::class, 'apartment_interests')
             ->withTimestamps();
     }
 
-    /**
-     * Interest records
-     */
     public function interests()
     {
         return $this->hasMany(ApartmentInterest::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class)
+            ->with(['type', 'status', 'activeAssignee.user'])
+            ->latest();
     }
 }

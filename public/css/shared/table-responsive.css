@@ -1,0 +1,72 @@
+/* =========================
+   TABLE BASICS
+========================= */
+
+.table-responsive {
+    overflow-x: auto;
+    overflow-y: visible;
+}
+
+/* Sticky header */
+.table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #fff;
+}
+
+.table thead tr.table-light {
+    position: sticky;
+    top: 40px;
+    z-index: 9;
+}
+
+/* Filters */
+.table-filter-range {
+    width: 60px;
+    flex: 0 0 auto;
+}
+
+.table thead tr.table-light input.table-filter-range {
+    min-width: 60px;
+    width: 60px;
+}
+
+/* Inherit row background color */
+tbody tr td {
+    background-color: inherit !important;
+}
+
+
+/* =========================
+   SMALL SCREEN TWEAKS
+========================= */
+
+@media (max-width: 991px) {
+    .table-responsive {
+        overflow-x: visible;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        background: #fff;
+    }
+
+    .table tbody td {
+        display: block;
+        text-align: right;
+    }
+
+    .table tbody td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+    }
+}

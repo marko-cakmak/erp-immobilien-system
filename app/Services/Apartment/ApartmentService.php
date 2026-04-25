@@ -40,11 +40,11 @@ class ApartmentService
     public function search(Request $request)
     {
         $query = Apartment::with(['coverImage', 'status'])
-            ->withCount('interestedPersons');
+            ->withCount(['interestedPersons', 'tasks']);
 
         $this->applySearchFilters($query, $request);
 
-        return $query->orderBy('created_at', 'desc')->get();
+        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
     }
 
     protected function applySearchFilters(Builder $query, Request $request): void
@@ -58,11 +58,16 @@ class ApartmentService
         }
 
         if ($request->filled('address')) {
-            $query->where('street_address', 'like', '%' . $request->address . '%');
-        }
-
-        if ($request->filled('city')) {
-            $query->where('city', 'like', '%' . $request->city . '%');
+            $terms = explode(' ', trim($request->address));
+            $query->where(function ($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $q->where(function ($inner) use ($term) {
+                        $inner->where('street_address', 'like', '%' . $term . '%')
+                            ->orWhere('city', 'like', '%' . $term . '%')
+                            ->orWhere('postal_code', 'like', '%' . $term . '%');
+                    });
+                }
+            });
         }
 
         if ($request->filled('rooms')) {
@@ -238,5 +243,25 @@ class ApartmentService
             $data,
             array_flip($this->allowedFields)
         );
+    }
+
+    public function searchForAjax(Request $request): array
+    {
+        $query = Apartment::query();
+
+        if ($request->filled('q')) {
+            $term = $request->q;
+            $query->where(function ($q) use ($term) {
+                $q->where('title', 'like', "%{$term}%")
+                    ->orWhere('street_address', 'like', "%{$term}%")
+                    ->orWhere('city', 'like', "%{$term}%")
+                    ->orWhere('internal_number', 'like', "%{$term}%");
+            });
+        }
+
+        return $query->orderBy('title')
+            ->limit(10)
+            ->get(['id', 'title', 'street_address', 'city', 'postal_code'])
+            ->toArray();
     }
 }

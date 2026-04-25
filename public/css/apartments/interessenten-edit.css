@@ -51,3 +51,8 @@
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
+
+#searchInput:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+}

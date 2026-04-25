@@ -45,22 +45,13 @@
                     </li>
                 @endif
 
-                <!-- Aufgaben -->
-                @if(
-                    auth()->check() &&
-                    (
-                        auth()->user()->hasPermission('manage_aufgaben') ||
-                        auth()->user()->hasPermission('manage_own_aufgaben')
-                    )
-                )
+                <!-- Tasks -->
+                @if(auth()->check())
                     <li class="nav-item">
-                        <a href="#"
-                           class="nav-link">
+                        <a href="{{ route('tasks.index') }}"
+                           class="nav-link {{ request()->routeIs('tasks.*') ? 'active' : '' }}">
                             <i class="nav-icon bi bi-check2-square"></i>
-                            <p>
-                                Aufgaben
-                                <span class="nav-badge badge text-bg-danger me-3">5</span>
-                            </p>
+                            <p>Aufgaben</p>
                         </a>
                     </li>
                 @endif

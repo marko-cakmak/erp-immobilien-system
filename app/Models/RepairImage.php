@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class RepairImage extends Model
+{
+    protected $fillable = [
+        'repair_id',
+        'path',
+        'position',
+        'is_cover',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
+    public function repair()
+    {
+        return $this->belongsTo(Repair::class);
+    }
+}
