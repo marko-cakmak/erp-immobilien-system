@@ -54,8 +54,8 @@ pipeline {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ${VM_HOST} "
                             cd ${APP_DIR} &&
-                            docker-compose -f docker-compose.prod.yml pull &&
-                            docker-compose -f docker-compose.prod.yml up -d
+                            docker compose -f docker-compose.prod.yml pull &&
+                            docker compose -f docker-compose.prod.yml up -d
                             echo 'Deployment finished'
                         "
                     '''
