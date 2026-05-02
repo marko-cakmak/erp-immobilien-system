@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const ctx = canvas.getContext('2d');
+    const activeSegments = data.counts.filter(c => c > 0).length;
 
     new Chart(ctx, {
         type: 'pie',
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 data: data.counts,
                 backgroundColor: data.colors,
-                borderWidth: 2,
+                borderWidth: activeSegments > 1 ? 2 : 0,
                 borderColor: '#fff',
                 hoverOffset: 8,
             }]
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         options: {
             responsive: false,
             plugins: {
-                legend: { display: false },
+                legend: {display: false},
                 tooltip: {
                     callbacks: {
                         label: function (context) {
