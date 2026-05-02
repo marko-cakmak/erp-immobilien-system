@@ -6,8 +6,8 @@
         <div class="task-overlay-alert">
             <div class="alert alert-warning d-flex align-items-center py-2 px-3" role="alert">
                 <small>
-                    Diese Aufgabe wird aktuell bearbeitet von
-                    <strong>{{ $task->activeAssignee->user->name }}</strong>.<br>
+                    Diese Aufgabe wird aktuell vom <strong>{{ $task->activeAssignee->user->name }}</strong>
+                    bearbeitet.<br>
                     Sie haben nur Lesezugriff auf diese Aufgabe.
                 </small>
             </div>
