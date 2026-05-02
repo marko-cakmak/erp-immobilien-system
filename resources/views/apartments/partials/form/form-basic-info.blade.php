@@ -4,22 +4,6 @@
     </div>
     <div class="card-body">
 
-        {{-- Anzeigenstatus --}}
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label text-muted">Anzeigenstatus:</label>
-            <div class="col-sm-9">
-                <div class="form-check form-switch mt-1">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           name="is_active"
-                        {{ old('is_active', $apartment->is_active ?? true) ? 'checked' : '' }}>
-                    <label class="form-check-label text-muted">
-                        Anzeige ist aktiv
-                    </label>
-                </div>
-            </div>
-        </div>
-
         {{-- Wohnungsstatus --}}
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label text-muted">Wohnungsstatus:</label>
