@@ -4,24 +4,21 @@
     </div>
     <div class="card-body">
 
-        {{-- Wohnungsstatus --}}
+        {{-- Titel --}}
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label text-muted">Wohnungsstatus:</label>
+            <label class="col-sm-3 col-form-label text-muted">Titel:</label>
             <div class="col-sm-9">
-                <select class="form-select" name="apartment_status_id" required>
-                    @if(!isset($apartment))
-                        <option value="">Status auswählen</option>
-                    @endif
-                    @foreach($statuses as $status)
-                        <option value="{{ $status->id }}"
-                            {{ old('apartment_status_id', $apartment->apartment_status_id ?? '') == $status->id ? 'selected' : '' }}>
-                            {{ $status->label }}
-                        </option>
-                    @endforeach
-                </select>
+                <input type="text"
+                       class="form-control @error('title') is-invalid @enderror"
+                       name="title"
+                       value="{{ old('title', $apartment->title ?? '') }}"
+                       required>
+                @error('title')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
         </div>
-
+        
         {{-- Interne Nr --}}
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label text-muted">Interne Nr.:</label>
@@ -37,18 +34,22 @@
             </div>
         </div>
 
-        {{-- Titel --}}
+
+        {{-- Wohnungsstatus --}}
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label text-muted">Titel:</label>
+            <label class="col-sm-3 col-form-label text-muted">Wohnungsstatus:</label>
             <div class="col-sm-9">
-                <input type="text"
-                       class="form-control @error('title') is-invalid @enderror"
-                       name="title"
-                       value="{{ old('title', $apartment->title ?? '') }}"
-                       required>
-                @error('title')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <select class="form-select" name="apartment_status_id" required>
+                    @if(!isset($apartment))
+                        <option value="">Status auswählen</option>
+                    @endif
+                    @foreach($statuses as $status)
+                        <option value="{{ $status->id }}"
+                            {{ old('apartment_status_id', $apartment->apartment_status_id ?? '') == $status->id ? 'selected' : '' }}>
+                            {{ $status->label }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
 

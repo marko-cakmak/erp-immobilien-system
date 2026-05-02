@@ -1,4 +1,4 @@
-<div class="col-md-7">
+<div class="col-md-12">
 
     <div class="task-tabs-container mb-2">
         <ul class="nav nav-tabs" id="personTabs" role="tablist">
@@ -9,7 +9,7 @@
                         data-bs-target="#info"
                         type="button"
                         role="tab">
-                    Informationen
+                    Persönliche Informationen
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -32,12 +32,12 @@
 
                 {{-- Tab: Informationen --}}
                 <div class="tab-pane fade show active p-3" id="info" role="tabpanel">
-                    @include('interested-persons.partials.show.show-details', ['person' => $person])
+                    @include('interested-persons.partials.show.personal-info', ['person' => $person])
                 </div>
 
                 {{-- Tab: Wohnungen --}}
                 <div class="tab-pane fade p-3" id="wohnungen" role="tabpanel">
-                    @include('interested-persons.partials.show.show-apartments', ['person' => $person])
+                    @include('interested-persons.partials.show.assigned-apartments', ['person' => $person])
                 </div>
 
             </div>
