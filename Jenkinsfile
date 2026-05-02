@@ -1,19 +1,37 @@
 pipeline {
     agent any
 
+    parameters {
+        gitParameter(
+            name: 'GIT_TAG',
+            type: 'PT_TAG',
+            defaultValue: 'latest',
+            description: 'Select git tag to deploy',
+            sortMode: 'DESCENDING_SMART'
+        )
+        choice(
+            name: 'TARGET_VM',
+            choices: ['vm1@192.168.2.45'],
+            description: 'Select target VM for deployment'
+        )
+    }
+
     environment {
         DOCKER_IMAGE = "mcakmak123/erp-immobilien-php"
-        DOCKER_TAG = "${BUILD_NUMBER}"
-        VM_HOST = "vm1@192.168.2.45"
-        APP_DIR = "/home/vm1/erp-immobilien-system"
+        DOCKER_TAG   = "${params.GIT_TAG}"
+        VM_HOST      = "${params.TARGET_VM}"
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                checkout scm
-                echo "Code pulled from GitHub"
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "refs/tags/${params.GIT_TAG}"]],
+                    userRemoteConfigs: scm.userRemoteConfigs
+                ])
+                echo "Checked out tag: ${params.GIT_TAG}"
             }
         }
 
@@ -24,9 +42,8 @@ pipeline {
                         --target production \
                         -f docker/php/Dockerfile \
                         -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
-                        -t ${DOCKER_IMAGE}:latest \
                         .
-                    echo "Image built"
+                    echo "Image built: ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 '''
             }
         }
@@ -41,8 +58,7 @@ pipeline {
                     sh '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
-                        docker push ${DOCKER_IMAGE}:latest
-                        echo "Image pushed to DockerHub"
+                        echo "Pushed: ${DOCKER_IMAGE}:${DOCKER_TAG}"
                     '''
                 }
             }
@@ -50,15 +66,21 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sshagent(credentials: ['vm1-ssh-key']) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ${VM_HOST} "
-                            cd ${APP_DIR} &&
-                            docker compose -f docker-compose.prod.yml pull &&
-                            docker compose -f docker-compose.prod.yml up -d
-                            echo 'Deployment finished'
-                        "
-                    '''
+                script {
+                    def vmUser = params.TARGET_VM.split('@')[0]
+                    def credentialId = "${vmUser}-ssh-key"
+
+                    sshagent(credentials: [credentialId]) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${params.TARGET_VM} '
+                                cd /home/${vmUser}/erp-immobilien-system &&
+                                export TAG=${params.GIT_TAG} &&
+                                docker compose -f docker-compose.prod.yml pull &&
+                                docker compose -f docker-compose.prod.yml up -d &&
+                                echo "Deployed: ${params.GIT_TAG}"
+                            '
+                        """
+                    }
                 }
             }
         }
@@ -66,10 +88,13 @@ pipeline {
 
     post {
         success {
-            echo "Build #${BUILD_NUMBER} successfully deployed!"
+            echo "Tag ${params.GIT_TAG} successfully deployed to ${params.TARGET_VM}!"
         }
         failure {
-            echo "Pipeline failed on Build #${BUILD_NUMBER}"
+            echo "Pipeline failed for tag ${params.GIT_TAG} on ${params.TARGET_VM}"
+        }
+        aborted {
+            echo "Deploy aborted for tag ${params.GIT_TAG}"
         }
     }
 }
