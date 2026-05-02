@@ -6,6 +6,12 @@
 .link-primary:hover {
     text-decoration: underline;
 }
+
 .table a.link-primary {
     color: #212529 !important;
+    text-decoration: none;
+}
+
+.table a.link-primary:hover {
+    text-decoration: underline !important;
 }

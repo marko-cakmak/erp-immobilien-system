@@ -1,4 +1,4 @@
-<tr class="align-middle" style="background-color: {{ $task->status->color }}80;">
+<tr class="align-middle" style="background-color: {{ $task->status->color }}">
 
     <td data-label="Aufgabe ID">{{ $task->id }}</td>
 

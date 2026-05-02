@@ -58,7 +58,3 @@
     <link rel="stylesheet" href="{{ asset('css/shared/modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/shared/forms.css') }}">
 @endpush
-
-@push('scripts')
-    <script src="{{ asset('js/apartments/apartment-table.js') }}"></script>
-@endpush

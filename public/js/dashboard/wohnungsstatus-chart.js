@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (total === 0) {
         canvas.style.display = 'none';
         document.getElementById('wohnungsstatusLegend').innerHTML = `
-            <div class="text-center text-muted py-4">
+            <div class="text-center py-4">
                 <i class="bi bi-building" style="font-size: 2rem;"></i>
                 <div class="mt-2 fw-semibold">Keine Wohnungen vorhanden</div>
                 <small>Es wurden noch keine Wohnungen erfasst.</small>
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         legend.innerHTML += `
             <div style="font-size: 0.8rem;">
                 <div class="d-flex justify-content-between mb-1">
-                    <span class="text-muted">${label}</span>
+                    <span style="color: #000 !important;">${label}</span>
                     <span class="fw-semibold">${data.counts[i]}</span>
                 </div>
                 <div style="height: 8px; border-radius: 4px; background: #eee;">
