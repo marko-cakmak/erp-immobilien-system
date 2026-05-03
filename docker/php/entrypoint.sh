@@ -29,6 +29,9 @@ else
     echo "Database already seeded, skipping..."
 fi
 
+echo "Creating storage link..."
+php artisan storage:link --force
+
 echo "Clearing cache..."
 php artisan config:cache
 php artisan route:cache

@@ -10,6 +10,8 @@ services:
       - "8080:80"
     depends_on:
       - php
+    volumes:
+      - storage-data:/var/www/public/storage
     networks:
       - immobilien-network
 
@@ -20,6 +22,8 @@ services:
       - APP_DEBUG=false
     depends_on:
       - mysql
+    volumes:
+      - storage-data:/var/www/storage/app/public
     networks:
       - immobilien-network
 
@@ -43,3 +47,4 @@ networks:
 
 volumes:
   mysql-data:
+  storage-data:
