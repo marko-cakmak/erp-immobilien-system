@@ -3,34 +3,37 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\TaskStatus;
-use App\Models\TaskStatusTransition;
+use Illuminate\Support\Facades\DB;
 
 class TaskStatusTransitionSeeder extends Seeder
 {
     public function run(): void
     {
         $transitions = [
-            ['from' => 'open', 'to' => 'in_progress'],
-            ['from' => 'in_progress', 'to' => 'done'],
-            ['from' => 'in_progress', 'to' => 'cancelled'],
-            ['from' => 'open', 'to' => 'cancelled'],
+            ['from_status_id' => 1, 'to_status_id' => 2],
+            ['from_status_id' => 1, 'to_status_id' => 3],
+            ['from_status_id' => 1, 'to_status_id' => 4],
+
+            ['from_status_id' => 2, 'to_status_id' => 2],
+            ['from_status_id' => 2, 'to_status_id' => 3],
+            ['from_status_id' => 2, 'to_status_id' => 4],
+
+            ['from_status_id' => 3, 'to_status_id' => 3],
+            ['from_status_id' => 3, 'to_status_id' => 4],
         ];
 
+        $now = now();
+
         foreach ($transitions as $transition) {
-            $fromStatusId = TaskStatus::where('key', $transition['from'])->value('id');
-            $toStatusId = TaskStatus::where('key', $transition['to'])->value('id');
-
-            if (!$fromStatusId || !$toStatusId) {
-                continue;
-            }
-
-            TaskStatusTransition::updateOrCreate(
+            DB::table('task_status_transitions')->updateOrInsert(
                 [
-                    'from_status_id' => $fromStatusId,
-                    'to_status_id' => $toStatusId,
+                    'from_status_id' => $transition['from_status_id'],
+                    'to_status_id' => $transition['to_status_id'],
                 ],
-                []
+                [
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]
             );
         }
     }

@@ -14,7 +14,7 @@ class TaskStatusTransitionAssigneeRuleSeeder extends Seeder
 
         $findTransitionId = function (int $fromStatusId, int $toStatusId) use ($transitions) {
             $transition = $transitions
-                ->first(fn ($item) => $item->from_status_id === $fromStatusId && $item->to_status_id === $toStatusId);
+                ->first(fn($item) => $item->from_status_id === $fromStatusId && $item->to_status_id === $toStatusId);
 
             if (!$transition) {
                 throw new \RuntimeException("Transition {$fromStatusId} -> {$toStatusId} nije pronađen.");
@@ -109,14 +109,20 @@ class TaskStatusTransitionAssigneeRuleSeeder extends Seeder
             ],
         ];
 
-        DB::table('task_status_transition_assignee_rules')->truncate();
+        $now = now();
 
         foreach ($rules as $rule) {
-            DB::table('task_status_transition_assignee_rules')->insert([
-                ...$rule,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            DB::table('task_status_transition_assignee_rules')->updateOrInsert(
+                [
+                    'transition_id' => $rule['transition_id'],
+                    'task_type_id' => $rule['task_type_id'],
+                ],
+                [
+                    'assignment_role_id' => $rule['assignment_role_id'],
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]
+            );
         }
     }
 }
