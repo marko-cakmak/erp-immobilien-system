@@ -12,6 +12,7 @@ class DemoDataSeeder extends Seeder
             ApartmentSeeder::class,
             ApartmentImageSeeder::class,
             InterestedPersonSeeder::class,
+            RepairTypeSeeder::class,
         ]);
     }
 }

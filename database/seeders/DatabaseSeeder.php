@@ -25,8 +25,6 @@ class DatabaseSeeder extends Seeder
             TaskTypeAssignmentRoleConfigSeeder::class,
             TaskStatusTransitionAssigneeRuleSeeder::class,
             TaskTypeApartmentStatusRuleSeeder::class,
-            
-            RepairTypeSeeder::class,
         ]);
     }
 }
