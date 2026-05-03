@@ -4,6 +4,8 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
+      args:
+        TAG: ${TAG}
     ports:
       - "8080:80"
     depends_on:
@@ -12,7 +14,7 @@ services:
       - immobilien-network
 
   php:
-    image: mcakmak123/erp-immobilien-php:${TAG:-latest}
+    image: mcakmak123/erp-immobilien-php:${TAG}
     environment:
       - APP_ENV=production
       - APP_DEBUG=false

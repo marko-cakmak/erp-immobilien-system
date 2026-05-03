@@ -5,7 +5,6 @@ pipeline {
         gitParameter(
             name: 'GIT_TAG',
             type: 'PT_TAG',
-            defaultValue: 'latest',
             description: 'Select git tag to deploy',
             sortMode: 'DESCENDING_SMART'
         )
@@ -75,8 +74,8 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no ${params.TARGET_VM} '
                                 cd /home/${vmUser}/erp-immobilien-system &&
                                 export TAG=${params.GIT_TAG} &&
-                                docker compose -f docker-compose.prod.yml pull &&
-                                docker compose -f docker-compose.prod.yml up -d &&
+                                docker compose -f docker-compose.prod.yml pull php &&
+                                docker compose -f docker-compose.prod.yml up -d --build &&
                                 echo "Deployed: ${params.GIT_TAG}"
                             '
                         """
