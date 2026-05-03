@@ -24,11 +24,14 @@
         {{-- TERMIN --}}
         <div class="mb-3">
             <h6 class="fw-bold mb-2">Besichtigungstermin</h6>
-            <input type="datetime-local"
-                   id="besichtigungAt"
-                   name="besichtigung_at"
-                   class="form-control form-control-sm"
-                   value="{{ optional($task->besichtigung?->besichtigung_at)->format('Y-m-d\TH:i') }}">
+            <input
+                type="text"
+                id="besichtigungAt"
+                name="besichtigung_at"
+                class="form-control form-control-sm js-datetime-24h"
+                value="{{ optional($task->besichtigung?->besichtigung_at)->format('Y-m-d H:i') }}"
+                autocomplete="off"
+            >
 
             <div id="besichtigungAt-error" class="text-danger small mt-1 fw-semibold" style="display:none;">
                 Bitte einen Besichtigungstermin wählen.

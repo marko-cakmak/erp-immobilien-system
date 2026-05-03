@@ -10,26 +10,22 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
+
             PermissionSeeder::class,
             RolePermissionSeeder::class,
+
             UserSeeder::class,
 
             ApartmentStatusSeeder::class,
-            ApartmentSeeder::class,
-            ApartmentImageSeeder::class,
-            InterestedPersonSeeder::class,
-            ApartmentInterestSeeder::class,
 
             TaskTypeSeeder::class,
             TaskStatusSeeder::class,
             TaskStatusTransitionSeeder::class,
-
             TaskAssignmentRoleSeeder::class,
             TaskTypeAssignmentRoleConfigSeeder::class,
             TaskStatusTransitionAssigneeRuleSeeder::class,
-
             TaskTypeApartmentStatusRuleSeeder::class,
-
+            
             RepairTypeSeeder::class,
         ]);
     }

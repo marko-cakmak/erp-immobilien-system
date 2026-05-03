@@ -10,39 +10,37 @@ class RolePermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        $geschaeftsfuehrer = Role::where('name', 'geschaeftsfuehrer')->first();
-        $geschaeftsfuehrer->permissions()->sync(
-            Permission::all()
-        );
+        $this->syncPermissions('geschaeftsfuehrer', Permission::pluck('id')->toArray());
 
-        $koordinator = Role::where('name', 'koordinator')->first();
-        $koordinator->permissions()->sync(
-            Permission::whereIn('name', [
-                'view_wohnungen',
-                'manage_wohnungen',
+        $this->syncPermissions('koordinator', Permission::whereIn('name', [
+            'view_wohnungen',
+            'manage_wohnungen',
+            'view_interessenten',
+            'manage_interessenten',
+            'manage_own_aufgaben',
+            'manage_aufgaben',
+        ])->pluck('id')->toArray());
 
-                'view_interessenten',
-                'manage_interessenten',
+        $this->syncPermissions('besichtigungsmanager', Permission::whereIn('name', [
+            'view_wohnungen',
+            'manage_own_aufgaben',
+        ])->pluck('id')->toArray());
 
-                'manage_own_aufgaben',
-                'manage_aufgaben',
-            ])->get()
-        );
+        $this->syncPermissions('hausmeister', Permission::whereIn('name', [
+            'view_wohnungen',
+            'manage_own_aufgaben',
+        ])->pluck('id')->toArray());
+    }
 
-        $besichtigungsmanager = Role::where('name', 'besichtigungsmanager')->first();
-        $besichtigungsmanager->permissions()->sync(
-            Permission::whereIn('name', [
-                'view_wohnungen',
-                'manage_own_aufgaben',
-            ])->get()
-        );
+    private function syncPermissions(string $roleName, array $permissionIds): void
+    {
+        $role = Role::where('name', $roleName)->first();
 
-        $hausmeister = Role::where('name', 'hausmeister')->first();
-        $hausmeister->permissions()->sync(
-            Permission::whereIn('name', [
-                'view_wohnungen',
-                'manage_own_aufgaben',
-            ])->get()
-        );
+        if (!$role) {
+            $this->command?->warn("Role '{$roleName}' not found. Skipping.");
+            return;
+        }
+
+        $role->permissions()->sync($permissionIds);
     }
 }

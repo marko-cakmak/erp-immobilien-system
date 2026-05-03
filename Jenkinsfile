@@ -77,6 +77,7 @@ pipeline {
                                 docker compose -f docker-compose.prod.yml pull php &&
                                 docker compose -f docker-compose.prod.yml up -d --build &&
                                 docker compose -f docker-compose.prod.yml exec -T php php artisan migrate --force &&
+                                docker compose -f docker-compose.prod.yml exec -T php php artisan db:seed --force &&
                                 echo "Deployed: ${params.GIT_TAG}"
                             '
                         """

@@ -37,7 +37,12 @@ class UserSeeder extends Seeder
         foreach ($users as $roleName => $data) {
             $role = Role::where('name', $roleName)->first();
 
-            User::updateOrCreate(
+            if (!$role) {
+                $this->command?->warn("Role '{$roleName}' not found. Skipping user.");
+                continue;
+            }
+
+            User::firstOrCreate(
                 ['email' => $data['email']],
                 [
                     'name' => $data['name'],
