@@ -109,11 +109,12 @@
                     </label>
 
                     <input
-                        type="datetime-local"
+                        type="text"
                         name="deadline_at"
                         id="deadlineAt"
-                        class="form-control @error('deadline_at') is-invalid @enderror"
+                        class="form-control js-datetime-24h @error('deadline_at') is-invalid @enderror"
                         value="{{ old('deadline_at') }}"
+                        autocomplete="off"
                     >
 
                     <div class="invalid-feedback" id="deadlineAt-error">
@@ -164,3 +165,7 @@
 
     </div>
 </div>
+
+@push('scripts')
+    <script src="{{ asset('js/task/datetime-picker.js') }}"></script>
+@endpush

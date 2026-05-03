@@ -23,7 +23,7 @@
                 <th>Typ</th>
                 <th>Status</th>
                 <th>Bearbeiter</th>
-                <th>Deadline</th>
+                <th>Fällig am</th>
                 <th class="text-center">Aktion</th>
             </tr>
             </thead>

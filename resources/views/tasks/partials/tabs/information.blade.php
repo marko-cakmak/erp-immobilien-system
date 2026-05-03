@@ -26,7 +26,8 @@
                     <div class="col-8">
                         <select name="repair_type_id" class="form-select form-select-sm">
                             @foreach($repairTypes as $rType)
-                                <option value="{{ $rType->id }}" {{ $task->repair?->repair_type_id == $rType->id ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $rType->id }}" {{ $task->repair?->repair_type_id == $rType->id ? 'selected' : '' }}>
                                     {{ $rType->name }}
                                 </option>
                             @endforeach
@@ -38,10 +39,13 @@
             <div class="row">
                 <div class="col-4 text-muted fw-semibold">Fällig am</div>
                 <div class="col-8">
-                    <input type="datetime-local"
-                           name="deadline_at"
-                           class="form-control form-control-sm"
-                           value="{{ $task->deadline_at ? $task->deadline_at->format('Y-m-d\TH:i') : '' }}">
+                    <input
+                        type="text"
+                        name="deadline_at"
+                        class="form-control form-control-sm js-datetime-24h"
+                        value="{{ $task->deadline_at ? $task->deadline_at->format('Y-m-d H:i') : '' }}"
+                        autocomplete="off"
+                    >
                 </div>
             </div>
 
@@ -97,3 +101,6 @@
     </form>
 
 </div>
+@push('scripts')
+    <script src="{{ asset('js/task/datetime-picker.js') }}"></script>
+@endpush
