@@ -24,8 +24,8 @@ class PermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::firstOrCreate(
-                ['name' => $permission['name']],
+            Permission::updateOrCreate(
+                ['name' => $permission['name']], // unique key
                 ['display_name' => $permission['display_name']]
             );
         }

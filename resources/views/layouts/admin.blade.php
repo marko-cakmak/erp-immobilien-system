@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="{{ asset('css/shared/pagination.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/shared/forms.css') }}">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @stack('styles')
 </head>
 
@@ -107,6 +107,10 @@
 
 @stack('scripts')
 <!--end::Scripts-->
+
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/de.js"></script>
 
 </body>
 </html>

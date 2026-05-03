@@ -13,7 +13,6 @@ class TaskTypeAssignmentRoleConfigSeeder extends Seeder
         $assignmentRoles = DB::table('task_assignment_roles')->pluck('id', 'key');
 
         $configs = [
-            // BESICHTIGUNG
             [
                 'task_type_id' => $taskTypes['besichtigung'],
                 'assignment_role_id' => $assignmentRoles['besichtigung_bearbeiter'],
@@ -24,8 +23,6 @@ class TaskTypeAssignmentRoleConfigSeeder extends Seeder
                 'assignment_role_id' => $assignmentRoles['creator'],
                 'is_active_on_creation' => false,
             ],
-
-            // REPARATUR
             [
                 'task_type_id' => $taskTypes['reparatur'],
                 'assignment_role_id' => $assignmentRoles['reparatur_bearbeiter'],
@@ -38,16 +35,20 @@ class TaskTypeAssignmentRoleConfigSeeder extends Seeder
             ],
         ];
 
-        DB::table('task_type_assignment_role_config')->truncate();
-
         $now = now();
 
         foreach ($configs as $config) {
-            DB::table('task_type_assignment_role_config')->insert([
-                ...$config,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ]);
+            DB::table('task_type_assignment_role_config')->updateOrInsert(
+                [
+                    'task_type_id' => $config['task_type_id'],
+                    'assignment_role_id' => $config['assignment_role_id'],
+                ],
+                [
+                    'is_active_on_creation' => $config['is_active_on_creation'],
+                    'updated_at' => $now,
+                    'created_at' => $now,
+                ]
+            );
         }
     }
 }
