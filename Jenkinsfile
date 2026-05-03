@@ -76,6 +76,7 @@ pipeline {
                                 export TAG=${params.GIT_TAG} &&
                                 docker compose -f docker-compose.prod.yml pull php &&
                                 docker compose -f docker-compose.prod.yml up -d --build &&
+                                docker compose -f docker-compose.prod.yml exec -T php php artisan migrate --force &&
                                 echo "Deployed: ${params.GIT_TAG}"
                             '
                         """
