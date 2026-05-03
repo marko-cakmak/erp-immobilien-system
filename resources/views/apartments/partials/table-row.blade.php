@@ -1,22 +1,19 @@
 <tr class="align-middle apartment-row"
-    data-status-color="{{ $apartment->status->color }}">
+    data-status-color="{{ $apartment->status->color }}"
+    style="background-color: {{ $apartment->status->color }}">
 
     <td class="text-start" data-label="Wohnung">
-        <a href="{{ route('apartments.show', $apartment->id) }}" class="link-primary fw-semibold">
+        <a href="{{ route('apartments.show', $apartment->id) }}" class="link-primary">
             {{ $apartment->title }}
         </a>
     </td>
 
     <td class="text-start" data-label="Interne Nr.">
-        <span class="badge bg-light text-dark border">
-            {{ $apartment->internal_number }}
-        </span>
+        {{ $apartment->internal_number }}
     </td>
 
     <td class="text-start" data-label="Adresse">
-        {{ $apartment->street_address }}
-        <br>
-        <small class="text-muted">{{ $apartment->postal_code }} {{ $apartment->city }}</small>
+        {{ $apartment->street_address }}, {{ $apartment->postal_code }} {{ $apartment->city }}
     </td>
 
     <td class="text-center" data-label="Zimmer">
@@ -24,21 +21,15 @@
     </td>
 
     <td class="text-center" data-label="Interessenten">
-        <span class="badge bg-primary-subtle text-dark">
-            {{ $apartment->interested_persons_count ?? 0 }}
-        </span>
+        {{ $apartment->interested_persons_count ?? 0 }}
     </td>
 
     <td class="text-center" data-label="Aufgaben">
-        <span class="badge bg-primary-subtle text-dark">
-            {{ $apartment->tasks_count ?? 0 }}
-        </span>
+        {{ $apartment->tasks_count ?? 0 }}
     </td>
 
     <td class="text-center" data-label="Status">
-        <span class="badge" style="background-color: {{ $apartment->status->color }};">
-            {{ $apartment->status->label }}
-        </span>
+        {{ $apartment->status->label }}
     </td>
 
     <td class="text-center" data-label="Aktionen">

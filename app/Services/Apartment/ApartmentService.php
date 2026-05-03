@@ -138,8 +138,8 @@ class ApartmentService
 
                 $apartment->images()->create([
                     'path' => $newPath,
-                    'position' => (int) $position,
-                    'is_cover' => ((int) $position === 0),
+                    'position' => (int)$position,
+                    'is_cover' => ((int)$position === 0),
                 ]);
             }
 
@@ -167,7 +167,7 @@ class ApartmentService
     protected function handleImageDeletions(Apartment $apartment, Request $request): void
     {
         $deleteImages = $request->input('delete_images', []);
-        $deleteImages = array_filter($deleteImages, fn ($id) => !empty($id));
+        $deleteImages = array_filter($deleteImages, fn($id) => !empty($id));
 
         if (empty($deleteImages)) {
             return;
@@ -201,8 +201,8 @@ class ApartmentService
 
             $apartment->images()->create([
                 'path' => $path,
-                'position' => (int) $position,
-                'is_cover' => ((int) $position === 0),
+                'position' => (int)$position,
+                'is_cover' => ((int)$position === 0),
             ]);
         }
     }
@@ -251,12 +251,7 @@ class ApartmentService
 
         if ($request->filled('q')) {
             $term = $request->q;
-            $query->where(function ($q) use ($term) {
-                $q->where('title', 'like', "%{$term}%")
-                    ->orWhere('street_address', 'like', "%{$term}%")
-                    ->orWhere('city', 'like', "%{$term}%")
-                    ->orWhere('internal_number', 'like', "%{$term}%");
-            });
+            $query->where('title', 'like', "%{$term}%");
         }
 
         return $query->orderBy('title')

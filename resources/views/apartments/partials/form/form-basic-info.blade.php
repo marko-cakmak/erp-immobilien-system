@@ -4,21 +4,36 @@
     </div>
     <div class="card-body">
 
-        {{-- Anzeigenstatus --}}
+        {{-- Titel --}}
         <div class="row mb-3">
-            <label class="col-sm-3 col-form-label text-muted">Anzeigenstatus:</label>
+            <label class="col-sm-3 col-form-label text-muted">Titel:</label>
             <div class="col-sm-9">
-                <div class="form-check form-switch mt-1">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           name="is_active"
-                        {{ old('is_active', $apartment->is_active ?? true) ? 'checked' : '' }}>
-                    <label class="form-check-label text-muted">
-                        Anzeige ist aktiv
-                    </label>
-                </div>
+                <input type="text"
+                       class="form-control @error('title') is-invalid @enderror"
+                       name="title"
+                       value="{{ old('title', $apartment->title ?? '') }}"
+                       required>
+                @error('title')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
         </div>
+        
+        {{-- Interne Nr --}}
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label text-muted">Interne Nr.:</label>
+            <div class="col-sm-9">
+                <input type="text"
+                       class="form-control @error('internal_number') is-invalid @enderror"
+                       name="internal_number"
+                       value="{{ old('internal_number', $apartment->internal_number ?? '') }}"
+                       required>
+                @error('internal_number')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+
 
         {{-- Wohnungsstatus --}}
         <div class="row mb-3">
@@ -35,36 +50,6 @@
                         </option>
                     @endforeach
                 </select>
-            </div>
-        </div>
-
-        {{-- Interne Nr --}}
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label text-muted">Interne Nr.:</label>
-            <div class="col-sm-9">
-                <input type="text"
-                       class="form-control @error('internal_number') is-invalid @enderror"
-                       name="internal_number"
-                       value="{{ old('internal_number', $apartment->internal_number ?? '') }}"
-                       required>
-                @error('internal_number')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
-        {{-- Titel --}}
-        <div class="row mb-3">
-            <label class="col-sm-3 col-form-label text-muted">Titel:</label>
-            <div class="col-sm-9">
-                <input type="text"
-                       class="form-control @error('title') is-invalid @enderror"
-                       name="title"
-                       value="{{ old('title', $apartment->title ?? '') }}"
-                       required>
-                @error('title')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
             </div>
         </div>
 

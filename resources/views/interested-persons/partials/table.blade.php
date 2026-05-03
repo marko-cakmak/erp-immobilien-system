@@ -9,9 +9,7 @@
             <th class="text-start">E-Mail</th>
             <th class="text-start">Telefon</th>
             <th class="text-start">Adresse</th>
-            <th class="text-center">Stadt</th>
             <th class="text-center">Interessierte Wohnungen</th>
-            <th class="text-center">Status</th>
             <th class="text-center">Aktionen</th>
         </tr>
 

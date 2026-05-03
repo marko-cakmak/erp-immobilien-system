@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
-@section('title', 'Interessent Details')
+@section('title', 'Details zum Interessenten')
 @section('hide-page-header', true)
 
 @section('content')
 
     @include('partials.shared.header', [
-        'title'       => 'Interessent Details',
+        'title'       => 'Details zum Interessenten',
         'buttonText'  => 'Bearbeiten',
         'buttonIcon'  => 'pencil',
         'buttonUrl'   => route('interested-persons.edit', $person->id),
@@ -20,8 +20,7 @@
             @include('partials.shared.alerts')
 
             <div class="row">
-                @include('interested-persons.partials.show.left-panel')
-                @include('interested-persons.partials.show.right-panel')
+                @include('interested-persons.partials.show.tabs-panel')
             </div>
 
         </div>

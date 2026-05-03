@@ -33,7 +33,8 @@
                         <div class="card-footer py-3 px-4">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="text-muted small">
-                                    Gesamt: <span class="fw-semibold text-dark">{{ $apartments->total() }}</span> Wohnung(en)
+                                    Gesamt: <span class="fw-semibold text-dark">{{ $apartments->total() }}</span>
+                                    Wohnung(en)
                                 </div>
                                 <div>
                                     @include('partials.shared.pagination', ['paginator' => $apartments])
@@ -55,8 +56,5 @@
     <link rel="stylesheet" href="{{ asset('css/shared/table-responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('css/shared/table-images.css') }}">
     <link rel="stylesheet" href="{{ asset('css/shared/modal.css') }}">
-@endpush
-
-@push('scripts')
-    <script src="{{ asset('js/apartments/apartment-table.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/shared/forms.css') }}">
 @endpush

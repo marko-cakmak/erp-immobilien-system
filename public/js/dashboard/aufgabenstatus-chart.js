@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (total === 0) {
         canvas.style.display = 'none';
         document.getElementById('aufgabenstatusLegend').innerHTML = `
-            <div class="text-center text-muted py-4">
+            <div class="text-center py-4">
                 <i class="bi bi-clipboard-check" style="font-size: 2rem;"></i>
                 <div class="mt-2 fw-semibold">Keine Aufgaben vorhanden</div>
                 <small>Es wurden noch keine Aufgaben erfasst.</small>
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const ctx = canvas.getContext('2d');
+    const activeSegments = data.counts.filter(c => c > 0).length;
 
     new Chart(ctx, {
         type: 'pie',
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 data: data.counts,
                 backgroundColor: data.colors,
-                borderWidth: 2,
+                borderWidth: activeSegments > 1 ? 2 : 0,
                 borderColor: '#fff',
                 hoverOffset: 8,
             }]
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         options: {
             responsive: false,
             plugins: {
-                legend: { display: false },
+                legend: {display: false},
                 tooltip: {
                     callbacks: {
                         label: function (context) {
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         legend.innerHTML += `
             <div style="font-size: 0.8rem;">
                 <div class="d-flex justify-content-between mb-1">
-                    <span class="text-muted">${label}</span>
+                    <span style="color: #000;">${label}</span>
                     <span class="fw-semibold">${data.counts[i]}</span>
                 </div>
                 <div style="height: 8px; border-radius: 4px; background: #eee;">

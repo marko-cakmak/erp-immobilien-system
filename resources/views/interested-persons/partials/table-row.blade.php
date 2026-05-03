@@ -16,25 +16,15 @@
         @if($person->street_address)
             {{ $person->street_address }}
             <br>
-            <small class="text-muted">{{ $person->postal_code }}</small>
+            <small class="text-muted">{{ $person->postal_code }} {{ $person->city }}</small>
         @else
             <span class="text-muted">-</span>
         @endif
     </td>
 
-    <td class="text-center" data-label="Stadt">
-        {{ $person->city ?? '-' }}
-    </td>
-
     <td class="text-center" data-label="Interessierte Wohnungen">
         <span class="badge bg-primary-subtle text-dark">
             {{ $person->apartments->count() }}
-        </span>
-    </td>
-
-    <td class="text-center" data-label="Status">
-        <span class="badge bg-{{ $person->is_active ? 'success' : 'secondary' }}">
-            {{ $person->is_active ? 'Aktiv' : 'Inaktiv' }}
         </span>
     </td>
 
