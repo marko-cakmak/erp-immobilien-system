@@ -5,16 +5,21 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
     public function __construct(
         private readonly AuthService $authService
-    ) {}
+    )
+    {
+    }
 
     public function show()
     {
-        return view('auth.login');
+        $appVersion = DB::table('app_config')->where('key', 'app_version')->value('value');
+
+        return view('auth.login', compact('appVersion'));
     }
 
     public function login(Request $request)

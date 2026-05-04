@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             TaskTypeApartmentStatusRuleSeeder::class,
 
             ContractStatusSeeder::class,
+
+            AppConfigSeeder::class,
         ]);
     }
 }
