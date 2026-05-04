@@ -25,9 +25,7 @@ class DatabaseSeeder extends Seeder
             TaskTypeAssignmentRoleConfigSeeder::class,
             TaskStatusTransitionAssigneeRuleSeeder::class,
             TaskTypeApartmentStatusRuleSeeder::class,
-
-            ContractStatusSeeder::class,
-
+            
             AppConfigSeeder::class,
         ]);
     }

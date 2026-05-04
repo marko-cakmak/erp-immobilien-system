@@ -19,8 +19,6 @@ class RolePermissionSeeder extends Seeder
             'manage_interessenten',
             'manage_own_aufgaben',
             'manage_aufgaben',
-            'view_contracts',
-            'manage_contracts',
         ])->pluck('id')->toArray());
 
         $this->syncPermissions('besichtigungsmanager', Permission::whereIn('name', [
