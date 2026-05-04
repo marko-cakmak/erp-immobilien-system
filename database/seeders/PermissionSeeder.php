@@ -22,8 +22,6 @@ class PermissionSeeder extends Seeder
             ['name' => 'manage_aufgaben', 'display_name' => 'Alle Aufgaben verwalten'],
             ['name' => 'manage_own_aufgaben', 'display_name' => 'Eigene Aufgaben verwalten'],
 
-            ['name' => 'view_contracts', 'display_name' => 'Verträge ansehen'],
-            ['name' => 'manage_contracts', 'display_name' => 'Verträge verwalten'],
         ];
 
         foreach ($permissions as $permission) {
