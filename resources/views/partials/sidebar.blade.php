@@ -56,6 +56,17 @@
                     </li>
                 @endif
 
+                <!-- Verträge -->
+                @if(auth()->check() && auth()->user()->hasPermission('manage_contracts'))
+                    <li class="nav-item">
+                        <a href="{{ route('contracts.index') }}"
+                           class="nav-link {{ request()->routeIs('contracts.*') ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-file-earmark-text"></i>
+                            <p>Verträge</p>
+                        </a>
+                    </li>
+                @endif
+                
                 @php
                     $canSeeVerwaltung =
                         auth()->check() &&
