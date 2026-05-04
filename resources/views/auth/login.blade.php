@@ -9,7 +9,7 @@
                 <div class="logo-icon">
                     <i class="bi bi-building"></i>
                 </div>
-                <h1><b>Immobilien</b> ERP</h1>
+                <h1><b>Immobilien</b> ERP {{ $appVersion }}</h1>
                 <p>Verwaltungssystem für Immobilien</p>
             </div>
         </div>
