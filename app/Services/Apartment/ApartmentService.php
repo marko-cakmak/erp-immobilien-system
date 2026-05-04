@@ -256,7 +256,7 @@ class ApartmentService
 
         return $query->orderBy('title')
             ->limit(10)
-            ->get(['id', 'title', 'street_address', 'city', 'postal_code'])
+            ->get(['id', 'title', 'street_address', 'postal_code', 'city', 'rent_cold', 'rent_warm', 'deposit'])
             ->toArray();
     }
 }
