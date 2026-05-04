@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // -- Elements --
-    const searchInput = document.getElementById('apartmentSearchInput');
-    const searchBtn = document.getElementById('apartmentSearchBtn');
-    const clearBtn = document.getElementById('clearApartmentBtn');
-    const resultsContainer = document.getElementById('apartmentResults');
-    const spinner = document.getElementById('apartmentSearchSpinner');
-    const selectedBox = document.getElementById('selectedApartmentBox');
-    const selectedName = document.getElementById('selectedApartmentName');
-    const apartmentId = document.getElementById('apartmentId');
+    const searchInput = document.getElementById('personSearchInput');
+    const searchBtn = document.getElementById('personSearchBtn');
+    const clearBtn = document.getElementById('clearPersonBtn');
+    const resultsContainer = document.getElementById('personResults');
+    const spinner = document.getElementById('personSearchSpinner');
+    const selectedBox = document.getElementById('selectedPersonBox');
+    const selectedName = document.getElementById('selectedPersonName');
+    const personId = document.getElementById('personId');
     const searchUrl = searchInput.dataset.url;
 
-    // -- Event Listeners --
     searchBtn.addEventListener('click', performSearch);
 
     searchInput.addEventListener('keydown', function (e) {
@@ -22,13 +20,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     searchInput.addEventListener('input', function () {
-        clearTimeout(window.apartmentSearchTimeout);
-        window.apartmentSearchTimeout = setTimeout(performSearch, 400);
+        clearTimeout(window.personSearchTimeout);
+        window.personSearchTimeout = setTimeout(performSearch, 400);
     });
 
     clearBtn.addEventListener('click', clearSelection);
 
-    // -- Functions --
     async function performSearch() {
         const query = searchInput.value.trim();
 
@@ -37,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             const params = new URLSearchParams();
-            if (query) params.append('q', query);
+            if (query) params.append('name', query);
 
             const response = await fetch(`${searchUrl}?${params.toString()}`, {
                 headers: {'Accept': 'application/json'}
@@ -46,8 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!response.ok) throw new Error('Fehler');
 
             const results = await response.json();
-
-            window._apartmentResults = results;
             renderResults(results);
 
         } catch (error) {
@@ -63,42 +58,33 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        resultsContainer.innerHTML = results.map(apartment => `
+        resultsContainer.innerHTML = results.map(person => `
             <div class="list-group-item list-group-item-action"
                  style="cursor: pointer;"
-                 data-id="${apartment.id}"
-                 onclick="selectApartment(${apartment.id}, '${apartment.title} — ${apartment.street_address}, ${apartment.city}')">
-                <div class="fw-semibold">${apartment.title}</div>
-                <small class="text-muted">${apartment.street_address}, ${apartment.postal_code} ${apartment.city}</small>
+                 onclick="selectPerson(${person.id}, '${person.first_name} ${person.last_name}')">
+                <div class="fw-semibold">${person.first_name} ${person.last_name}</div>
+                <small class="text-muted">${person.email ?? ''} ${person.phone ? '· ' + person.phone : ''}</small>
             </div>
         `).join('');
     }
 
     function clearSelection() {
-        apartmentId.value = '';
+        personId.value = '';
         searchInput.value = '';
         resultsContainer.innerHTML = '';
         selectedBox.style.display = 'none';
-        window._lastSelectedApartment = null;
-        apartmentId.dispatchEvent(new Event('change'));
     }
 
     function showSpinner(show) {
         spinner.style.display = show ? 'block' : 'none';
     }
 
-    window.selectApartment = function (id, name) {
-        apartmentId.value = id;
+    window.selectPerson = function (id, name) {
+        personId.value = id;
         selectedName.textContent = name;
         selectedBox.style.display = 'block';
         resultsContainer.innerHTML = '';
         searchInput.value = '';
-
-        if (window._apartmentResults) {
-            window._lastSelectedApartment = window._apartmentResults.find(a => a.id === id) ?? null;
-        }
-
-        apartmentId.dispatchEvent(new Event('change'));
     };
 
 });

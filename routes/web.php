@@ -1,9 +1,10 @@
 <?php
 
-require __DIR__.'/auth.php';
-require __DIR__.'/dashboard.php';
-require __DIR__.'/users.php';
-require __DIR__.'/permissions.php';
-require __DIR__.'/apartments.php';
-require __DIR__.'/interested-persons.php';
-require __DIR__.'/tasks.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/dashboard.php';
+require __DIR__ . '/users.php';
+require __DIR__ . '/permissions.php';
+require __DIR__ . '/apartments.php';
+require __DIR__ . '/interested-persons.php';
+require __DIR__ . '/tasks.php';
+require __DIR__ . '/contracts.php';
