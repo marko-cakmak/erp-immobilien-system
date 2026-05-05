@@ -10,7 +10,10 @@ pipeline {
         )
         choice(
             name: 'TARGET_VM',
-            choices: ['vm1@192.168.2.45'],
+            choices: [
+                'vm1@192.168.2.45',
+                'vm2@192.168.2.47'
+            ],
             description: 'Select target VM for deployment'
         )
     }
